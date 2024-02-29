@@ -41,20 +41,15 @@ const Register = () => {
     const finalName = `${firstName} ${lastName}`;
     setLoading(true);
     try {
-      const res = await axios.post(API.register, {
+      await axios.post(API.register, {
         name: finalName,
         email,
         password,
         phoneNumber,
       });
-
-      console.log(res, "Res");
     } catch (err) {
-      console.log("error:register:-", err);
-      toast.error(
-        err?.response?.data?.msg ||
-          "Something went wrong. Please try again later."
-      );
+      let message = err?.response?.data?.msg || err?.response?.data?.message;
+      toast.error(message || "Something went wrong. Please try again later.");
     } finally {
       setLoading(false);
     }
