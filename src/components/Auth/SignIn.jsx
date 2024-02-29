@@ -1,15 +1,16 @@
 /* eslint-disable react/no-unescaped-entities */
 
-import { useMutation, useMutationState } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigate } from "react-router-dom";
 
 import axios from "../../lib/http-request";
 import { API } from "../../utils/config/api-end-points.config";
 import { ValidationError } from "../UI/Errors";
-import { useState } from "react";
 import ButtonWithLoading from "../UI/Button";
-import toast, { Toaster } from "react-hot-toast";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useUserStore } from "../../store/user.store";
 import { loginSchema } from "../../utils/validation/auth.validation";
 
 const mutationKey = ["login"];
@@ -23,10 +24,12 @@ export const SignIn = () => {
     resolver: yupResolver(loginSchema),
   });
 
+  const navigate = useNavigate();
+
+  const setUser = useUserStore((state) => state.setUser);
+  const setAuthToken = useUserStore((state) => state.setAuthToken);
   const onSubmit = (data) => {
     const { email, password } = data;
-
-    console.log(email, password, "data");
 
     return axios.post(API.login, {
       email,
@@ -39,9 +42,13 @@ export const SignIn = () => {
     mutationFn: (data) => {
       return onSubmit(data);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       // navigate to dash board
+      console.log(data.data.user, "data");
+      setUser(data?.data?.user);
+      setAuthToken(data?.data?.tokens);
       toast.success("Logged in");
+      navigate("two-step-auth");
     },
     onError: (error) => {
       console.log(error, "error login");
