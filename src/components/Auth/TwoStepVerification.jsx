@@ -1,36 +1,26 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import QRCode from "react-qr-code";
 
-import axios from "../../lib/http-request";
 import { API } from "../../utils/config/api-end-points.config";
-import { useUserStore } from "../../store/user.store";
+import { useDataApi } from "../../hooks/useDataApi";
+import { QUERYKEY } from "../../utils/config/query-keys.config";
+import { Container } from "../../components/UI/Containers";
 const TwoStepVerification = () => {
-  const accessToken = useUserStore((state) => state.accessToken);
+  const { post } = useDataApi();
 
-  console.log(accessToken, "accessToken");
   const { data, isLoading, error } = useQuery({
-    queryKey: ["two-step"],
+    queryKey: [QUERYKEY.twoStepAuthQrCodeGen],
     queryFn: () => {
-      return axios.post(
-        API.generateTwoStepCodeQr,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      return post(API.generateTwoStepCodeQr);
     },
   });
 
-  console.log(data, "data qr", error);
-
-  if(isLoading) return <h1>Loading</h1>
+  if (isLoading) return <h1>Loading</h1>;
   return (
     <>
-      <h1>
+      <Container.Auth>
         <QRCode value={data?.data?.data} />
-      </h1>
+      </Container.Auth>
     </>
   );
 };
