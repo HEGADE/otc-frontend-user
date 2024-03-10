@@ -1,15 +1,20 @@
 import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 import axios from "../../lib/http-request";
 import { API } from "../../utils/config/api-end-points.config";
 import { ValidationError } from "../UI/Errors";
-import { useState } from "react";
 import ButtonWithLoading from "../UI/Button";
 import toast, { Toaster } from "react-hot-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../../utils/validation/auth.validation";
 
 const Register = () => {
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -18,8 +23,6 @@ const Register = () => {
   } = useForm({
     resolver: yupResolver(registerSchema),
   });
-
-  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
     const {
@@ -41,12 +44,18 @@ const Register = () => {
     const finalName = `${firstName} ${lastName}`;
     setLoading(true);
     try {
-      await axios.post(API.register, {
+      const res = await axios.post(API.register, {
         name: finalName,
         email,
         password,
         phoneNumber,
       });
+      console.log("res: ", res);
+      if (res?.data?.success) {
+        // navigate("/two-step-auth");
+        navigate("/two-step-auth", { state: { phoneNumber } });
+        // navigate("/login");
+      }
     } catch (err) {
       let message = err?.response?.data?.msg || err?.response?.data?.message;
       toast.error(message || "Something went wrong. Please try again later.");
@@ -203,8 +212,11 @@ const Register = () => {
               />
             </form>
             <div className="account__switch">
-              <p>
+              {/* <p>
                 Don’t have an account yet? <a href="login.html">Login</a>
+              </p> */}
+              <p>
+                Don’t have an account yet? <Link to="/login">Login</Link>
               </p>
             </div>
           </div>

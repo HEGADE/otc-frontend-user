@@ -30,3 +30,24 @@ export const loginSchema = yup.object().shape({
     .required("Password is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
 });
+export const forgotPasswordSchema = yup.object().shape({
+  email: yup.string().email("Invalid email").required("Email is required"),
+});
+export const resetPasswordSchema = yup.object().shape({
+  password: yup
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Password is required"),
+  confirmPassword: yup
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Password is required")
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
+});
+export const verifyEmailAndPhoneNumberSchema = yup.object().shape({
+  emailVerificationToken: yup.string().required("Token is required"),
+  phoneVerificationToken: yup
+    .string()
+    .min(6, "OTP must be at least 6 characters")
+    .required("OTP is required"),
+});

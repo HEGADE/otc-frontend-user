@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 import axios from "../../lib/http-request";
 import { API } from "../../utils/config/api-end-points.config";
@@ -12,6 +13,7 @@ import { ValidationError } from "../UI/Errors";
 import ButtonWithLoading from "../UI/Button";
 import { useUserStore } from "../../store/user.store";
 import { loginSchema } from "../../utils/validation/auth.validation";
+
 
 const mutationKey = ["login"];
 
@@ -43,12 +45,11 @@ export const SignIn = () => {
       return onSubmit(data);
     },
     onSuccess: (data) => {
-      // navigate to dash board
       console.log(data.data.user, "data");
       setUser(data?.data?.user);
       setAuthToken(data?.data?.tokens);
-      toast.success("Logged in");
-      navigate("two-step-auth");
+      // navigate("two-step-auth");
+      navigate("/dashboard")
     },
     onError: (error) => {
       console.log(error, "error login");
@@ -131,7 +132,8 @@ export const SignIn = () => {
                   </label>
                 </div>
                 <div className="account__check-forgot">
-                  <a href="forget-password.html">Forgot Password?</a>
+                  {/* <a href="forget-password.html">Forgot Password?</a> */}
+                  <Link to="/forgot-password">Forgot Password?</Link>
                 </div>
               </div>
               <ButtonWithLoading
@@ -143,8 +145,11 @@ export const SignIn = () => {
               />
             </form>
             <div className="account__switch">
-              <p>
+              {/* <p>
                 Don't have an account? <a href="signup.html">Sign up</a>
+              </p> */}
+              <p>
+                Don't have an account? <Link to="/signup">Sign up</Link>
               </p>
             </div>
           </div>
