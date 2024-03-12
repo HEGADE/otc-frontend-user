@@ -5,6 +5,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "../../lib/http-request";
+import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 import { API } from "../../utils/config/api-end-points.config";
 import { useDataApi } from "../../hooks/useDataApi";
@@ -14,17 +16,15 @@ import { verifyEmailAndPhoneNumberSchema } from "../../utils/validation/auth.val
 import { useUserStore } from "../../store/user.store";
 
 const TwoStepVerification = () => {
-  const { state } = useLocation();
-  const { phoneNumber } = state;
+  const navigate = useNavigate();
+
+  const accessToken = useUserStore((state) => state.accessToken);
+
+  let { state } = useLocation();
+
+  const { email, phoneNumber, userId } = state;
 
   const [verificationStatus, setVerificationStatus] = useState("");
-
-  // const { data, isLoading, error } = useQuery({
-  //   queryKey: [QUERYKEY.twoStepAuthQrCodeGen],
-  //   queryFn: () => {
-  //     return post(API.generateTwoStepCodeQr);
-  //   },
-  // });
 
   // if (isLoading) return <h1>Loading</h1>;
   // return (
@@ -46,60 +46,115 @@ const TwoStepVerification = () => {
 
   console.log("errors: ", errors);
 
+  const sendTokenForEmailVerification = async (email) => {
+    try {
+      const res = await axios({
+        method: "POST",
+        url: API.sendTokenForEmailVerification,
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+        data: { email },
+      });
+      console.log("sendTokenForEmailVerification: res: ", res);
+      if (res.status == 200) {
+        toast.success(res?.data?.msg);
+      }
+    } catch (err) {
+      console.error("Error: ", err);
+      toast.error(err?.response?.data?.message);
+    }
+  };
+
+  const sendOtpForPhoneNumVerification = async (
+    phoneNumber,
+    reason = "register"
+  ) => {
+    try {
+      const res = await axios({
+        method: "POST",
+        url: API.sendOtpForPhoneNumVerification,
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+        data: { phoneNumber, reason },
+      });
+      console.log("sendOtpForPhoneNumVerification: res: ", res);
+    } catch (err) {
+      console.error("Error: ", err);
+      toast.error(err?.response?.data?.message);
+    }
+  };
+
   const verifyPhoneNumber = async (phoneNumber, otp) => {
-    const res = await axios.post(API.verifyPhoneNumber, {
-      phoneNumber,
-      otp,
-    });
-    console.log("verifyPhoneNumber: res: ", res);
-    return await response.json();
+    try {
+      const res = await axios({
+        method: "POST",
+        url: API.verifyPhoneNumber,
+        data: { phoneNumber, otp },
+      });
+      return res;
+    } catch (err) {
+      console.error("Error: verifyPhoneNumber: ", err);
+      toast.error(err?.response?.data?.message);
+    }
   };
 
   const verifyEmail = async (token) => {
-    const res = await axios({
-      method: "POST",
-      url: API.verifyEmail,
-      params: {
-        token,
-      },
-    });
-    console.log("verifyEmail: res: ", res);
-    return await response.json();
+    try {
+      const res = await axios({
+        method: "POST",
+        url: API.verifyEmail,
+        params: {
+          token,
+        },
+      });
+      return res;
+    } catch (err) {
+      console.error("Error: verifyEmail: ", err);
+      toast.error(err?.response?.data?.message);
+    }
   };
 
-  console.log("🔷 phoneNumber: ", phoneNumber);
-
   const onSubmit = async (data) => {
-    const emailVerificationToken = data?.emailVerificationToken?.trim();
-    const phoneVerificationToken = data?.phoneVerificationToken?.trim();
-    console.log("🔷 emailVerificationToken:  ", emailVerificationToken);
-    console.log("🔷 phoneVerificationToken:  ", phoneVerificationToken);
-
     try {
-      const emailVerificationResponse = await verifyEmail(
-        emailVerificationToken
-      );
-      const phoneVerificationResponse = await verifyPhoneNumber(
+      const emailVerificationToken = data?.emailVerificationToken?.trim();
+      const phoneVerificationToken = data?.phoneVerificationToken?.trim();
+
+      const emailVerificationRes = await verifyEmail(emailVerificationToken);
+      const phoneVerificationRes = await verifyPhoneNumber(
         phoneNumber,
         phoneVerificationToken
       );
 
+      console.log("emailVerificationRes: ", emailVerificationRes);
+      console.log("phoneVerificationRes: ", phoneVerificationRes);
 
       if (
-        phoneVerificationResponse.status === "success" &&
-        emailVerificationResponse.status === "success"
+        phoneVerificationRes.status === 200 &&
+        emailVerificationRes.status === 200
       ) {
         setVerificationStatus("Both phone number and email are verified!");
-      } else if (phoneVerificationResponse.status === "success") {
+        toast.success("Both phone number and email are verified!");
+        navigate("/login");
+      } else if (phoneVerificationRes.status === 200) {
+        refetch();
         setVerificationStatus(
           "Phone number is verified, but email verification failed."
         );
-      } else if (emailVerificationResponse.status === "success") {
+        toast.error("Phone number is verified, but email verification failed.");
+      } else if (emailVerificationRes.status === 200) {
+        refetch();
         setVerificationStatus(
           "Email is verified, but phone number verification failed."
         );
+        toast.error("Email is verified, but phone number verification failed.");
       } else {
+        refetch();
         setVerificationStatus(
+          "Both phone number and email verification failed. Please try again."
+        );
+        toast.error(
           "Both phone number and email verification failed. Please try again."
         );
       }
@@ -111,8 +166,19 @@ const TwoStepVerification = () => {
     }
   };
 
+  const handleResendEmailVerificationLink = async () => {
+    console.log("handleResendEmailVerificationLink!");
+    await sendTokenForEmailVerification(email);
+  };
+
+  const handleResendOtpLink = async () => {
+    console.log("handleResendOtpLink!");
+    await sendOtpForPhoneNumVerification(phoneNumber);
+  };
+
   return (
     <>
+      <Toaster />
       {/* <div className="preloader">
         <img
           src="assets/images/btc-logo.svg"
@@ -164,7 +230,11 @@ const TwoStepVerification = () => {
                           />
                         </div>
                         <p className="resend-code">
-                          Don't get? <a href="#">Resend code</a>
+                          Don't get?
+                          {/* <a href="#">Resend code</a> */}
+                          <span onClick={handleResendEmailVerificationLink}>
+                            Resend code
+                          </span>
                         </p>
                         <div className="input-block">
                           <h4>Verify Phone Number</h4>
@@ -267,7 +337,9 @@ const TwoStepVerification = () => {
                           </div>
                         </div> */}
                         <p className="resend-code">
-                          Don't get? <a href="#">Resend code</a>
+                          Don't get?
+                          {/* <a href="#">Resend code</a> */}
+                          <span onClick={handleResendOtpLink}>Resend code</span>
                         </p>
                         <button
                           type="submit"
@@ -297,3 +369,44 @@ const TwoStepVerification = () => {
 };
 
 export { TwoStepVerification };
+
+// const onSubmit = async (data) => {
+//   const emailVerificationToken = data?.emailVerificationToken?.trim();
+//   const phoneVerificationToken = data?.phoneVerificationToken?.trim();
+//   console.log("🔷 emailVerificationToken:  ", emailVerificationToken);
+//   console.log("🔷 phoneVerificationToken:  ", phoneVerificationToken);
+
+//   try {
+//     const emailVerificationResponse = await verifyEmail(
+//       emailVerificationToken
+//     );
+//     const phoneVerificationResponse = await verifyPhoneNumber(
+//       phoneNumber,
+//       phoneVerificationToken
+//     );
+
+//     if (
+//       phoneVerificationResponse.status === "success" &&
+//       emailVerificationResponse.status === "success"
+//     ) {
+//       setVerificationStatus("Both phone number and email are verified!");
+//     } else if (phoneVerificationResponse.status === "success") {
+//       setVerificationStatus(
+//         "Phone number is verified, but email verification failed."
+//       );
+//     } else if (emailVerificationResponse.status === "success") {
+//       setVerificationStatus(
+//         "Email is verified, but phone number verification failed."
+//       );
+//     } else {
+//       setVerificationStatus(
+//         "Both phone number and email verification failed. Please try again."
+//       );
+//     }
+//   } catch (error) {
+//     console.error("Error occurred during verification:", error);
+//     setVerificationStatus(
+//       "Error occurred during verification. Please try again."
+//     );
+//   }
+// };

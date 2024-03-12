@@ -52,9 +52,9 @@ const Register = () => {
       });
       console.log("res: ", res);
       if (res?.data?.success) {
-        // navigate("/two-step-auth");
-        navigate("/two-step-auth", { state: { phoneNumber } });
-        // navigate("/login");
+        navigate("/two-step-auth", {
+          state: { email, phoneNumber, userId: res?.data?.data?.user?.id },
+        });
       }
     } catch (err) {
       let message = err?.response?.data?.msg || err?.response?.data?.message;

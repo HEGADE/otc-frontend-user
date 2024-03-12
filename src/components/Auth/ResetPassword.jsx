@@ -26,20 +26,16 @@ export const ResetPassword = () => {
     resolver: yupResolver(resetPasswordSchema),
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const { password } = data;
-
-    return axios.post(
-      API.resetPassword,
-      {
-        password,
+    return await axios({
+      method: "POST",
+      url: API.resetPassword,
+      data: { password },
+      params: {
+        token,
       },
-      {
-        params: {
-          token,
-        },
-      }
-    );
+    });
   };
 
   const { mutate, isPending: loading } = useMutation({

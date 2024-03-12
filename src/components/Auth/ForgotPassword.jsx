@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import axios from "../../lib/http-request";
@@ -11,8 +10,6 @@ import { forgotPasswordSchema } from "../../utils/validation/auth.validation";
 import { ValidationError } from "../UI/Errors";
 
 export const ForgotPassword = () => {
-  const [loading, setLoading] = useState(false);
-
   const {
     register,
     handleSubmit,
@@ -22,64 +19,28 @@ export const ForgotPassword = () => {
     resolver: yupResolver(forgotPasswordSchema),
   });
 
-  // let resetPassword = async (email) => {
-  //   try {
-  //     const res = await axios(API.forgotPassword, {
-  //       method: "POST",
-  //       data: { email },
-  //     });
-  //     return res;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
-
-  // const mutation = useMutation({
-  //   mutationFn: resetPassword,
-  //   onSuccess: (data) => {
-  //     console.log("🔶 useMutation: data: ", data);
-  //     toast.success(data?.data?.msg); // Access data directly for success message
-  //   },
-  //   onError: (error) => {
-  //     console.log("🔶 data: error: ", error);
-  //     toast.error(
-  //       error?.response?.data?.message ||
-  //         "Something went wrong. Please try again later."
-  //     );
-  //   },
-  // });
-
-  // const onSubmit = async (data) => {
-  //   const { email } = data;
-  //   try {
-  //     mutation.mutate(email);
-  //   } catch (error) {
-  //     // Handle errors here if needed
-  //   }
-  // };
-
-  const onSubmit = async (data) => {
-    console.log("🔷 data: ", data);
-
+  let resetPassword = async (data) => {
     const { email } = data;
-
-    setLoading(true);
-    try {
-      const res = await axios.post(API.forgotPassword, {
-        email,
-      });
-      console.log("🔶 res: ", res);
-      if (res?.data?.success) {
-        toast.success(res.data?.msg);
-      }
-    } catch (err) {
-      console.log("🔺 err: ", err);
-      let message = err?.response?.data?.msg || err?.response?.data?.message;
-      toast.error(message || "Something went wrong. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
+    return await axios(API.forgotPassword, {
+      method: "POST",
+      data: { email },
+    });
   };
+
+  const { mutate, isPending: loading } = useMutation({
+    mutationFn: (data) => resetPassword(data),
+    onSuccess: (res) => {
+      console.log("🔶 useMutation: res: ", res);
+      toast.success(res?.data?.msg);
+    },
+    onError: (error) => {
+      console.log("🔺 data: error: ", error);
+      toast.error(
+        error?.response?.data?.message ||
+          "Something went wrong. Please try again later."
+      );
+    },
+  });
 
   return (
     <>
@@ -118,8 +79,8 @@ export const ForgotPassword = () => {
                     </div>
                     <form
                       className="account__form needs-validation"
-                      //   onSubmit={handleSubmit((data) => mutate(data))}
-                      onSubmit={handleSubmit(onSubmit)}
+                      onSubmit={handleSubmit((data) => mutate(data))}
+                      // onSubmit={handleSubmit(onSubmit)}
                     >
                       <div className="row g-4">
                         <div className="col-12">

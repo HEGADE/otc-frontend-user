@@ -5,5 +5,7 @@ export const API = {
   forgotPassword: "auth/forgot-password",
   resetPassword: "auth/reset-password",
   verifyEmail: "auth/verify-email",
-  verifyPhoneNumber: "auth/verify-otp"
+  verifyPhoneNumber: "auth/verify-otp",
+  sendTokenForEmailVerification: "auth/send-verification-email",
+  sendOtpForPhoneNumVerification: "auth/send-otp",
 };

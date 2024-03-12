@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 import axios from "../../lib/http-request";
 import { API } from "../../utils/config/api-end-points.config";
@@ -13,7 +13,6 @@ import { ValidationError } from "../UI/Errors";
 import ButtonWithLoading from "../UI/Button";
 import { useUserStore } from "../../store/user.store";
 import { loginSchema } from "../../utils/validation/auth.validation";
-
 
 const mutationKey = ["login"];
 
@@ -44,12 +43,10 @@ export const SignIn = () => {
     mutationFn: (data) => {
       return onSubmit(data);
     },
-    onSuccess: (data) => {
-      console.log(data.data.user, "data");
-      setUser(data?.data?.user);
-      setAuthToken(data?.data?.tokens);
-      // navigate("two-step-auth");
-      navigate("/dashboard")
+    onSuccess: (res) => {
+      setUser(res?.data?.data?.user);
+      setAuthToken(res?.data?.data?.tokens);
+      navigate("/two-step-auth");
     },
     onError: (error) => {
       console.log(error, "error login");

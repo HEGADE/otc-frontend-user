@@ -28,7 +28,6 @@ function App() {
           <Route path="/two-step-auth" element={<MultifactorAuth />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          {/* <Route path="/login/two-step-auth" element={<MultifactorAuth />} /> */}
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Dashboard />} />
           </Route>
