@@ -80,7 +80,6 @@ export const ForgotPassword = () => {
                     <form
                       className="account__form needs-validation"
                       onSubmit={handleSubmit((data) => mutate(data))}
-                      // onSubmit={handleSubmit(onSubmit)}
                     >
                       <div className="row g-4">
                         <div className="col-12">
@@ -93,12 +92,11 @@ export const ForgotPassword = () => {
                             </label>
                             <input
                               name="email"
-                              {...register("email", { required: true })}
+                              {...register("email")}
                               type="email"
                               className="form-control"
                               id="account-email"
                               placeholder="Enter your email"
-                              required=""
                             />
                             <ValidationError err={errors.email} />
                           </div>

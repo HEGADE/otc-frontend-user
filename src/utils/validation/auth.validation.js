@@ -51,3 +51,20 @@ export const verifyEmailAndPhoneNumberSchema = yup.object().shape({
     .min(6, "OTP must be at least 6 characters")
     .required("OTP is required"),
 });
+export const userDetailsSchema = yup.object().shape({
+  userDetails: yup.object().shape({
+    firstName: yup.string().required("First Name is required"),
+    lastName: yup.string().required("Last Name is required"),
+    email: yup.string().required("Email is required"),
+    phoneNumber: yup.string().required("Phone Number is required"),
+  }),
+});
+export const bankDetailsSchema = yup.object().shape({
+  bankDetails: yup.object().shape({
+    accountHolderName: yup.string().required("Account Holder Name is required"),
+    bankName: yup.string().required("Bank Name is required"),
+    accountNumber: yup.string().required("Account Number is required"),
+    branch: yup.string().required("Branch Number is required"),
+    ifsCode: yup.string().required("IFSC Code is required"),
+  }),
+});

@@ -7,8 +7,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "../../lib/http-request";
 import { API } from "../../utils/config/api-end-points.config";
 import { ValidationError } from "../UI/Errors";
-import ButtonWithLoading from "../UI/Button";
 import { resetPasswordSchema } from "../../utils/validation/auth.validation";
+import ButtonWithLoading from "../UI/Button";
 
 const mutationKey = ["resetPassword"];
 
@@ -86,7 +86,6 @@ export const ResetPassword = () => {
                       className="form-control showhide-pass"
                       id="account-pass"
                       placeholder="Password"
-                      required=""
                     />
                     <ValidationError err={errors.password} />
                   </div>
@@ -98,12 +97,11 @@ export const ResetPassword = () => {
                     </label>
                     <input
                       name="confirmPassword"
-                      {...register("confirmPassword", { required: true })}
+                      {...register("confirmPassword")}
                       type="password"
                       className="form-control showhide-pass"
                       id="account-cpass"
                       placeholder="Re-type password"
-                      required=""
                     />
                     <ValidationError err={errors.confirmPassword} />
                   </div>

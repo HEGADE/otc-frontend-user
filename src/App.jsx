@@ -12,6 +12,7 @@ import { ResetPassword } from "./components/Auth/ResetPassword";
 import { Dashboard } from "./components/UI/Dashboard";
 import { useUserStore } from "./store/user.store";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { UserProfile } from "./components/UI/UserProfile";
 
 function App() {
   const isAuthenticated = useUserStore((state) => !!state.accessToken);
@@ -30,6 +31,7 @@ function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/user-profile" element={<UserProfile />} />
           </Route>
           <Route path="*" element={<p>404 Page</p>} />
         </Routes>

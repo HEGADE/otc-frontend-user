@@ -1,11 +1,11 @@
-import { ResetPassword as ResetPasswordComponent } from "../components/Auth/ResetPassword";
+import { ResetPassword } from "../components/Auth/ResetPassword";
 import { Container } from "../components/UI/Containers";
 
 const ResetPassword = () => {
   return (
     <>
       <Container.Auth>
-        <ResetPasswordComponent />
+        <ResetPassword />
       </Container.Auth>
     </>
   );
