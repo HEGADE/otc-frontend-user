@@ -14,15 +14,13 @@ export const UserDetails = () => {
   const accessToken = useUserStore((state) => state.accessToken);
   const user = useUserStore((state) => state.user);
 
-  const userId = "65f473cd03d24f0b7092f201";
-
   //   console.log('🟡 accessToken: ', accessToken)
   //   console.log('🟡 user: ', user)
 
   let fetchUserDetails = async () => {
     try {
       console.log("🟣 UserDetails: fetchBankDetails API Called!!!!");
-      const res = await axios.get(API.getUserDetails(userId), {
+      const res = await axios.get(API.getUserDetails, {
         headers: {
           Authorization: "Bearer " + accessToken,
         },
@@ -80,12 +78,10 @@ export const UserDetails = () => {
       email,
       //   phoneNumber,
     };
-    return await axios(API.saveUserDetails(userId), {
+    return await axios(API.saveUserDetails, {
       method: "PATCH",
       data: userDetailsForUpdation,
-      params: {
-        userId,
-      },
+      params: {},
       headers: {
         Authorization: "Bearer " + accessToken,
       },
