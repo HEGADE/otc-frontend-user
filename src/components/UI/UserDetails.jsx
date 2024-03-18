@@ -14,9 +14,6 @@ export const UserDetails = () => {
   const accessToken = useUserStore((state) => state.accessToken);
   const user = useUserStore((state) => state.user);
 
-  //   console.log('🟡 accessToken: ', accessToken)
-  //   console.log('🟡 user: ', user)
-
   let fetchUserDetails = async () => {
     try {
       console.log("🟣 UserDetails: fetchBankDetails API Called!!!!");
@@ -63,29 +60,32 @@ export const UserDetails = () => {
       userDetails: {
         firstName: "",
         lastName: "",
-        // email: "",
-        // phoneNumber: "",
       },
     },
     resolver: yupResolver(userDetailsSchema),
   });
 
   let saveUserDetails = async (data) => {
-    const { firstName, lastName, email, phoneNumber } = data.userDetails;
-    console.log("🔶 saveUserDetails: data: ", data);
-    let userDetailsForUpdation = {
-      name: `${firstName} ${lastName}`,
-      email,
-      //   phoneNumber,
-    };
-    return await axios(API.saveUserDetails, {
-      method: "PATCH",
-      data: userDetailsForUpdation,
-      params: {},
-      headers: {
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    try {
+      const { firstName, lastName, email, phoneNumber } = data.userDetails;
+      console.log("🔶 saveUserDetails: data: ", data);
+      let userDetailsForUpdation = {
+        name: `${firstName} ${lastName}`,
+        email,
+      };
+      const res = await axios(API.saveUserDetails(user.id), {
+        method: "PATCH",
+        data: userDetailsForUpdation,
+        params: {},
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      });
+      return res;
+    } catch (error) {
+      console.log("🔺 useQuery: error: ", error);
+      throw new Error("Error saving user details: " + error.message);
+    }
   };
 
   let { mutate, isPending: loading } = useMutation({

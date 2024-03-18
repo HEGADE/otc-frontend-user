@@ -10,16 +10,20 @@ import Login from "./pages/Login";
 import MultifactorAuth from "./pages/MultifactorAuth";
 import { Navbar } from "./components/UI/Navbar";
 import { Footer } from "./components/UI/Footer";
+
+import { useUserStore } from "./store/user.store";
 import { ForgotPassword } from "./components/Auth/ForgotPassword";
 import { ResetPassword } from "./components/Auth/ResetPassword";
 import { Dashboard } from "./components/UI/Dashboard";
-import { useUserStore } from "./store/user.store";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { UserProfile } from "./components/UI/UserProfile";
 
 function App() {
   const isAuthenticated = useUserStore((state) => !!state.accessToken);
+  const user = useUserStore((state) => state.user);
 
+  console.log('🟡 user: ', user)
+  
   const NavbarLayout = () => (
     <>
       <Navbar />

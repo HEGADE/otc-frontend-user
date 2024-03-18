@@ -8,8 +8,8 @@ export const API = {
   verifyPhoneNumber: "auth/verify-otp",
   sendTokenForEmailVerification: "auth/send-verification-email",
   sendOtpForPhoneNumVerification: "auth/send-otp",
-  getUserDetails: `users/auth-user-info`,
-  saveUserDetails: `users/auth-user-info`,
+  getUserDetails: "users/auth-user-info",
+  saveUserDetails: (userId) => `users/${userId}`,
   getBankDetails: "bank",
   saveBankDetails: "bank",
 };
