@@ -1813,6 +1813,11 @@ load-json-file@^4.0.0:
     pify "^3.0.0"
     strip-bom "^3.0.0"
 
+loadjs@^4.3.0-rc1:
+  version "4.3.0-rc1"
+  resolved "https://registry.yarnpkg.com/loadjs/-/loadjs-4.3.0-rc1.tgz#c0c5f89bcbf52d5dc9e6f6d6d3b6499c61f47894"
+  integrity sha512-GvSFQ3YXbeUJAPYzYBjIYIWk6vKID4XYspMfZ0Nq4eJu0TFiD+SlhSUiQ0/gT7t3G/amHVPVrEVcbpda0lF2PA==
+
 locate-path@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-6.0.0.tgz#55321eb309febbc59c4801d931a72452a681d286"

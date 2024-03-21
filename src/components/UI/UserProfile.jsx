@@ -11,11 +11,10 @@ export const UserProfile = () => {
         <div className="container">
           <div
             className="page-header__content mt-100 text-center"
-            data-aos="fade-right"
+            // data-aos="fade-right"
             data-aos-duration="1000"
           >
-            <h2 style={{ color: "white" }}>My Profile</h2>
-            <h2>Hello</h2>
+            <h2>My Profile</h2>
           </div>
           <div className="page-header__shape">
             <span className="page-header__shape-item page-header__shape-item--1">
@@ -25,8 +24,8 @@ export const UserProfile = () => {
         </div>
       </section>
 
-      <section class="account padding-top padding-bottom sec-bg-color2">
-        <div class="container">
+      <section className="account padding-top padding-bottom sec-bg-color2">
+        <div className="container">
           {/* <div
             class="account__wrapper"
             data-aos="fade-up"
@@ -38,8 +37,8 @@ export const UserProfile = () => {
           </div>
           {/* </div> */}
         </div>
-        <div class="account__shape">
-          <span class="account__shape-item account__shape-item--1">
+        <div className="account__shape">
+          <span className="account__shape-item account__shape-item--1">
             <img src="assets/images/2.png" alt="shape-icon" />
           </span>
         </div>

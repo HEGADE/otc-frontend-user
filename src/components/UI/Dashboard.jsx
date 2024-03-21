@@ -1,6 +1,30 @@
+import React from "react";
+import loadjs from "loadjs";
 import { Preloader } from "./Preloader";
 
 export const Dashboard = () => {
+  // SCRIPT LOAD
+  const runScript = () => {
+    loadjs([
+      '/assets/js/all.min.js',
+      '/assets/js/aos.js',
+      '/assets/js/bootstrap.bundle.min.js',
+      '/assets/js/custom.js',
+      '/assets/js/fslightbox.js',
+      '/assets/js/niceCountryInput.js',
+      '/assets/js/plugin-custom.js',
+      '/assets/js/plugins.js',
+      '/assets/js/purecounter_vanilla.js',
+      '/assets/js/swiper-bundle.min.js',
+    ], () => {
+      console.info("Scripts Loaded!");
+    });
+  };
+
+  React.useEffect(() => {
+    runScript();
+  }, [])
+
   return (
     <body>
       {/* <Preloader /> */}
@@ -11,7 +35,7 @@ export const Dashboard = () => {
         <div className="container">
           <div
             className="page-header__content mt-100 text-center"
-            data-aos="fade-right"
+            // data-aos="fade-right"
             data-aos-duration="1000"
           >
             <h2>Dashboard</h2>
@@ -111,7 +135,7 @@ export const Dashboard = () => {
                                 y2="40"
                                 stroke="#b6b6b6"
                                 strokeDasharray="3"
-                                stroke-linecap="butt"
+                                strokeLinecap="butt"
                                 className="apexcharts-xcrosshairs"
                                 x="0"
                                 y="0"
@@ -119,7 +143,7 @@ export const Dashboard = () => {
                                 height="40"
                                 fill="#b1b9c4"
                                 filter="none"
-                                fill-opacity="0.9"
+                                fillOpacity="0.9"
                                 strokeWidth="1"
                               ></line>
                               <g id="SvgjsG3684" className="apexcharts-grid">
@@ -136,7 +160,7 @@ export const Dashboard = () => {
                                     y2="0"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -147,7 +171,7 @@ export const Dashboard = () => {
                                     y2="4"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -158,7 +182,7 @@ export const Dashboard = () => {
                                     y2="8"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -169,7 +193,7 @@ export const Dashboard = () => {
                                     y2="12"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -180,7 +204,7 @@ export const Dashboard = () => {
                                     y2="16"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -191,7 +215,7 @@ export const Dashboard = () => {
                                     y2="20"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -202,7 +226,7 @@ export const Dashboard = () => {
                                     y2="24"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -213,7 +237,7 @@ export const Dashboard = () => {
                                     y2="28"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -224,7 +248,7 @@ export const Dashboard = () => {
                                     y2="32"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -235,7 +259,7 @@ export const Dashboard = () => {
                                     y2="36"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -246,7 +270,7 @@ export const Dashboard = () => {
                                     y2="40"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                 </g>
@@ -263,7 +287,7 @@ export const Dashboard = () => {
                                   y2="40"
                                   stroke="transparent"
                                   strokeDasharray="0"
-                                  stroke-linecap="butt"
+                                  strokeLinecap="butt"
                                 ></line>
                                 <line
                                   id="SvgjsLine3699"
@@ -273,7 +297,7 @@ export const Dashboard = () => {
                                   y2="40"
                                   stroke="transparent"
                                   strokeDasharray="0"
-                                  stroke-linecap="butt"
+                                  strokeLinecap="butt"
                                 ></line>
                               </g>
                               <g
@@ -292,18 +316,18 @@ export const Dashboard = () => {
                                     id="SvgjsPath3683"
                                     d="M 0 40C 8.00625 40 14.86875 15.65217391304348 22.875 15.65217391304348C 30.88125 15.65217391304348 37.74375 22.608695652173914 45.75 22.608695652173914C 53.75625 22.608695652173914 60.61875 19.1304347826087 68.625 19.1304347826087C 76.63125 19.1304347826087 83.49375 7.105427357601002e-15 91.5 7.105427357601002e-15C 99.50625 7.105427357601002e-15 106.36875 5.217391304347828 114.375 5.217391304347828C 122.38125 5.217391304347828 129.24375 1.7391304347826164 137.25 1.7391304347826164C 145.25625 1.7391304347826164 152.11875 24.347826086956523 160.125 24.347826086956523C 168.13125 24.347826086956523 174.99375 19.1304347826087 183 19.1304347826087"
                                     fill="none"
-                                    fill-opacity="1"
+                                    fillOpacity="1"
                                     stroke="rgba(188,231,12,0.85)"
-                                    stroke-opacity="1"
-                                    stroke-linecap="butt"
+                                    strokeOpacity="1"
+                                    strokeLinecap="butt"
                                     strokeWidth="1.5"
                                     strokeDasharray="0"
                                     className="apexcharts-line"
                                     index="0"
-                                    clip-path="url(#gridRectMaskz2sgtujh)"
+                                    clipPath="url(#gridRectMaskz2sgtujh)"
                                     pathTo="M 0 40C 8.00625 40 14.86875 15.65217391304348 22.875 15.65217391304348C 30.88125 15.65217391304348 37.74375 22.608695652173914 45.75 22.608695652173914C 53.75625 22.608695652173914 60.61875 19.1304347826087 68.625 19.1304347826087C 76.63125 19.1304347826087 83.49375 7.105427357601002e-15 91.5 7.105427357601002e-15C 99.50625 7.105427357601002e-15 106.36875 5.217391304347828 114.375 5.217391304347828C 122.38125 5.217391304347828 129.24375 1.7391304347826164 137.25 1.7391304347826164C 145.25625 1.7391304347826164 152.11875 24.347826086956523 160.125 24.347826086956523C 168.13125 24.347826086956523 174.99375 19.1304347826087 183 19.1304347826087"
                                     pathFrom="M -1 40 L -1 40 L 22.875 40 L 45.75 40 L 68.625 40 L 91.5 40 L 114.375 40 L 137.25 40 L 160.125 40 L 183 40"
-                                    fill-rule="evenodd"
+                                    fillRule="evenodd"
                                   ></path>
                                   <g
                                     id="SvgjsG3681"
@@ -417,7 +441,7 @@ export const Dashboard = () => {
                                 y2="40"
                                 stroke="#b6b6b6"
                                 strokeDasharray="3"
-                                stroke-linecap="butt"
+                                strokeLinecap="butt"
                                 className="apexcharts-xcrosshairs"
                                 x="0"
                                 y="0"
@@ -425,7 +449,7 @@ export const Dashboard = () => {
                                 height="40"
                                 fill="#b1b9c4"
                                 filter="none"
-                                fill-opacity="0.9"
+                                fillOpacity="0.9"
                                 strokeWidth="1"
                               ></line>
                               <g id="SvgjsG3684" className="apexcharts-grid">
@@ -442,7 +466,7 @@ export const Dashboard = () => {
                                     y2="0"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -453,7 +477,7 @@ export const Dashboard = () => {
                                     y2="4"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -464,7 +488,7 @@ export const Dashboard = () => {
                                     y2="8"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -475,7 +499,7 @@ export const Dashboard = () => {
                                     y2="12"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -486,7 +510,7 @@ export const Dashboard = () => {
                                     y2="16"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -497,7 +521,7 @@ export const Dashboard = () => {
                                     y2="20"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -508,7 +532,7 @@ export const Dashboard = () => {
                                     y2="24"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -519,7 +543,7 @@ export const Dashboard = () => {
                                     y2="28"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -530,7 +554,7 @@ export const Dashboard = () => {
                                     y2="32"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -541,7 +565,7 @@ export const Dashboard = () => {
                                     y2="36"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -552,7 +576,7 @@ export const Dashboard = () => {
                                     y2="40"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                 </g>
@@ -569,7 +593,7 @@ export const Dashboard = () => {
                                   y2="40"
                                   stroke="transparent"
                                   strokeDasharray="0"
-                                  stroke-linecap="butt"
+                                  strokeLinecap="butt"
                                 ></line>
                                 <line
                                   id="SvgjsLine3699"
@@ -579,7 +603,7 @@ export const Dashboard = () => {
                                   y2="40"
                                   stroke="transparent"
                                   strokeDasharray="0"
-                                  stroke-linecap="butt"
+                                  strokeLinecap="butt"
                                 ></line>
                               </g>
                               <g
@@ -598,18 +622,18 @@ export const Dashboard = () => {
                                     id="SvgjsPath3683"
                                     d="M 0 40C 8.00625 40 14.86875 15.65217391304348 22.875 15.65217391304348C 30.88125 15.65217391304348 37.74375 22.608695652173914 45.75 22.608695652173914C 53.75625 22.608695652173914 60.61875 19.1304347826087 68.625 19.1304347826087C 76.63125 19.1304347826087 83.49375 7.105427357601002e-15 91.5 7.105427357601002e-15C 99.50625 7.105427357601002e-15 106.36875 5.217391304347828 114.375 5.217391304347828C 122.38125 5.217391304347828 129.24375 1.7391304347826164 137.25 1.7391304347826164C 145.25625 1.7391304347826164 152.11875 24.347826086956523 160.125 24.347826086956523C 168.13125 24.347826086956523 174.99375 19.1304347826087 183 19.1304347826087"
                                     fill="none"
-                                    fill-opacity="1"
+                                    fillOpacity="1"
                                     stroke="rgba(188,231,12,0.85)"
-                                    stroke-opacity="1"
-                                    stroke-linecap="butt"
+                                    strokeOpacity="1"
+                                    strokeLinecap="butt"
                                     strokeWidth="1.5"
                                     strokeDasharray="0"
                                     className="apexcharts-line"
                                     index="0"
-                                    clip-path="url(#gridRectMaskz2sgtujh)"
+                                    clipPath="url(#gridRectMaskz2sgtujh)"
                                     pathTo="M 0 40C 8.00625 40 14.86875 15.65217391304348 22.875 15.65217391304348C 30.88125 15.65217391304348 37.74375 22.608695652173914 45.75 22.608695652173914C 53.75625 22.608695652173914 60.61875 19.1304347826087 68.625 19.1304347826087C 76.63125 19.1304347826087 83.49375 7.105427357601002e-15 91.5 7.105427357601002e-15C 99.50625 7.105427357601002e-15 106.36875 5.217391304347828 114.375 5.217391304347828C 122.38125 5.217391304347828 129.24375 1.7391304347826164 137.25 1.7391304347826164C 145.25625 1.7391304347826164 152.11875 24.347826086956523 160.125 24.347826086956523C 168.13125 24.347826086956523 174.99375 19.1304347826087 183 19.1304347826087"
                                     pathFrom="M -1 40 L -1 40 L 22.875 40 L 45.75 40 L 68.625 40 L 91.5 40 L 114.375 40 L 137.25 40 L 160.125 40 L 183 40"
-                                    fill-rule="evenodd"
+                                    fillRule="evenodd"
                                   ></path>
                                   <g
                                     id="SvgjsG3681"
@@ -723,7 +747,7 @@ export const Dashboard = () => {
                                 y2="40"
                                 stroke="#b6b6b6"
                                 strokeDasharray="3"
-                                stroke-linecap="butt"
+                                strokeLinecap="butt"
                                 className="apexcharts-xcrosshairs"
                                 x="0"
                                 y="0"
@@ -731,7 +755,7 @@ export const Dashboard = () => {
                                 height="40"
                                 fill="#b1b9c4"
                                 filter="none"
-                                fill-opacity="0.9"
+                                fillOpacity="0.9"
                                 strokeWidth="1"
                               ></line>
                               <g id="SvgjsG3684" className="apexcharts-grid">
@@ -748,7 +772,7 @@ export const Dashboard = () => {
                                     y2="0"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -759,7 +783,7 @@ export const Dashboard = () => {
                                     y2="4"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -770,7 +794,7 @@ export const Dashboard = () => {
                                     y2="8"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -781,7 +805,7 @@ export const Dashboard = () => {
                                     y2="12"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -792,7 +816,7 @@ export const Dashboard = () => {
                                     y2="16"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -803,7 +827,7 @@ export const Dashboard = () => {
                                     y2="20"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -814,7 +838,7 @@ export const Dashboard = () => {
                                     y2="24"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -825,7 +849,7 @@ export const Dashboard = () => {
                                     y2="28"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -836,7 +860,7 @@ export const Dashboard = () => {
                                     y2="32"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -847,7 +871,7 @@ export const Dashboard = () => {
                                     y2="36"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                   <line
@@ -858,7 +882,7 @@ export const Dashboard = () => {
                                     y2="40"
                                     stroke="#e0e0e0"
                                     strokeDasharray="0"
-                                    stroke-linecap="butt"
+                                    strokeLinecap="butt"
                                     className="apexcharts-gridline"
                                   ></line>
                                 </g>
@@ -875,7 +899,7 @@ export const Dashboard = () => {
                                   y2="40"
                                   stroke="transparent"
                                   strokeDasharray="0"
-                                  stroke-linecap="butt"
+                                  strokeLinecap="butt"
                                 ></line>
                                 <line
                                   id="SvgjsLine3699"
@@ -885,7 +909,7 @@ export const Dashboard = () => {
                                   y2="40"
                                   stroke="transparent"
                                   strokeDasharray="0"
-                                  stroke-linecap="butt"
+                                  strokeLinecap="butt"
                                 ></line>
                               </g>
                               <g
@@ -904,18 +928,18 @@ export const Dashboard = () => {
                                     id="SvgjsPath3683"
                                     d="M 0 40C 8.00625 40 14.86875 15.65217391304348 22.875 15.65217391304348C 30.88125 15.65217391304348 37.74375 22.608695652173914 45.75 22.608695652173914C 53.75625 22.608695652173914 60.61875 19.1304347826087 68.625 19.1304347826087C 76.63125 19.1304347826087 83.49375 7.105427357601002e-15 91.5 7.105427357601002e-15C 99.50625 7.105427357601002e-15 106.36875 5.217391304347828 114.375 5.217391304347828C 122.38125 5.217391304347828 129.24375 1.7391304347826164 137.25 1.7391304347826164C 145.25625 1.7391304347826164 152.11875 24.347826086956523 160.125 24.347826086956523C 168.13125 24.347826086956523 174.99375 19.1304347826087 183 19.1304347826087"
                                     fill="none"
-                                    fill-opacity="1"
+                                    fillOpacity="1"
                                     stroke="rgba(188,231,12,0.85)"
-                                    stroke-opacity="1"
-                                    stroke-linecap="butt"
+                                    strokeOpacity="1"
+                                    strokeLinecap="butt"
                                     strokeWidth="1.5"
                                     strokeDasharray="0"
                                     className="apexcharts-line"
                                     index="0"
-                                    clip-path="url(#gridRectMaskz2sgtujh)"
+                                    clipPath="url(#gridRectMaskz2sgtujh)"
                                     pathTo="M 0 40C 8.00625 40 14.86875 15.65217391304348 22.875 15.65217391304348C 30.88125 15.65217391304348 37.74375 22.608695652173914 45.75 22.608695652173914C 53.75625 22.608695652173914 60.61875 19.1304347826087 68.625 19.1304347826087C 76.63125 19.1304347826087 83.49375 7.105427357601002e-15 91.5 7.105427357601002e-15C 99.50625 7.105427357601002e-15 106.36875 5.217391304347828 114.375 5.217391304347828C 122.38125 5.217391304347828 129.24375 1.7391304347826164 137.25 1.7391304347826164C 145.25625 1.7391304347826164 152.11875 24.347826086956523 160.125 24.347826086956523C 168.13125 24.347826086956523 174.99375 19.1304347826087 183 19.1304347826087"
                                     pathFrom="M -1 40 L -1 40 L 22.875 40 L 45.75 40 L 68.625 40 L 91.5 40 L 114.375 40 L 137.25 40 L 160.125 40 L 183 40"
-                                    fill-rule="evenodd"
+                                    fillRule="evenodd"
                                   ></path>
                                   <g
                                     id="SvgjsG3681"
@@ -1027,7 +1051,7 @@ export const Dashboard = () => {
                             className="radio-inputs"
                             defaultChecked
                           />
-                          <label className="tab-button" for="tab1">
+                          <label className="tab-button" htmlFor="tab1">
                             Buy Assets
                           </label>
                           <div className="tab-content">
@@ -1243,7 +1267,7 @@ export const Dashboard = () => {
                             className="radio-inputs"
                             name="tabsA"
                           />
-                          <label className="tab-button" for="tab2">
+                          <label className="tab-button" htmlFor="tab2">
                             Sell Assets
                           </label>
                           <div className="tab-content">

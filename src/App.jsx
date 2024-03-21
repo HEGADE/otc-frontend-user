@@ -1,3 +1,5 @@
+import React from "react";
+import loadjs from "loadjs";
 import {
   BrowserRouter as Router,
   Routes,
@@ -23,7 +25,30 @@ function App() {
   const user = useUserStore((state) => state.user);
 
   console.log('🟡 user: ', user)
-  
+
+  // SCRIPT LOAD
+  const runScript = () => {
+    loadjs([
+      '/assets/js/all.min.js',
+      '/assets/js/aos.js',
+      '/assets/js/bootstrap.bundle.min.js',
+      '/assets/js/custom.js',
+      '/assets/js/fslightbox.js',
+      '/assets/js/niceCountryInput.js',
+      '/assets/js/plugin-custom.js',
+      '/assets/js/plugins.js',
+      '/assets/js/purecounter_vanilla.js',
+      '/assets/js/swiper-bundle.min.js',
+    ], () => {
+      console.info("Scripts Loaded!");
+    });
+  };
+
+  React.useEffect(() => {
+    runScript();
+  }, [])
+
+
   const NavbarLayout = () => (
     <>
       <Navbar />

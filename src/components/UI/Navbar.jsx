@@ -4,7 +4,6 @@ export const Navbar = () => {
   return (
     <header
       className="header-section header-section--style4"
-      style={{ backgroundImage: "url('assets/images/breadcrumb.png')" }}
     >
       <div className="header-bottom">
         <div className="container">
