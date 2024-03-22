@@ -12,4 +12,5 @@ export const API = {
   saveUserDetails: (userId) => `users/${userId}`,
   getBankDetails: "bank",
   saveBankDetails: "bank",
+  createOrder: "order",
 };

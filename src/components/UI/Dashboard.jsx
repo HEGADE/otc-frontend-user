@@ -1,6 +1,7 @@
 import React from "react";
 import loadjs from "loadjs";
 import { Preloader } from "./Preloader";
+import { Transaction } from "./Transaction";
 
 export const Dashboard = () => {
   // SCRIPT LOAD
@@ -1037,7 +1038,8 @@ export const Dashboard = () => {
                       </div> --> */}
               </div>
             </div>
-            <div className="col-lg-6">
+            <Transaction />
+            {/* <div className="col-lg-6">
               <div className="row gy-5 gy-md-6 justify-content-center">
                 <div className="col-lg-6 col-xxl-12">
                   <div className="buy_crypto__formarea p-6 p-px-8 rounded-20 bg7-color wow fadeInUp">
@@ -1483,7 +1485,7 @@ export const Dashboard = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
