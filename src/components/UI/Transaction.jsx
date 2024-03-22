@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import loadjs from "loadjs";
 import { useQuery, useMutation } from "@tanstack/react-query";
 
@@ -11,12 +12,94 @@ import { SellComponent } from "./SellComponent";
 import { BuyOrSellComponent } from "./BuyOrSellComponent";
 import { AccountComponent } from "./AccountComponent";
 
+
 export const Transaction = () => {
   const accessToken = useUserStore((state) => state.accessToken);
   const user = useUserStore((state) => state.user);
   console.log('🟡 user: ', user)
-  const [activeTab, setActiveTab] = useState("buy"); 
+  const [activeTab, setActiveTab] = useState("buy");
   const [currentStep, setCurrentStep] = useState(1);
+
+  let {
+    setValue,
+  } = useForm();
+
+  let fetchAdminBankDetails = async () => {
+    try {
+      console.log("🟢Transaction -> BankDetails: fetchBankDetails API Called!!!!");
+      const res = await axios.get(API.getAdminBankDetails, {
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      });
+      const { accountHolderName, bankName, accountNumber, branch, ifsCode } =
+        res?.data?.data?.bankDetails;
+      setValue(
+        "adminBankDetails",
+        {
+          accountHolderName,
+          bankName,
+          accountNumber,
+          branch,
+          ifsCode,
+        },
+        {
+          shouldValidate: true,
+          shouldDirty: true,
+        }
+      );
+
+      return { accountHolderName, bankName, accountNumber, branch, ifsCode };
+    } catch (error) {
+      console.log("🔺 useQuery: error: ", error);
+      throw new Error("Error fetching bank details: " + error.message);
+    }
+  };
+
+  let fetchUserBankDetails = async () => {
+    try {
+      console.log("🟢Transaction -> BankDetails: fetchBankDetails API Called!!!!");
+      const res = await axios.get(API.getBankDetails, {
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      });
+      const { _id, accountHolderName, bankName, accountNumber, branch, ifsCode } =
+        res?.data?.data?.bankDetails;
+      setValue(
+        "userBankDetails",
+        {
+          accountHolderName,
+          bankName,
+          accountNumber,
+          branch,
+          ifsCode,
+        },
+        {
+          shouldValidate: true,
+          shouldDirty: true,
+        }
+      );
+
+      return { _id, accountHolderName, bankName, accountNumber, branch, ifsCode };
+    } catch (error) {
+      console.log("🔺 useQuery: error: ", error);
+      throw new Error("Error fetching bank details: " + error.message);
+    }
+  };
+
+  let userBankQueryResponse = useQuery({
+    queryKey: "userBankDetails",
+    queryFn: fetchUserBankDetails,
+  });
+
+  let adminBankQueryResponse = useQuery({
+    queryKey: "adminBankDetails",
+    queryFn: fetchAdminBankDetails,
+  });
+
+  console.info('userBankQueryResponse : ', userBankQueryResponse);
+  console.info('adminBankQueryResponse : ', adminBankQueryResponse);
 
   const [orderData, setOrderData] = useState({
     network: "ETH",
@@ -25,7 +108,7 @@ export const Transaction = () => {
     currency: "AED",
     sendAmount: 200,
     receivedAmount: 200,
-    bankAccount: "5f473cd03d24f0b7092f201",
+    bankAccount: userBankQueryResponse?.data?._id,
     walletAddress: "31313",
     primaryTransactionReceipt: "asas1231313",
   });

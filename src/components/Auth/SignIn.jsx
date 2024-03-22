@@ -117,7 +117,7 @@ export const SignIn = () => {
                 </div>
               </div>
               <div className="account__check">
-                <div className="account__check-remember">
+                {/* <div className="account__check-remember">
                   <input
                     type="checkbox"
                     className="form-check-input"
@@ -127,7 +127,7 @@ export const SignIn = () => {
                   <label htmlFor="terms-check" className="form-check-label">
                     Remember me
                   </label>
-                </div>
+                </div> */}
                 <div className="account__check-forgot">
                   {/* <a href="forget-password.html">Forgot Password?</a> */}
                   <Link to="/forgot-password">Forgot Password?</Link>
