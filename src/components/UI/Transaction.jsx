@@ -28,6 +28,14 @@ export const Transaction = () => {
     ifsCode: "",
   });
 
+  const [userBankDetails, setUserBankDetails] = useState({
+    accountHolderName: "User",
+    accountNumber: "",
+    bankName: "",
+    branch: "",
+    ifsCode: "",
+  });
+
   const [orderData, setOrderData] = useState({
     network: "ETH",
     transactionType: "FIAT",
@@ -81,6 +89,14 @@ export const Transaction = () => {
         branch,
         ifsCode,
       } = res?.data?.data?.bankDetails;
+      setUserBankDetails({
+        ...userBankDetails,
+        accountHolderName,
+        bankName,
+        accountNumber,
+        branch,
+        ifsCode,
+      });
       setOrderData({
         ...orderData,
         bankAccount: id,
@@ -161,6 +177,7 @@ export const Transaction = () => {
     onSuccess: (res) => {
       console.log("🔶 useMutation: res: UserDetails: ", res);
       toast.success("Transaction completed successfully");
+      // 12345678#Aim
       // refetch();
     },
     onError: (error) => {
@@ -188,6 +205,7 @@ export const Transaction = () => {
           <AccountComponent
             handleOrderSubmit={handleOrderSubmit}
             adminBankDetails={adminBankDetails}
+            userBankDetails={userBankDetails}
           />
         );
       case activeTab === "sell" && currentStep === 1:
@@ -204,6 +222,7 @@ export const Transaction = () => {
           <AccountComponent
             handleOrderSubmit={handleOrderSubmit}
             adminBankDetails={adminBankDetails}
+            userBankDetails={userBankDetails}
           />
         );
       default:

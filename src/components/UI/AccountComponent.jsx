@@ -1,9 +1,12 @@
-export const AccountComponent = ({ handleOrderSubmit, adminBankDetails }) => {
-
+export const AccountComponent = ({
+  handleOrderSubmit,
+  adminBankDetails,
+  userBankDetails,
+}) => {
   const orderSubmitHandler = (e) => {
-    e.preventDefault()
-    handleOrderSubmit()
-  }
+    e.preventDefault();
+    handleOrderSubmit();
+  };
 
   return (
     <div className="col-lg-12">
@@ -59,7 +62,12 @@ export const AccountComponent = ({ handleOrderSubmit, adminBankDetails }) => {
                   <label for="first-name" className="form-label text-white">
                     Branch
                   </label>
-                  <input className="bg4-color" type="text" Value={adminBankDetails.branch} disabled={true}/>
+                  <input
+                    className="bg4-color"
+                    type="text"
+                    Value={adminBankDetails.branch}
+                    disabled={true}
+                  />
                   <div className="tick-mark">
                     <i className="fa fa-copy text-white"></i>
                   </div>
@@ -68,7 +76,12 @@ export const AccountComponent = ({ handleOrderSubmit, adminBankDetails }) => {
                   <label for="first-name" className="form-label text-white">
                     IFSC
                   </label>
-                  <input className="bg4-color" type="text" Value={adminBankDetails.ifsCode} disabled={true}/>
+                  <input
+                    className="bg4-color"
+                    type="text"
+                    Value={adminBankDetails.ifsCode}
+                    disabled={true}
+                  />
                   <div className="tick-mark">
                     <i className="fa fa-copy text-white"></i>
                   </div>
@@ -82,6 +95,25 @@ export const AccountComponent = ({ handleOrderSubmit, adminBankDetails }) => {
                 Submit Now
               </button>
             </form>
+          </div>
+        </div>
+      </div>
+      <div className="buy_crypto__formarea p-6 p-px-8 rounded-20 bg7-color wow fadeInUp">
+        <div className="contact_info__inpuarea mb-6 mb-md-8 bg1-color br2 rounded-20 p-3">
+          <p>My Account Details</p>
+          <div className="contact_info__inpuarea-group gap-5 gap-md-6 mb-4 position-relative">
+            <label for="first-name" className="form-label text-white">
+              Account Number
+            </label>
+            <input
+              className="bg4-color"
+              type="text"
+              Value={userBankDetails.accountNumber}
+              disabled={true}
+            />
+            <div className="tick-mark">
+              <i className="fa fa-copy text-white"></i>
+            </div>
           </div>
         </div>
       </div>
