@@ -13,8 +13,8 @@ export const Dashboard = () => {
       '/assets/js/custom.js',
       '/assets/js/fslightbox.js',
       '/assets/js/niceCountryInput.js',
-      '/assets/js/plugin-custom.js',
       '/assets/js/plugins.js',
+      '/assets/js/plugin-custom.js',
       '/assets/js/purecounter_vanilla.js',
       '/assets/js/swiper-bundle.min.js',
     ], () => {
@@ -1492,15 +1492,6 @@ export const Dashboard = () => {
       <a href="#" className="scrollToTop scrollToTop--style1">
         <i className="fa-solid fa-arrow-up-from-bracket"></i>
       </a>
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script src="assets/js/bootstrap.bundle.min.js"></script>
-      <script src="assets/js/all.min.js"></script>
-      <script src="assets/js/swiper-bundle.min.js"></script>
-      <script src="assets/js/aos.js"></script>
-      <script src="assets/js/fslightbox.js"></script>
-      <script src="assets/js/purecounter_vanilla.js"></script>
-      <script src="assets/js/custom.js"></script>
-      <script src="assets/js/plugin-custom.js"></script>
     </body>
   );
 };

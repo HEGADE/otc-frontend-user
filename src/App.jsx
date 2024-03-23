@@ -36,8 +36,8 @@ function App() {
         "/assets/js/custom.js",
         "/assets/js/fslightbox.js",
         "/assets/js/niceCountryInput.js",
-        "/assets/js/plugin-custom.js",
         "/assets/js/plugins.js",
+        "/assets/js/plugin-custom.js",
         "/assets/js/purecounter_vanilla.js",
         "/assets/js/swiper-bundle.min.js",
         "assets/js/bootstrap.bundle.min.js",
@@ -45,9 +45,7 @@ function App() {
         "assets/js/swiper-bundle.min.js",
         "assets/js/aos.js",
         "assets/js/fslightbox.js",
-        "assets/js/purecounter_vanilla.js",
         "assets/js/custom.js",
-        "assets/js/plugin-custom.js",
       ],
       () => {
         console.info("Scripts Loaded!");
