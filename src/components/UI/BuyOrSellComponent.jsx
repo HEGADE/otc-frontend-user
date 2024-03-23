@@ -9,10 +9,10 @@ export const BuyOrSellComponent = ({
     handleOnChange(e);
   };
 
-  const handleSelectChange = (e) => {
-    e.preventDefault();
+  const handleSelectChange = (event) => {
+    event.preventDefault();
     console.log("🟢 HERE!!!");
-    console.log("🟢 handleSelectChange: e.target: ", e.target);
+    console.log("🟢 handleSelectChange: event ", event);
   };
 
   return (
@@ -31,7 +31,7 @@ export const BuyOrSellComponent = ({
                         id="select5"
                         className="f-control f-dropdown"
                         value={orderData.network}
-                        onChange={handleSelectChange}
+                        onChange={(event) => handleSelectChange(event)}
                       >
                         <option value="1" selected="">
                           Eth Chain
@@ -121,7 +121,7 @@ export const BuyOrSellComponent = ({
                           id="select4"
                           className="f-control f-dropdown"
                           value={orderData.crypto}
-                          onChange={handleSelectChange}
+                          onChange={(event) => handleSelectChange(event)}
                         >
                           <option value="1" data-image="assets/images/usdt.png">
                             USDT

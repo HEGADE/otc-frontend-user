@@ -160,7 +160,7 @@ export const Transaction = () => {
     mutationFn: (data) => createOrder(orderData),
     onSuccess: (res) => {
       console.log("🔶 useMutation: res: UserDetails: ", res);
-      toast.success("User Details saved successfully");
+      toast.success("Transaction completed successfully");
       // refetch();
     },
     onError: (error) => {
