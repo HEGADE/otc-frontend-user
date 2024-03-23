@@ -1,19 +1,16 @@
-import { useState } from "react";
-
 export const BuyOrSellComponent = ({
   header,
   handleNextClick,
   orderData,
   handleOnChange,
 }) => {
-  console.log("🟢 orderData: ", orderData);
-
   const onChangeHandler = (e) => {
     console.log("🟢 onChangeHandler: e.target: ", e.target);
     handleOnChange(e);
   };
 
   const handleSelectChange = (e) => {
+    e.preventDefault();
     console.log("🟢 HERE!!!");
     console.log("🟢 handleSelectChange: e.target: ", e.target);
   };

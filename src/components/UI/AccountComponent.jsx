@@ -1,4 +1,4 @@
-export const AccountComponent = ({ handleOrderSubmit }) => {
+export const AccountComponent = ({ handleOrderSubmit, adminBankDetails }) => {
 
   const orderSubmitHandler = (e) => {
     e.preventDefault()
@@ -20,7 +20,8 @@ export const AccountComponent = ({ handleOrderSubmit }) => {
                   <input
                     className="bg4-color"
                     type="text"
-                    Value="OTC Exchange"
+                    Value={adminBankDetails.accountHolderName}
+                    disabled={true}
                   />
                   <div className="tick-mark">
                     <i className="fa fa-copy text-white"></i>
@@ -33,7 +34,8 @@ export const AccountComponent = ({ handleOrderSubmit }) => {
                   <input
                     className="bg4-color"
                     type="text"
-                    Value="State Bank of India"
+                    Value={adminBankDetails.bankName}
+                    disabled={true}
                   />
                   <div className="tick-mark">
                     <i className="fa fa-copy text-white"></i>
@@ -46,7 +48,8 @@ export const AccountComponent = ({ handleOrderSubmit }) => {
                   <input
                     className="bg4-color"
                     type="text"
-                    Value="328923897329999e"
+                    Value={adminBankDetails.accountNumber}
+                    disabled={true}
                   />
                   <div className="tick-mark">
                     <i className="fa fa-copy text-white"></i>
@@ -56,7 +59,7 @@ export const AccountComponent = ({ handleOrderSubmit }) => {
                   <label for="first-name" className="form-label text-white">
                     Branch
                   </label>
-                  <input className="bg4-color" type="text" Value="India" />
+                  <input className="bg4-color" type="text" Value={adminBankDetails.branch} disabled={true}/>
                   <div className="tick-mark">
                     <i className="fa fa-copy text-white"></i>
                   </div>
@@ -65,7 +68,7 @@ export const AccountComponent = ({ handleOrderSubmit }) => {
                   <label for="first-name" className="form-label text-white">
                     IFSC
                   </label>
-                  <input className="bg4-color" type="text" Value="SBI382237" />
+                  <input className="bg4-color" type="text" Value={adminBankDetails.ifsCode} disabled={true}/>
                   <div className="tick-mark">
                     <i className="fa fa-copy text-white"></i>
                   </div>

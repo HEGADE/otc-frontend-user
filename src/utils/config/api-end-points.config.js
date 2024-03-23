@@ -13,5 +13,5 @@ export const API = {
   getBankDetails: "bank",
   getAdminBankDetails: "bank/get-admin-bank-details",
   saveBankDetails: "bank",
-  createOrder: "order",
+  createOrder: "orders",
 };
