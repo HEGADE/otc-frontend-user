@@ -88,6 +88,27 @@ export const AccountComponent = ({
                 </div>
               </div>
               <br />
+              <h3 className="p6-color mb-6 mb-md-8">My Bank Details</h3>
+              <div className="contact_info__inpuarea mb-6 mb-md-8 bg1-color br2 rounded-20 p-3">
+                <div className="contact_info__inpuarea-group gap-5 gap-md-6 mb-4 position-relative">
+                  <label
+                    for="user-account-number"
+                    className="form-label text-white"
+                  >
+                    Account Number
+                  </label>
+                  <input
+                    className="bg4-color"
+                    type="text"
+                    Value={userBankDetails.accountNumber}
+                    disabled={true}
+                  />
+                  <div className="tick-mark">
+                    <i className="fa fa-copy text-white"></i>
+                  </div>
+                </div>
+              </div>
+              <br />
               <button
                 type="submit"
                 className="roboto fw-bold cmn-btn px-5 px-md-6 py-3"
@@ -95,25 +116,6 @@ export const AccountComponent = ({
                 Submit Now
               </button>
             </form>
-          </div>
-        </div>
-      </div>
-      <div className="buy_crypto__formarea p-6 p-px-8 rounded-20 bg7-color wow fadeInUp">
-        <h3 className="p6-color mb-6 mb-md-8">My Bank Details</h3>
-        <div className="contact_info__inpuarea mb-6 mb-md-8 bg1-color br2 rounded-20 p-3">
-          <div className="contact_info__inpuarea-group gap-5 gap-md-6 mb-4 position-relative">
-            <label for="user-account-number" className="form-label text-white">
-              Account Number
-            </label>
-            <input
-              className="bg4-color"
-              type="text"
-              Value={userBankDetails.accountNumber}
-              disabled={true}
-            />
-            <div className="tick-mark">
-              <i className="fa fa-copy text-white"></i>
-            </div>
           </div>
         </div>
       </div>

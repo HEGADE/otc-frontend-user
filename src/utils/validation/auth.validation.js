@@ -68,3 +68,11 @@ export const bankDetailsSchema = yup.object().shape({
     ifsCode: yup.string().required("IFSC Code is required"),
   }),
 });
+export const transactionDetailsSchema = yup.object().shape({
+  sendAmount: yup.number().required("Send Amount is required"),
+  receivedAmount: yup.number().required("Purchase Amount is required"),
+  walletAddress: yup.string().required("Wallet Address is required"),
+  primaryTransactionReceipt: yup
+    .string()
+    .required("Primary Transaction Receipt is required"),
+});

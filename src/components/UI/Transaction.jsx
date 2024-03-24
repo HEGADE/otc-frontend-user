@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import loadjs from "loadjs";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
@@ -13,9 +12,7 @@ import { AccountComponent } from "./AccountComponent";
 export const Transaction = () => {
   const accessToken = useUserStore((state) => state.accessToken);
   const user = useUserStore((state) => state.user);
-  console.log("🟡 user: ", user);
-
-  let { setValue } = useForm();
+  // console.log("🟡 user: ", user);
 
   const [activeTab, setActiveTab] = useState("buy");
   const [currentStep, setCurrentStep] = useState(1);
@@ -41,13 +38,14 @@ export const Transaction = () => {
     transactionType: "FIAT",
     crypto: "USDT",
     currency: "AED",
-    sendAmount: 200,
-    receivedAmount: 200,
-    bankAccount: "",
-    // bankAccount: userBankQueryResponse?.data?._id,
-    walletAddress: "31313",
-    primaryTransactionReceipt: "asas1231313",
+    sendAmount: null,
+    receivedAmount: null,
+    bankAccount: null,
+    walletAddress: "",
+    primaryTransactionReceipt: "",
   });
+
+  console.log("🟡 orderData: ", orderData);
 
   let fetchAdminBankDetails = async () => {
     try {
@@ -115,6 +113,39 @@ export const Transaction = () => {
     }
   };
 
+  let fetchUserWalletDetails = async () => {
+    try {
+      const res = await axios.get(API.getUserWalletDetails, {
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+        payload: {
+          status: active,
+        },
+      });
+      console.log("🟣 useQuery: fetchUserWalletDetails: res: ", res);
+      const wallets = res?.data?.data?.wallets;
+      walletAddress = wallets?.filter(
+        (wallet) => wallet.network === orderData.network
+      );
+      setOrderData({
+        ...orderData,
+        walletAddress,
+      });
+      return {
+        id,
+        network,
+        status,
+        address,
+      };
+    } catch (error) {
+      console.log("🔺 useQuery: error: ", error);
+      throw new Error(
+        "Error fetching wallet address details: " + error.message
+      );
+    }
+  };
+
   let userBankQueryResponse = useQuery({
     queryKey: "userBankDetails",
     queryFn: fetchUserBankDetails,
@@ -125,15 +156,14 @@ export const Transaction = () => {
     queryFn: fetchAdminBankDetails,
   });
 
-  console.info("userBankQueryResponse : ", userBankQueryResponse);
-  console.info("adminBankQueryResponse : ", adminBankQueryResponse);
+  let walletAddressQueryResponse = useQuery({
+    queryKey: "userWalletkDetails",
+    queryFn: fetchUserWalletDetails,
+  });
 
-  const handleOnChange = (e) => {
-    // const {} = e.target
-    setOrderData({
-      ...orderData,
-    });
-  };
+  // console.info("userBankQueryResponse : ", userBankQueryResponse);
+  // console.info("adminBankQueryResponse : ", adminBankQueryResponse);
+  console.info("🟠 walletAddressQueryResponse : ", walletAddressQueryResponse);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -141,11 +171,41 @@ export const Transaction = () => {
   };
 
   const handleNextClick = () => {
+    event.preventDefault();
     setCurrentStep(currentStep + 1);
   };
 
   const handlePreviousClick = () => {
+    event.preventDefault();
     setCurrentStep(currentStep - 1);
+  };
+
+  const handleOnSelect = (event, selectDropwdownName) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    console.log(
+      "🔶 Transaction: handleOnSelect: selectDropwdownName, value: ",
+      selectDropwdownName,
+      value
+    );
+    setOrderData({
+      ...orderData,
+      [selectDropwdownName]: value,
+    });
+  };
+
+  const handleOnInputChange = (event, selectDropwdownName) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    console.log(
+      "🔶 Transaction: handleOnInputChange: name, value: ",
+      name,
+      value
+    );
+    setOrderData({
+      ...orderData,
+      [name]: value,
+    });
   };
 
   const handleOrderSubmit = (orderData) => {
@@ -177,7 +237,6 @@ export const Transaction = () => {
     onSuccess: (res) => {
       console.log("🔶 useMutation: res: UserDetails: ", res);
       toast.success("Transaction completed successfully");
-      // 12345678#Aim
       // refetch();
     },
     onError: (error) => {
@@ -196,7 +255,8 @@ export const Transaction = () => {
           <BuyOrSellComponent
             header="Buy Assets"
             handleNextClick={handleNextClick}
-            handleOnChange={handleOnChange}
+            handleOnSelect={handleOnSelect}
+            handleOnInputChange={handleOnInputChange}
             orderData={orderData}
           />
         );
@@ -213,7 +273,8 @@ export const Transaction = () => {
           <BuyOrSellComponent
             header="Sell Assets"
             handleNextClick={handleNextClick}
-            handleOnChange={handleOnChange}
+            handleOnSelect={handleOnSelect}
+            handleOnInputChange={handleOnInputChange}
             orderData={orderData}
           />
         );
