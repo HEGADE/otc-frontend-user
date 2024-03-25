@@ -1,8 +1,24 @@
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import { ValidationError } from "../UI/Errors";
+import { transactionAccountDetailsSchema } from "../../utils/validation/auth.validation";
+
 export const AccountComponent = ({
+  orderData,
+  handleOnInputChange,
   handleOrderSubmit,
   adminBankDetails,
   userBankDetails,
 }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(transactionAccountDetailsSchema),
+  });
+
   const orderSubmitHandler = (e) => {
     e.preventDefault();
     handleOrderSubmit();
@@ -108,6 +124,23 @@ export const AccountComponent = ({
                   </div>
                 </div>
               </div>
+              <br />
+              <div className="buy_crypto__formarea-group mb-6 mb-md-8">
+                <label className="mb-2">Primary Transaction Receipt</label>
+                <div className="br2 p-1 rounded-4 bg1-color">
+                  <input
+                    {...register("primaryTransactionReceipt")}
+                    name="primaryTransactionReceipt"
+                    value={orderData.primaryTransactionReceipt}
+                    type="text"
+                    className="form-control showhide-pass"
+                    id="input-primary-transaction-receipt"
+                    placeholder="Enter primary transaction receipt"
+                    onChange={(event) => handleOnInputChange(event)}
+                  />
+                </div>
+              </div>
+              <ValidationError err={errors.primaryTransactionReceipt} />
               <br />
               <button
                 type="submit"

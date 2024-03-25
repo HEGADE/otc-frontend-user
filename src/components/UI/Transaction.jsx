@@ -45,8 +45,6 @@ export const Transaction = () => {
     primaryTransactionReceipt: "",
   });
 
-  console.log("🟡 orderData: ", orderData);
-
   let fetchAdminBankDetails = async () => {
     try {
       const res = await axios(API.getAdminBankDetails, {
@@ -214,7 +212,7 @@ export const Transaction = () => {
   };
 
   let createOrder = async (orderData) => {
-    console.log("🔶 createOrder called!: orderData", orderData);
+    console.log("🟩 createOrder called!: orderData", orderData);
     try {
       const res = await axios(API.createOrder, {
         method: "POST",
@@ -254,15 +252,17 @@ export const Transaction = () => {
         return (
           <BuyOrSellComponent
             header="Buy Assets"
+            orderData={orderData}
             handleNextClick={handleNextClick}
             handleOnSelect={handleOnSelect}
             handleOnInputChange={handleOnInputChange}
-            orderData={orderData}
           />
         );
       case activeTab === "buy" && currentStep === 2:
         return (
           <AccountComponent
+            orderData={orderData}
+            handleOnInputChange={handleOnInputChange}
             handleOrderSubmit={handleOrderSubmit}
             adminBankDetails={adminBankDetails}
             userBankDetails={userBankDetails}
@@ -272,15 +272,17 @@ export const Transaction = () => {
         return (
           <BuyOrSellComponent
             header="Sell Assets"
+            orderData={orderData}
             handleNextClick={handleNextClick}
             handleOnSelect={handleOnSelect}
             handleOnInputChange={handleOnInputChange}
-            orderData={orderData}
           />
         );
       case activeTab === "sell" && currentStep === 2:
         return (
           <AccountComponent
+            orderData={orderData}
+            handleOnInputChange={handleOnInputChange}
             handleOrderSubmit={handleOrderSubmit}
             adminBankDetails={adminBankDetails}
             userBankDetails={userBankDetails}

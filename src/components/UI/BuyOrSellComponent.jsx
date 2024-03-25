@@ -26,6 +26,8 @@ export const BuyOrSellComponent = ({
     resolver: yupResolver(transactionDetailsSchema),
   });
 
+  console.log('🔴🔺 useForm: errors: ', errors)
+
   return (
     <div className="tab-content">
       <h2 className="mb-3 text-white">{header}</h2>
@@ -234,7 +236,7 @@ export const BuyOrSellComponent = ({
           </div>
         </div>
         <ValidationError err={errors.walletAddress} />
-        <div className="buy_crypto__formarea-group mb-6 mb-md-8">
+        {/* <div className="buy_crypto__formarea-group mb-6 mb-md-8">
           <label className="mb-2">Primary Transaction Receipt</label>
           <div className="br2 p-1 rounded-4 bg1-color">
             <input
@@ -249,7 +251,7 @@ export const BuyOrSellComponent = ({
             />
           </div>
         </div>
-        <ValidationError err={errors.primaryTransactionReceipt} />
+        <ValidationError err={errors.primaryTransactionReceipt} /> */}
         <br />
         <button type="submit" className="cmn-btn py-3 px-5 px-md-6 d-block">
           Next
