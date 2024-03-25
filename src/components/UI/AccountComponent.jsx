@@ -19,8 +19,7 @@ export const AccountComponent = ({
     resolver: yupResolver(transactionAccountDetailsSchema),
   });
 
-  const orderSubmitHandler = (e) => {
-    e.preventDefault();
+  const orderSubmitHandler = () => {
     handleOrderSubmit();
   };
 
@@ -30,7 +29,7 @@ export const AccountComponent = ({
         <div className="col-lg-6 col-xxl-12">
           <div className="buy_crypto__formarea p-6 p-px-8 rounded-20 bg7-color wow fadeInUp">
             <h3 className="p6-color mb-6 mb-md-8">Bank Details</h3>
-            <form onSubmit={orderSubmitHandler}>
+            <form onSubmit={handleSubmit(() => orderSubmitHandler())}>
               <div className="contact_info__inpuarea mb-6 mb-md-8 bg1-color br2 rounded-20 p-3">
                 <div className="contact_info__inpuarea-group gap-5 gap-md-6 mb-4 position-relative">
                   <label for="first-name" className="form-label text-white">
