@@ -344,7 +344,7 @@ export const Transaction = () => {
       case activeTab === "buy" && currentStep === 1:
         return (
           <BuyOrSellComponent
-            header="Buy Assets"
+            activeTab={activeTab}
             orderData={orderData}
             handleNextClick={handleNextClick}
             handleOnSelect={handleOnSelect}
@@ -366,7 +366,7 @@ export const Transaction = () => {
       case activeTab === "sell" && currentStep === 1:
         return (
           <BuyOrSellComponent
-            header="Sell Assets"
+            activeTab={activeTab}
             orderData={orderData}
             handleNextClick={handleNextClick}
             handleOnSelect={handleOnSelect}

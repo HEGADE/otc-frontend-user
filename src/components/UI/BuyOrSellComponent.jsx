@@ -1,12 +1,12 @@
 import { ValidationError } from "../UI/Errors";
 
 export const BuyOrSellComponent = ({
-  header,
+  activeTab,
   handleNextClick,
   orderData,
   handleOnSelect,
   handleOnInputChange,
-  validationErrors
+  validationErrors,
 }) => {
   const networkOptions = ["ETH", "BSC"];
   const cyptoOptions = {
@@ -17,10 +17,11 @@ export const BuyOrSellComponent = ({
 
   return (
     <div className="tab-content">
-      <h2 className="mb-3 text-white">{header}</h2>
+      <h2 className="mb-3 text-white">
+        {activeTab === "buy" ? "Buy Assets" : "Sell Assets"}
+      </h2>
       <form
         className="account__form needs-validation"
-        // onSubmit={handleSubmit(() => handleNextClick())}
         onSubmit={(e) => handleNextClick(e)}
       >
         <div className="row">
@@ -53,7 +54,9 @@ export const BuyOrSellComponent = ({
           </div>
           <div className="col-lg-12">
             <div className="buy_crypto__formarea-group mb-5 mb-md-6">
-              <label className="mb-2 text-white">Buy Crypto</label>
+              <label className="mb-2 text-white">
+                {activeTab === "buy" ? "Buy Crypto" : "Sell Crypto"}
+              </label>
               <div className="d-flex align-items-center br2 p-1 rounded-4 bg1-color">
                 <input
                   name="sendAmount"
