@@ -27,6 +27,12 @@ export const Transaction = () => {
 
   const [activeTab, setActiveTab] = useState("buy");
   const [currentStep, setCurrentStep] = useState(1);
+  const [validationErrors, setValidationErrors] = useState({
+    sendAmount: { message: "" },
+    receivedAmount: { message: "" },
+    walletAddress: { message: "" },
+    primaryTransactionReceipt: { message: "" },
+  });
 
   const [adminBankDetails, setAdminBankDetails] = useState({
     accountHolderName: "Admin",
@@ -163,9 +169,31 @@ export const Transaction = () => {
     }
   };
 
-  const handleNextClick = () => {
-    event.preventDefault();
-    setCurrentStep(currentStep + 1);
+  const handleNextClick = (e) => {
+    e.preventDefault();
+    const validationErrors = validateStep1Inputs(orderData);
+    console.log("🔴🔺 handleNextClick: validationErrors: ", validationErrors);
+    const hasNoErrors = Object.values(validationErrors).every(
+      (error) => error.message === ""
+    );
+
+    if (hasNoErrors) {
+      console.log("Form submitted:", orderData);
+      setCurrentStep(currentStep + 1);
+    } else {
+      setValidationErrors(validationErrors);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("🔴🔺 handleSubmit: validationErrors: ", validationErrors);
+    const validationErrors = validateStep1Inputs(orderData);
+    if (Object.keys(validationErrors).length === 0) {
+      console.log("Form submitted:", orderData);
+    } else {
+      setValidationErrors(validationErrors);
+    }
   };
 
   const handlePreviousClick = () => {
@@ -221,9 +249,20 @@ export const Transaction = () => {
     }));
   };
 
-  const handleOrderSubmit = (orderData) => {
-    // console.log("🔶 handleOrderSubmit called!");
-    mutate(orderData);
+  const handleOrderSubmit = (event) => {
+    event.preventDefault();
+    const validationErrors = validateStep2Inputs(orderData);
+    console.log("🟢 validationErrors: ", validationErrors);
+    const hasNoErrors = Object.values(validationErrors).every(
+      (error) => error.message === ""
+    );
+
+    if (hasNoErrors) {
+      console.log("Form submitted:", orderData);
+      mutate(orderData);
+    } else {
+      setValidationErrors(validationErrors);
+    }
   };
 
   let createOrder = async (orderData) => {
@@ -261,6 +300,45 @@ export const Transaction = () => {
     },
   });
 
+  const validateStep1Inputs = (data) => {
+    console.log("🟢 validateStep1Inputs: ", validationErrors);
+    let errors = {
+      sendAmount: { message: "" },
+      receivedAmount: { message: "" },
+      walletAddress: { message: "" },
+    };
+    if (!data.sendAmount) {
+      errors.sendAmount.message = "Send amount is required";
+    } else if (isNaN(data.sendAmount)) {
+      errors.sendAmount.message = "Send amount must be a valid number";
+    }
+
+    if (!data.receivedAmount) {
+      errors.receivedAmount.message = "Received amount is required";
+    } else if (isNaN(data.receivedAmount)) {
+      errors.receivedAmount.message = "Received amount must be a valid number";
+    }
+
+    if (!data.walletAddress) {
+      errors.walletAddress.message = "Wallet Address is required";
+    }
+    setValidationErrors(errors);
+    return errors;
+  };
+
+  const validateStep2Inputs = (data) => {
+    console.log("🟢 validateStep1Inputs: ", validationErrors);
+    let errors = {
+      primaryTransactionReceipt: { message: "" },
+    };
+    if (!data.primaryTransactionReceipt) {
+      errors.primaryTransactionReceipt.message =
+        "Primary Transaction Receipt is required";
+    }
+    setValidationErrors(errors);
+    return errors;
+  };
+
   const renderTabContent = () => {
     switch (true) {
       case activeTab === "buy" && currentStep === 1:
@@ -271,6 +349,7 @@ export const Transaction = () => {
             handleNextClick={handleNextClick}
             handleOnSelect={handleOnSelect}
             handleOnInputChange={handleOnInputChange}
+            validationErrors={validationErrors}
           />
         );
       case activeTab === "buy" && currentStep === 2:
@@ -281,6 +360,7 @@ export const Transaction = () => {
             handleOrderSubmit={handleOrderSubmit}
             adminBankDetails={adminBankDetails}
             userBankDetails={userBankDetails}
+            validationErrors={validationErrors}
           />
         );
       case activeTab === "sell" && currentStep === 1:
@@ -291,6 +371,7 @@ export const Transaction = () => {
             handleNextClick={handleNextClick}
             handleOnSelect={handleOnSelect}
             handleOnInputChange={handleOnInputChange}
+            validationErrors={validationErrors}
           />
         );
       case activeTab === "sell" && currentStep === 2:
@@ -301,6 +382,7 @@ export const Transaction = () => {
             handleOrderSubmit={handleOrderSubmit}
             adminBankDetails={adminBankDetails}
             userBankDetails={userBankDetails}
+            validationErrors={validationErrors}
           />
         );
       default:

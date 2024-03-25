@@ -1,8 +1,4 @@
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-
 import { ValidationError } from "../UI/Errors";
-import { transactionDetailsSchema } from "../../utils/validation/auth.validation";
 
 export const BuyOrSellComponent = ({
   header,
@@ -10,6 +6,7 @@ export const BuyOrSellComponent = ({
   orderData,
   handleOnSelect,
   handleOnInputChange,
+  validationErrors
 }) => {
   const networkOptions = ["ETH", "BSC"];
   const cyptoOptions = {
@@ -18,22 +15,13 @@ export const BuyOrSellComponent = ({
   };
   const currencyOptions = ["AED", "INR"];
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(transactionDetailsSchema),
-  });
-
-  // console.log('🔴🔺 useForm: errors: ', errors)
-
   return (
     <div className="tab-content">
       <h2 className="mb-3 text-white">{header}</h2>
       <form
         className="account__form needs-validation"
-        onSubmit={handleSubmit(() => handleNextClick())}
+        // onSubmit={handleSubmit(() => handleNextClick())}
+        onSubmit={(e) => handleNextClick(e)}
       >
         <div className="row">
           <div className="buy_crypto__formarea-group mb-5 mb-md-6">
@@ -68,7 +56,6 @@ export const BuyOrSellComponent = ({
               <label className="mb-2 text-white">Buy Crypto</label>
               <div className="d-flex align-items-center br2 p-1 rounded-4 bg1-color">
                 <input
-                  {...register("sendAmount")}
                   name="sendAmount"
                   value={orderData.sendAmount}
                   type="number"
@@ -123,7 +110,7 @@ export const BuyOrSellComponent = ({
                   </div>
                 </div>
               </div>
-              <ValidationError err={errors.sendAmount} />
+              <ValidationError err={validationErrors.sendAmount} />
             </div>
           </div>
           <div className="col-lg-12">
@@ -131,7 +118,6 @@ export const BuyOrSellComponent = ({
               <label className="mb-2 text-white">Purchase Amount</label>
               <div className="d-flex align-items-center br2 p-1 rounded-4 mb-2 bg1-color">
                 <input
-                  {...register("receivedAmount")}
                   name="receivedAmount"
                   value={orderData.receivedAmount}
                   type="number"
@@ -150,31 +136,6 @@ export const BuyOrSellComponent = ({
                           value={orderData.currency}
                           onChange={(e) => handleOnSelect(e, "currency")}
                         >
-                          {/* <option
-                            value="usdt"
-                            data-image="assets/images/usdt.png"
-                          >
-                            USDT
-                          </option>
-                          <option
-                            value="eth"
-                            data-image="assets/images/eth.png"
-                          >
-                            ETH
-                          </option>
-                          <option
-                            value="btc"
-                            data-image="assets/images/btc.png"
-                          >
-                            BTC
-                          </option>
-                          <option
-                            value="inr"
-                            selected=""
-                            data-image="assets/images/inr.png"
-                          >
-                            INR
-                          </option> */}
                           {currencyOptions.map((currencyOption) => (
                             <option value={currencyOption}>
                               {currencyOption}
@@ -212,7 +173,7 @@ export const BuyOrSellComponent = ({
                   </div>
                 </div>
               </div>
-              <ValidationError err={errors.receivedAmount} />
+              <ValidationError err={validationErrors.receivedAmount} />
               <span className="text-white">1 BTC = 3,547,292 INR</span>
             </div>
           </div>
@@ -222,7 +183,6 @@ export const BuyOrSellComponent = ({
           <div className="br2 p-1 rounded-4 bg1-color">
             {/* <textarea placeholder="Address" cols="15" rows="3"></textarea> */}
             <textarea
-              {...register("walletAddress")}
               cols="15"
               rows="3"
               name="walletAddress"
@@ -235,12 +195,11 @@ export const BuyOrSellComponent = ({
             />
           </div>
         </div>
-        <ValidationError err={errors.walletAddress} />
+        <ValidationError err={validationErrors.walletAddress} />
         {/* <div className="buy_crypto__formarea-group mb-6 mb-md-8">
           <label className="mb-2">Primary Transaction Receipt</label>
           <div className="br2 p-1 rounded-4 bg1-color">
             <input
-              {...register("primaryTransactionReceipt")}
               name="primaryTransactionReceipt"
               value={orderData.primaryTransactionReceipt}
               type="text"
@@ -251,7 +210,7 @@ export const BuyOrSellComponent = ({
             />
           </div>
         </div>
-        <ValidationError err={errors.primaryTransactionReceipt} /> */}
+        <ValidationError err={validationErrors.primaryTransactionReceipt} /> */}
         <br />
         <button type="submit" className="cmn-btn py-3 px-5 px-md-6 d-block">
           Next

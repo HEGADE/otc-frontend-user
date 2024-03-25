@@ -1,6 +1,3 @@
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-
 import { ValidationError } from "../UI/Errors";
 import { transactionAccountDetailsSchema } from "../../utils/validation/auth.validation";
 
@@ -10,26 +7,15 @@ export const AccountComponent = ({
   handleOrderSubmit,
   adminBankDetails,
   userBankDetails,
+  validationErrors,
 }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(transactionAccountDetailsSchema),
-  });
-
-  const orderSubmitHandler = () => {
-    handleOrderSubmit();
-  };
-
   return (
     <div className="col-lg-12">
       <div className="row gy-5 gy-md-6 justify-content-center">
         <div className="col-lg-6 col-xxl-12">
           <div className="buy_crypto__formarea p-6 p-px-8 rounded-20 bg7-color wow fadeInUp">
             <h3 className="p6-color mb-6 mb-md-8">Bank Details</h3>
-            <form onSubmit={handleSubmit(() => orderSubmitHandler())}>
+            <form onSubmit={(e) => handleOrderSubmit(e)}>
               <div className="contact_info__inpuarea mb-6 mb-md-8 bg1-color br2 rounded-20 p-3">
                 <div className="contact_info__inpuarea-group gap-5 gap-md-6 mb-4 position-relative">
                   <label for="first-name" className="form-label text-white">
@@ -128,7 +114,6 @@ export const AccountComponent = ({
                 <label className="mb-2">Primary Transaction Receipt</label>
                 <div className="br2 p-1 rounded-4 bg1-color">
                   <input
-                    {...register("primaryTransactionReceipt")}
                     name="primaryTransactionReceipt"
                     value={orderData.primaryTransactionReceipt}
                     type="text"
@@ -139,7 +124,7 @@ export const AccountComponent = ({
                   />
                 </div>
               </div>
-              <ValidationError err={errors.primaryTransactionReceipt} />
+              <ValidationError err={validationErrors.primaryTransactionReceipt} />
               <br />
               <button
                 type="submit"
