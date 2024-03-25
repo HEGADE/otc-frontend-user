@@ -9,7 +9,7 @@ export const BuyOrSellComponent = ({
   validationErrors,
 }) => {
   const networkOptions = ["ETH", "BSC", "BTC"];
-  const cyptoOptions = {
+  const cryptoOptions = {
     ETH: ["ETH", "USDT"],
     BSC: ["BNB", "USDT"],
     BTC: ["BTC"],
@@ -60,13 +60,14 @@ export const BuyOrSellComponent = ({
               </label>
               <div className="d-flex align-items-center br2 p-1 rounded-4 bg1-color">
                 <input
-                  // name="sendAmount"
                   name={activeTab === "buy" ? "receivedAmount" : "sendAmount"}
-                  // value={orderData.sendAmount}
-                  value={activeTab === "buy" ? orderData.receivedAmount: orderData.sendAmount}
+                  value={
+                    activeTab === "buy"
+                      ? orderData.receivedAmount
+                      : orderData.sendAmount
+                  }
                   type="number"
                   className="form-control showhide-pass"
-                  // id="input-send-amount"
                   id={
                     activeTab === "buy"
                       ? "input-receive-amount"
@@ -80,13 +81,13 @@ export const BuyOrSellComponent = ({
                     <div className="f-group">
                       <div className="f-dropdown selectDropdown filled">
                         <select
-                          id="select-buy"
+                          id="select-crypto"
                           className="f-control f-dropdown"
                           value={orderData.crypto}
                           onChange={(e) => handleOnSelect(e, "crypto")}
                         >
                           {orderData.network &&
-                            cyptoOptions[orderData.network].map((buy) => (
+                            cryptoOptions[orderData.network].map((buy) => (
                               <option value={buy}>{buy}</option>
                             ))}
                         </select>
@@ -126,16 +127,19 @@ export const BuyOrSellComponent = ({
           </div>
           <div className="col-lg-12">
             <div className="buy_crypto__formarea-group mb-5 mb-md-6">
-              <label className="mb-2 text-white">Purchase Amount</label>
+              <label className="mb-2 text-white">
+                {activeTab == "buy" ? "Purchase Amount" : "Receive Amount"}
+              </label>
               <div className="d-flex align-items-center br2 p-1 rounded-4 mb-2 bg1-color">
                 <input
-                  // name="receivedAmount"
                   name={activeTab === "buy" ? "sendAmount" : "receivedAmount"}
-                  // value={orderData.receivedAmount}
-                  value={activeTab === "buy" ? orderData.sendAmount: orderData.receivedAmount}
+                  value={
+                    activeTab === "buy"
+                      ? orderData.sendAmount
+                      : orderData.receivedAmount
+                  }
                   type="number"
                   className="form-control showhide-pass"
-                  // id="input-receive-amount"
                   id={
                     activeTab === "buy"
                       ? "input-send-amount"

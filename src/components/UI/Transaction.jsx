@@ -11,7 +11,15 @@ import { AccountComponent } from "./AccountComponent";
 import { WalletComponent } from "./WalletComponent";
 
 export const Transaction = () => {
-  const initialOrderData = {
+  const networkOptions = ["ETH", "BSC", "BTC"];
+  const cryptoOptions = {
+    ETH: ["ETH", "USDT"],
+    BSC: ["BNB", "USDT"],
+    BTC: ["BTC"],
+  };
+  const currencyOptions = ["AED", "INR"];
+
+  let initialOrderData = {
     network: "ETH",
     transactionType: "FIAT",
     crypto: "USDT",
@@ -205,17 +213,6 @@ export const Transaction = () => {
     }
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log("🔴🔺 handleSubmit: validationErrors: ", validationErrors);
-  //   const validationErrors = validateStep1Inputs(orderData);
-  //   if (Object.keys(validationErrors).length === 0) {
-  //     console.log("Form submitted:", orderData);
-  //   } else {
-  //     setValidationErrors(validationErrors);
-  //   }
-  // };
-
   const handlePreviousClick = () => {
     event.preventDefault();
     setCurrentStep(currentStep - 1);
@@ -224,15 +221,17 @@ export const Transaction = () => {
   const handleOnSelect = (event, selectDropwdownName) => {
     event.preventDefault();
     const { name, value } = event.target;
-    console.log(
-      "🔶 Transaction: handleOnSelect: selectDropwdownName, value: ",
-      selectDropwdownName,
-      value
-    );
+
     setOrderData((prevOrderData) => ({
       ...prevOrderData,
       [selectDropwdownName]: value,
     }));
+    if (selectDropwdownName === "network") {
+      setOrderData((prevOrderData) => ({
+        ...prevOrderData,
+        crypto: cryptoOptions[value][0],
+      }));
+    }
   };
 
   useEffect(() => {
