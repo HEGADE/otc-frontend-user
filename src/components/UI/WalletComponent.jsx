@@ -4,7 +4,7 @@ export const WalletComponent = ({
   orderData,
   handleOnInputChange,
   handleOrderSubmit,
-  adminBankDetails,
+  userBankDetails,
   adminWalletDetails,
   validationErrors,
 }) => {
@@ -35,6 +35,25 @@ export const WalletComponent = ({
               </div>
               <br />
               <h3 className="p6-color mb-6 mb-md-8">My Bank Details</h3>
+              <div className="contact_info__inpuarea mb-6 mb-md-8 bg1-color br2 rounded-20 p-3">
+                <div className="contact_info__inpuarea-group gap-5 gap-md-6 mb-4 position-relative">
+                  <label
+                    for="user-account-number"
+                    className="form-label text-white"
+                  >
+                    Account Number
+                  </label>
+                  <input
+                    className="bg4-color"
+                    type="text"
+                    Value={userBankDetails.accountNumber}
+                    disabled={true}
+                  />
+                  <div className="tick-mark">
+                    <i className="fa fa-copy text-white"></i>
+                  </div>
+                </div>
+              </div>
               <br />
               <div className="buy_crypto__formarea-group mb-6 mb-md-8">
                 <label className="mb-2">Primary Transaction Receipt</label>

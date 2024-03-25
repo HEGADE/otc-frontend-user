@@ -146,6 +146,14 @@ export const Transaction = () => {
       const selectNetworkWalletDetails = wallets?.find(
         (wallet) => wallet.network === orderData.network
       );
+      console.log(
+        "🟣🟠🟢🟡 fetchAdminWalletDetails: orderData.network ",
+        orderData.network
+      );
+      console.log(
+        "🟣🟠🟢🟡 fetchAdminWalletDetails: selectNetworkWalletDetails ",
+        selectNetworkWalletDetails
+      );
       const { id, status, network, address } = selectNetworkWalletDetails;
 
       setAdminWalletDetails((prevOrderData) => ({
@@ -245,6 +253,12 @@ export const Transaction = () => {
       fetchData();
     }
   }, [activeTab]);
+
+  useEffect(() => {
+    if (activeTab === "sell") {
+      fetchAdminWalletDetails();
+    }
+  }, [orderData.network]);
 
   const handleOnInputChange = (event) => {
     // console.log("🟢 handleOnInputChange: ", orderData.network);
