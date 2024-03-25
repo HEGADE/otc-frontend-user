@@ -10,6 +10,17 @@ import { BuyOrSellComponent } from "./BuyOrSellComponent";
 import { AccountComponent } from "./AccountComponent";
 
 export const Transaction = () => {
+  const initialOrderData = {
+    network: "ETH",
+    transactionType: "FIAT",
+    crypto: "USDT",
+    currency: "AED",
+    sendAmount: null,
+    receivedAmount: null,
+    bankAccount: null,
+    walletAddress: "",
+    primaryTransactionReceipt: "",
+  };
   const accessToken = useUserStore((state) => state.accessToken);
   const user = useUserStore((state) => state.user);
   // console.log("🟡 user: ", user);
@@ -33,17 +44,7 @@ export const Transaction = () => {
     ifsCode: "",
   });
 
-  const [orderData, setOrderData] = useState({
-    network: "ETH",
-    transactionType: "FIAT",
-    crypto: "USDT",
-    currency: "AED",
-    sendAmount: null,
-    receivedAmount: null,
-    bankAccount: null,
-    walletAddress: "",
-    primaryTransactionReceipt: "",
-  });
+  const [orderData, setOrderData] = useState(initialOrderData);
 
   let fetchAdminBankDetails = async () => {
     try {
@@ -111,9 +112,9 @@ export const Transaction = () => {
     }
   };
 
-  let fetchUserWalletDetails = async () => {
+  let fetchAdminWalletDetails = async () => {
     console.log(
-      "🟣🟠🟢🟡 fetchUserWalletDetails called!!!!! network: ",
+      "🟣🟠🟢🟡 fetchAdminWalletDetails called!!!!! network: ",
       orderData.network
     );
     try {
@@ -130,7 +131,7 @@ export const Transaction = () => {
         (wallet) => wallet.network === orderData.network
       );
       const walletAddress = selectNetworkWalletDetails?.address;
-      console.log("🟣 fetchUserWalletDetails: walletAddress: ", walletAddress);
+      console.log("🟣 fetchAdminWalletDetails: walletAddress: ", walletAddress);
 
       setOrderData((prevOrderData) => ({
         ...prevOrderData,
@@ -139,7 +140,7 @@ export const Transaction = () => {
 
       return walletAddress;
     } catch (error) {
-      // console.log("🔺 fetchUserWalletDetails: error: ", error);
+      // console.log("🔺 fetchAdminWalletDetails: error: ", error);
       throw new Error(
         "Error fetching user wallet address details: " + error.message
       );
@@ -149,6 +150,17 @@ export const Transaction = () => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
     setCurrentStep(1);
+    if (tab == "buy") {
+      setOrderData({
+        ...initialOrderData,
+        transactionType: "FIAT",
+      });
+    } else if (tab == "sell") {
+      setOrderData({
+        ...initialOrderData,
+        transactionType: "CRYPTO",
+      });
+    }
   };
 
   const handleNextClick = () => {
@@ -176,12 +188,23 @@ export const Transaction = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      await Promise.all([fetchAdminBankDetails(), fetchUserBankDetails()]);
-    };
-
-    fetchData();
-  }, []);
+    if (activeTab === "buy") {
+      let fetchData = async () => {
+        await Promise.all([fetchAdminBankDetails(), fetchUserBankDetails()]);
+      };
+      fetchData();
+    }
+    if (activeTab === "sell") {
+      let fetchData = async () => {
+        await Promise.all([
+          fetchAdminBankDetails(),
+          fetchAdminWalletDetails(),
+          fetchUserBankDetails(),
+        ]);
+      };
+      fetchData();
+    }
+  }, [activeTab]);
 
   const handleOnInputChange = (event, selectDropwdownName) => {
     // console.log("🟢 handleOnInputChange: ", orderData.network);
@@ -204,7 +227,7 @@ export const Transaction = () => {
   };
 
   let createOrder = async (orderData) => {
-    // console.log("🟩 createOrder called!: orderData", orderData);
+    console.log("🟩 createOrder called!: orderData", orderData);
     try {
       const res = await axios(API.createOrder, {
         method: "POST",
