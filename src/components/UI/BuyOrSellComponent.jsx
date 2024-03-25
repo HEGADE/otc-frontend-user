@@ -8,10 +8,11 @@ export const BuyOrSellComponent = ({
   handleOnInputChange,
   validationErrors,
 }) => {
-  const networkOptions = ["ETH", "BSC"];
+  const networkOptions = ["ETH", "BSC", "BTC"];
   const cyptoOptions = {
     ETH: ["ETH", "USDT"],
     BSC: ["BNB", "USDT"],
+    BTC: ["BTC"],
   };
   const currencyOptions = ["AED", "INR"];
 

@@ -142,7 +142,7 @@ export const Transaction = () => {
         },
       });
       const wallets = res?.data?.data?.wallets;
-      
+
       const selectNetworkWalletDetails = wallets?.find(
         (wallet) => wallet.network === orderData.network
       );
@@ -246,7 +246,7 @@ export const Transaction = () => {
     }
   }, [activeTab]);
 
-  const handleOnInputChange = (event, selectDropwdownName) => {
+  const handleOnInputChange = (event) => {
     // console.log("🟢 handleOnInputChange: ", orderData.network);
     event.preventDefault();
     const { name, value } = event.target;
