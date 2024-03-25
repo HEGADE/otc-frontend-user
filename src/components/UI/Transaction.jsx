@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import loadjs from "loadjs";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
 
 import axios from "../../lib/http-request";
@@ -65,7 +65,7 @@ export const Transaction = () => {
       });
       return { accountHolderName, bankName, accountNumber, branch, ifsCode };
     } catch (error) {
-      console.log("🔺 useQuery: error: ", error);
+      // console.log("🔺 fetchAdminBankDetails: error: ", error);
       throw new Error("Error fetching bank details: " + error.message);
     }
   };
@@ -93,10 +93,10 @@ export const Transaction = () => {
         branch,
         ifsCode,
       });
-      setOrderData({
-        ...orderData,
+      setOrderData((prevOrderData) => ({
+        ...prevOrderData,
         bankAccount: id,
-      });
+      }));
       return {
         id,
         accountHolderName,
@@ -106,62 +106,45 @@ export const Transaction = () => {
         ifsCode,
       };
     } catch (error) {
-      console.log("🔺 useQuery: error: ", error);
+      // console.log("🔺 fetchUserBankDetails: error: ", error);
       throw new Error("Error fetching bank details: " + error.message);
     }
   };
 
   let fetchUserWalletDetails = async () => {
+    console.log(
+      "🟣🟠🟢🟡 fetchUserWalletDetails called!!!!! network: ",
+      orderData.network
+    );
     try {
       const res = await axios.get(API.getUserWalletDetails, {
         headers: {
           Authorization: "Bearer " + accessToken,
         },
         payload: {
-          status: active,
+          status: "active",
         },
       });
-      console.log("🟣 useQuery: fetchUserWalletDetails: res: ", res);
       const wallets = res?.data?.data?.wallets;
-      walletAddress = wallets?.filter(
+      const selectNetworkWalletDetails = wallets?.find(
         (wallet) => wallet.network === orderData.network
       );
-      setOrderData({
-        ...orderData,
+      const walletAddress = selectNetworkWalletDetails?.address;
+      console.log("🟣 fetchUserWalletDetails: walletAddress: ", walletAddress);
+
+      setOrderData((prevOrderData) => ({
+        ...prevOrderData,
         walletAddress,
-      });
-      return {
-        id,
-        network,
-        status,
-        address,
-      };
+      }));
+
+      return walletAddress;
     } catch (error) {
-      console.log("🔺 useQuery: error: ", error);
+      // console.log("🔺 fetchUserWalletDetails: error: ", error);
       throw new Error(
-        "Error fetching wallet address details: " + error.message
+        "Error fetching user wallet address details: " + error.message
       );
     }
   };
-
-  let userBankQueryResponse = useQuery({
-    queryKey: "userBankDetails",
-    queryFn: fetchUserBankDetails,
-  });
-
-  let adminBankQueryResponse = useQuery({
-    queryKey: "adminBankDetails",
-    queryFn: fetchAdminBankDetails,
-  });
-
-  let walletAddressQueryResponse = useQuery({
-    queryKey: "userWalletkDetails",
-    queryFn: fetchUserWalletDetails,
-  });
-
-  // console.info("userBankQueryResponse : ", userBankQueryResponse);
-  // console.info("adminBankQueryResponse : ", adminBankQueryResponse);
-  console.info("🟠 walletAddressQueryResponse : ", walletAddressQueryResponse);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -186,13 +169,22 @@ export const Transaction = () => {
       selectDropwdownName,
       value
     );
-    setOrderData({
-      ...orderData,
+    setOrderData((prevOrderData) => ({
+      ...prevOrderData,
       [selectDropwdownName]: value,
-    });
+    }));
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      await Promise.all([fetchAdminBankDetails(), fetchUserBankDetails()]);
+    };
+
+    fetchData();
+  }, []);
+
   const handleOnInputChange = (event, selectDropwdownName) => {
+    // console.log("🟢 handleOnInputChange: ", orderData.network);
     event.preventDefault();
     const { name, value } = event.target;
     console.log(
@@ -200,19 +192,19 @@ export const Transaction = () => {
       name,
       value
     );
-    setOrderData({
-      ...orderData,
+    setOrderData((prevOrderData) => ({
+      ...prevOrderData,
       [name]: value,
-    });
+    }));
   };
 
   const handleOrderSubmit = (orderData) => {
-    console.log("🔶 handleOrderSubmit called!");
+    // console.log("🔶 handleOrderSubmit called!");
     mutate(orderData);
   };
 
   let createOrder = async (orderData) => {
-    console.log("🟩 createOrder called!: orderData", orderData);
+    // console.log("🟩 createOrder called!: orderData", orderData);
     try {
       const res = await axios(API.createOrder, {
         method: "POST",
@@ -225,7 +217,7 @@ export const Transaction = () => {
       });
       return res;
     } catch (error) {
-      console.log("🔺 createOrder: error: ", error);
+      // console.log("🔺 createOrder: error: ", error);
       throw new Error("Error creating order: " + error.message);
     }
   };
@@ -238,7 +230,7 @@ export const Transaction = () => {
       // refetch();
     },
     onError: (error) => {
-      console.log("🔺 useMutation: error: UserDetails: ", error);
+      // console.log("🔺 useMutation: error: UserDetails: ", error);
       toast.error(
         error?.response?.data?.message ||
           "Something went wrong. Please try again later."
@@ -293,10 +285,10 @@ export const Transaction = () => {
     }
   };
 
-  console.log("🟣 : ", {
-    activeTab,
-    currentStep,
-  });
+  // console.log("🟣 : ", {
+  //   activeTab,
+  //   currentStep,
+  // });
 
   return (
     <>

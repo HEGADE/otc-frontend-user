@@ -26,7 +26,7 @@ export const BuyOrSellComponent = ({
     resolver: yupResolver(transactionDetailsSchema),
   });
 
-  console.log('🔴🔺 useForm: errors: ', errors)
+  // console.log('🔴🔺 useForm: errors: ', errors)
 
   return (
     <div className="tab-content">
