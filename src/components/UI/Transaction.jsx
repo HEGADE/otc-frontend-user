@@ -8,6 +8,7 @@ import { API } from "../../utils/config/api-end-points.config";
 import { useUserStore } from "../../store/user.store";
 import { BuyOrSellComponent } from "./BuyOrSellComponent";
 import { AccountComponent } from "./AccountComponent";
+import { WalletComponent } from "./WalletComponent";
 
 export const Transaction = () => {
   const initialOrderData = {
@@ -21,6 +22,7 @@ export const Transaction = () => {
     walletAddress: "",
     primaryTransactionReceipt: "",
   };
+
   const accessToken = useUserStore((state) => state.accessToken);
   const user = useUserStore((state) => state.user);
   // console.log("🟡 user: ", user);
@@ -40,6 +42,13 @@ export const Transaction = () => {
     bankName: "",
     branch: "",
     ifsCode: "",
+  });
+
+  const [adminWalletDetails, setAdminWalletDetails] = useState({
+    id: "",
+    walletAddress: "",
+    network: "",
+    status: "",
   });
 
   const [userBankDetails, setUserBankDetails] = useState({
@@ -119,10 +128,10 @@ export const Transaction = () => {
   };
 
   let fetchAdminWalletDetails = async () => {
-    console.log(
-      "🟣🟠🟢🟡 fetchAdminWalletDetails called!!!!! network: ",
-      orderData.network
-    );
+    // console.log(
+    //   "🟣🟠🟢🟡 fetchAdminWalletDetails called!!!!! network: ",
+    //   orderData.network
+    // );
     try {
       const res = await axios.get(API.getUserWalletDetails, {
         headers: {
@@ -133,18 +142,21 @@ export const Transaction = () => {
         },
       });
       const wallets = res?.data?.data?.wallets;
+      
       const selectNetworkWalletDetails = wallets?.find(
         (wallet) => wallet.network === orderData.network
       );
-      const walletAddress = selectNetworkWalletDetails?.address;
-      console.log("🟣 fetchAdminWalletDetails: walletAddress: ", walletAddress);
+      const { id, status, network, address } = selectNetworkWalletDetails;
 
-      setOrderData((prevOrderData) => ({
+      setAdminWalletDetails((prevOrderData) => ({
         ...prevOrderData,
-        walletAddress,
+        id,
+        status,
+        network,
+        walletAddress: address,
       }));
 
-      return walletAddress;
+      return selectNetworkWalletDetails;
     } catch (error) {
       // console.log("🔺 fetchAdminWalletDetails: error: ", error);
       throw new Error(
@@ -185,16 +197,16 @@ export const Transaction = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("🔴🔺 handleSubmit: validationErrors: ", validationErrors);
-    const validationErrors = validateStep1Inputs(orderData);
-    if (Object.keys(validationErrors).length === 0) {
-      console.log("Form submitted:", orderData);
-    } else {
-      setValidationErrors(validationErrors);
-    }
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log("🔴🔺 handleSubmit: validationErrors: ", validationErrors);
+  //   const validationErrors = validateStep1Inputs(orderData);
+  //   if (Object.keys(validationErrors).length === 0) {
+  //     console.log("Form submitted:", orderData);
+  //   } else {
+  //     setValidationErrors(validationErrors);
+  //   }
+  // };
 
   const handlePreviousClick = () => {
     event.preventDefault();
@@ -376,13 +388,13 @@ export const Transaction = () => {
         );
       case activeTab === "sell" && currentStep === 2:
         return (
-          <AccountComponent
+          <WalletComponent
             orderData={orderData}
             handleOnInputChange={handleOnInputChange}
             handleOrderSubmit={handleOrderSubmit}
-            adminBankDetails={adminBankDetails}
             userBankDetails={userBankDetails}
             validationErrors={validationErrors}
+            adminWalletDetails={adminWalletDetails}
           />
         );
       default:
