@@ -15,4 +15,5 @@ export const API = {
   saveBankDetails: "bank",
   createOrder: "orders",
   getUserWalletDetails: "wallets",
+  getOrderDetails: "orders/user-orders"
 };

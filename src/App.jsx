@@ -82,7 +82,7 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="/" element={<Dashboard />} />
               <Route path="/profile" element={<UserProfile />} />
-              <Route path="/order" element={<Order />} />
+              <Route path="/orders" element={<Order />} />
             </Route>
           </Route>
           <Route path="*" element={<p>404 Page</p>} />

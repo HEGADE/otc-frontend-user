@@ -1,9 +1,67 @@
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+
+import { useUserStore } from "../../store/user.store";
+import axios from "../../lib/http-request";
+import { API } from "../../utils/config/api-end-points.config";
+import { Preloader } from "./Preloader";
+import { OrderTable } from "./OrderTable";
+
 export const Order = () => {
+  const accessToken = useUserStore((state) => state.accessToken);
+
+  const [activeTransactionTypeTab, setActiveTransactionTypeTab] =
+    useState("FIAT");
+
+  const [orderData, setOrderData] = useState([]);
+
+  const handleTabClick = (tab) => {
+    console.log("🟣 handleTabClick: tab: ", tab);
+    setActiveTransactionTypeTab(tab);
+  };
+
+  let fetchOrderDetails = async () => {
+    try {
+      console.log(
+        "🟣 OrderDetails: fetchOrderDetails API Called!!!!",
+        activeTransactionTypeTab
+      );
+      const res = await axios.get(API.getOrderDetails, {
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+        params: {
+          transactionType: activeTransactionTypeTab,
+        },
+      });
+      const orderRes = res?.data?.data?.orders?.results;
+      console.log("🔷 orderRes: ", orderRes);
+      setOrderData(orderRes);
+      return orderRes;
+    } catch (error) {
+      console.log("🔺 useQuery: error: ", error);
+      throw new Error("Error fetching order details: " + error.message);
+    }
+  };
+
+  let { data, isLoading, isError, error, refetch } = useQuery({
+    queryKey: "userDetails",
+    queryFn: fetchOrderDetails,
+  });
+
+  useEffect(() => {
+    if (activeTransactionTypeTab) {
+      refetch({ transactionType: activeTransactionTypeTab });
+    }
+  }, [activeTransactionTypeTab, refetch]);
+
+  if (isLoading) return <Preloader />;
+
   return (
     <>
       <section
         class="page-header bg--cover"
-        style={{ backgroundImage: "url(assets/images/breadcrumb.png)"}}
+        style={{ backgroundImage: "url(assets/images/breadcrumb.png)" }}
       >
         <div class="container">
           <div
@@ -27,572 +85,40 @@ export const Order = () => {
               <div class="singletab">
                 <div class="demo">
                   <div class="tab">
-                    <div class="tab-wrapper" style={{ padding: "20px" }} >
+                    <div class="tab-wrapper" style={{ padding: "20px" }}>
                       <input
                         id="tab1"
                         type="radio"
                         name="tabsA"
                         class="radio-inputs"
-                        checked
+                        checked={activeTransactionTypeTab === "FIAT"}
+                        defaultChecked
+                        onChange={() => handleTabClick("FIAT")}
                       />
                       <label class="tab-button order-btn" for="tab1">
-                        All Orders
+                        FIAT Orders
                       </label>
-                      <div class="tab-content">
-                        <div class="pools_table__totalitem overflow-auto">
-                          <table>
-                            <th>Order Name</th>
-                            <th>
-                              <div class="d-flex align-items-center gap-1">
-                                <span>Transaction Fees</span>
-                                <div class="d-flex flex-column gap-0">
-                                  <i class="ti ti-caret-up-filled fs-nine cpoint pools_table__totalitem-ticonone"></i>
-                                  <i class="ti ti-caret-down-filled fs-nine cpoint pools_table__totalitem-ticontwo"></i>
-                                </div>
-                              </div>
-                            </th>
-                            <th>
-                              <div class="d-flex align-items-center gap-1">
-                                <span>Amount Recieved</span>
-                                <div class="d-flex flex-column gap-0">
-                                  <i class="ti ti-caret-up-filled fs-nine cpoint pools_table__totalitem-ticonone"></i>
-                                  <i class="ti ti-caret-down-filled fs-nine cpoint pools_table__totalitem-ticontwo"></i>
-                                </div>
-                              </div>
-                            </th>
-                            <th>
-                              <div class="d-flex align-items-center gap-1">
-                                <span>TDS</span>
-                                <div class="d-flex flex-column gap-0">
-                                  <i class="ti ti-caret-up-filled fs-nine cpoint pools_table__totalitem-ticonone"></i>
-                                  <i class="ti ti-caret-down-filled fs-nine cpoint pools_table__totalitem-ticontwo"></i>
-                                </div>
-                              </div>
-                            </th>
-                            <th>Type</th>
-                            <th>Status</th>
-                            <tr>
-                              <td>
-                                <div class="pools_table__totalitem-ftd d-flex align-items-center gap-3 gap-md-4 ms-3 ms-md-6">
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="assets/images/btc.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                    <img
-                                      class="pools_table__totalitem-img"
-                                      src="assets/images/inr.png"
-                                      style= {{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                  </div>
-                                  <div class="d-flex flex-column">
-                                    <span class="roboto fw-bold">BTC</span>
-                                    <span class="roboto">INR</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td class="p1-color fs-ten">98318 INR (3%)</td>
-                              <td>432390 INR</td>
-                              <td>32780 INR (1%)</td>
-                              <td>
-                                <div class="d-flex align-items-center gap-2">
-                                  <span>Buy Order</span>
-                                </div>
-                              </td>
-                              <td>
-                                <a
-                                  class="cmn-btn py-2 px-6 px-md-8 p1-color"
-                                  href="javascript:void(0)"
-                                >
-                                  Completed
-                                </a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div class="pools_table__totalitem-ftd d-flex align-items-center gap-3 gap-md-4 ms-3 ms-md-6">
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="assets/images/btc.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                    <img
-                                      class="pools_table__totalitem-img"
-                                      src="assets/images/inr.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                  </div>
-                                  <div class="d-flex flex-column">
-                                    <span class="roboto fw-bold">BTC</span>
-                                    <span class="roboto">INR</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td class="p1-color fs-ten">98318 INR (3%)</td>
-                              <td>432390 INR</td>
-                              <td>32780 INR (1%)</td>
-                              <td>
-                                <div class="d-flex align-items-center gap-2">
-                                  <span>Buy Order</span>
-                                </div>
-                              </td>
-                              <td>
-                                <a
-                                  class="cmn-btn py-2 px-6 px-md-8 p1-color"
-                                  href="javascript:void(0)"
-                                >
-                                  Pending
-                                </a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div class="pools_table__totalitem-ftd d-flex align-items-center gap-3 gap-md-4 ms-3 ms-md-6">
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="assets/images/btc.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                    <img
-                                      class="pools_table__totalitem-img"
-                                      src="assets/images/inr.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                  </div>
-                                  <div class="d-flex flex-column">
-                                    <span class="roboto fw-bold">BTC</span>
-                                    <span class="roboto">INR</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td class="p1-color fs-ten">98318 INR (3%)</td>
-                              <td>432390 INR</td>
-                              <td>32780 INR (1%)</td>
-                              <td>
-                                <div class="d-flex align-items-center gap-2">
-                                  <span>Buy Order</span>
-                                </div>
-                              </td>
-                              <td>
-                                <a
-                                  class="cmn-btn py-2 px-6 px-md-8 p1-color"
-                                  href="javascript:void(0)"
-                                >
-                                  Completed
-                                </a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div class="pools_table__totalitem-ftd d-flex align-items-center gap-3 gap-md-4 ms-3 ms-md-6">
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="assets/images/btc.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                    <img
-                                      class="pools_table__totalitem-img"
-                                      src="assets/images/inr.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                  </div>
-                                  <div class="d-flex flex-column">
-                                    <span class="roboto fw-bold">BTC</span>
-                                    <span class="roboto">INR</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td class="p1-color fs-ten">98318 INR (3%)</td>
-                              <td>432390 INR</td>
-                              <td>32780 INR (1%)</td>
-                              <td>
-                                <div class="d-flex align-items-center gap-2">
-                                  <span>Buy Order</span>
-                                </div>
-                              </td>
-                              <td>
-                                <a
-                                  class="cmn-btn py-2 px-6 px-md-8 p1-color"
-                                  href="javascript:void(0)"
-                                >
-                                  Completed
-                                </a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div class="pools_table__totalitem-ftd d-flex align-items-center gap-3 gap-md-4 ms-3 ms-md-6">
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="assets/images/btc.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                    <img
-                                      class="pools_table__totalitem-img"
-                                      src="assets/images/inr.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                  </div>
-                                  <div class="d-flex flex-column">
-                                    <span class="roboto fw-bold">BTC</span>
-                                    <span class="roboto">INR</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td class="p1-color fs-ten">98318 INR (3%)</td>
-                              <td>432390 INR</td>
-                              <td>32780 INR (1%)</td>
-                              <td>
-                                <div class="d-flex align-items-center gap-2">
-                                  <span>Buy Order</span>
-                                </div>
-                              </td>
-                              <td>
-                                <a
-                                  class="cmn-btn py-2 px-6 px-md-8 p1-color"
-                                  href="javascript:void(0)"
-                                >
-                                  Completed
-                                </a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div class="pools_table__totalitem-ftd d-flex align-items-center gap-3 gap-md-4 ms-3 ms-md-6">
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="assets/images/btc.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                    <img
-                                      class="pools_table__totalitem-img"
-                                      src="assets/images/inr.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                  </div>
-                                  <div class="d-flex flex-column">
-                                    <span class="roboto fw-bold">BTC</span>
-                                    <span class="roboto">INR</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td class="p1-color fs-ten">98318 INR (3%)</td>
-                              <td>432390 INR</td>
-                              <td>32780 INR (1%)</td>
-                              <td>
-                                <div class="d-flex align-items-center gap-2">
-                                  <span>Buy Order</span>
-                                </div>
-                              </td>
-                              <td>
-                                <a
-                                  class="cmn-btn py-2 px-6 px-md-8 p1-color"
-                                  href="javascript:void(0)"
-                                >
-                                  Pending
-                                </a>
-                              </td>
-                            </tr>
-                          </table>
-                        </div>
-                      </div>
                       <input
                         id="tab2"
                         type="radio"
                         class="radio-inputs"
                         name="tabsA"
+                        checked={activeTransactionTypeTab === "CRYPTO"}
+                        onChange={() => handleTabClick("CRYPTO")}
                       />
                       <label class="tab-button order-btn" for="tab2">
-                        Open Orders
+                        Crypto Orders
                       </label>
-                      <div class="tab-content">
-                        <div class="pools_table__totalitem overflow-auto">
-                          <table>
-                            <th>Order Name</th>
-                            <th>
-                              <div class="d-flex align-items-center gap-1">
-                                <span>Transaction Fees</span>
-                                <div class="d-flex flex-column gap-0">
-                                  <i class="ti ti-caret-up-filled fs-nine cpoint pools_table__totalitem-ticonone"></i>
-                                  <i class="ti ti-caret-down-filled fs-nine cpoint pools_table__totalitem-ticontwo"></i>
-                                </div>
-                              </div>
-                            </th>
-                            <th>
-                              <div class="d-flex align-items-center gap-1">
-                                <span>Amount Recieved</span>
-                                <div class="d-flex flex-column gap-0">
-                                  <i class="ti ti-caret-up-filled fs-nine cpoint pools_table__totalitem-ticonone"></i>
-                                  <i class="ti ti-caret-down-filled fs-nine cpoint pools_table__totalitem-ticontwo"></i>
-                                </div>
-                              </div>
-                            </th>
-                            <th>
-                              <div class="d-flex align-items-center gap-1">
-                                <span>TDS</span>
-                                <div class="d-flex flex-column gap-0">
-                                  <i class="ti ti-caret-up-filled fs-nine cpoint pools_table__totalitem-ticonone"></i>
-                                  <i class="ti ti-caret-down-filled fs-nine cpoint pools_table__totalitem-ticontwo"></i>
-                                </div>
-                              </div>
-                            </th>
-                            <th>Type</th>
-                            <th>Status</th>
-                            <tr>
-                              <td>
-                                <div class="pools_table__totalitem-ftd d-flex align-items-center gap-3 gap-md-4 ms-3 ms-md-6">
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="assets/images/btc.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                    <img
-                                      class="pools_table__totalitem-img"
-                                      src="assets/images/inr.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                  </div>
-                                  <div class="d-flex flex-column">
-                                    <span class="roboto fw-bold">BTC</span>
-                                    <span class="roboto">INR</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td class="p1-color fs-ten">98318 INR (3%)</td>
-                              <td>432390 INR</td>
-                              <td>32780 INR (1%)</td>
-                              <td>
-                                <div class="d-flex align-items-center gap-2">
-                                  <span>Buy Order</span>
-                                </div>
-                              </td>
-                              <td>
-                                <a
-                                  class="cmn-btn py-2 px-6 px-md-8 p1-color"
-                                  href="javascript:void(0)"
-                                >
-                                  Pending
-                                </a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div class="pools_table__totalitem-ftd d-flex align-items-center gap-3 gap-md-4 ms-3 ms-md-6">
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="assets/images/btc.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                    <img
-                                      class="pools_table__totalitem-img"
-                                      src="assets/images/inr.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                  </div>
-                                  <div class="d-flex flex-column">
-                                    <span class="roboto fw-bold">BTC</span>
-                                    <span class="roboto">INR</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td class="p1-color fs-ten">98318 INR (3%)</td>
-                              <td>432390 INR</td>
-                              <td>32780 INR (1%)</td>
-                              <td>
-                                <div class="d-flex align-items-center gap-2">
-                                  <span>Buy Order</span>
-                                </div>
-                              </td>
-                              <td>
-                                <a
-                                  class="cmn-btn py-2 px-6 px-md-8 p1-color"
-                                  href="javascript:void(0)"
-                                >
-                                  Pending
-                                </a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div class="pools_table__totalitem-ftd d-flex align-items-center gap-3 gap-md-4 ms-3 ms-md-6">
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="assets/images/btc.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                    <img
-                                      class="pools_table__totalitem-img"
-                                      src="assets/images/inr.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                  </div>
-                                  <div class="d-flex flex-column">
-                                    <span class="roboto fw-bold">BTC</span>
-                                    <span class="roboto">INR</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td class="p1-color fs-ten">98318 INR (3%)</td>
-                              <td>432390 INR</td>
-                              <td>32780 INR (1%)</td>
-                              <td>
-                                <div class="d-flex align-items-center gap-2">
-                                  <span>Buy Order</span>
-                                </div>
-                              </td>
-                              <td>
-                                <a
-                                  class="cmn-btn py-2 px-6 px-md-8 p1-color"
-                                  href="javascript:void(0)"
-                                >
-                                  Completed
-                                </a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div class="pools_table__totalitem-ftd d-flex align-items-center gap-3 gap-md-4 ms-3 ms-md-6">
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="assets/images/btc.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                    <img
-                                      class="pools_table__totalitem-img"
-                                      src="assets/images/inr.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                  </div>
-                                  <div class="d-flex flex-column">
-                                    <span class="roboto fw-bold">BTC</span>
-                                    <span class="roboto">INR</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td class="p1-color fs-ten">98318 INR (3%)</td>
-                              <td>432390 INR</td>
-                              <td>32780 INR (1%)</td>
-                              <td>
-                                <div class="d-flex align-items-center gap-2">
-                                  <span>Buy Order</span>
-                                </div>
-                              </td>
-                              <td>
-                                <a
-                                  class="cmn-btn py-2 px-6 px-md-8 p1-color"
-                                  href="javascript:void(0)"
-                                >
-                                  Pending
-                                </a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div class="pools_table__totalitem-ftd d-flex align-items-center gap-3 gap-md-4 ms-3 ms-md-6">
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="assets/images/btc.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                    <img
-                                      class="pools_table__totalitem-img"
-                                      src="assets/images/inr.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                  </div>
-                                  <div class="d-flex flex-column">
-                                    <span class="roboto fw-bold">BTC</span>
-                                    <span class="roboto">INR</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td class="p1-color fs-ten">98318 INR (3%)</td>
-                              <td>432390 INR</td>
-                              <td>32780 INR (1%)</td>
-                              <td>
-                                <div class="d-flex align-items-center gap-2">
-                                  <span>Buy Order</span>
-                                </div>
-                              </td>
-                              <td>
-                                <a
-                                  class="cmn-btn py-2 px-6 px-md-8 p1-color"
-                                  href="javascript:void(0)"
-                                >
-                                  Pending
-                                </a>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div class="pools_table__totalitem-ftd d-flex align-items-center gap-3 gap-md-4 ms-3 ms-md-6">
-                                  <div class="d-flex align-items-center">
-                                    <img
-                                      src="assets/images/btc.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                    <img
-                                      class="pools_table__totalitem-img"
-                                      src="assets/images/inr.png"
-                                      style={{ height: "30px" }}
-                                      alt="Icons"
-                                    />
-                                  </div>
-                                  <div class="d-flex flex-column">
-                                    <span class="roboto fw-bold">BTC</span>
-                                    <span class="roboto">INR</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td class="p1-color fs-ten">98318 INR (3%)</td>
-                              <td>432390 INR</td>
-                              <td>32780 INR (1%)</td>
-                              <td>
-                                <div class="d-flex align-items-center gap-2">
-                                  <span>Buy Order</span>
-                                </div>
-                              </td>
-                              <td>
-                                <a
-                                  class="cmn-btn py-2 px-6 px-md-8 p1-color"
-                                  href="javascript:void(0)"
-                                >
-                                  Pending
-                                </a>
-                              </td>
-                            </tr>
-                          </table>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <OrderTable
+            orderData={orderData}
+            activeTransactionTypeTab={activeTransactionTypeTab}
+          />
         </div>
       </section>
     </>
