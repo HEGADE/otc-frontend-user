@@ -19,6 +19,7 @@ import { ResetPassword } from "./components/Auth/ResetPassword";
 import { Dashboard } from "./components/UI/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { UserProfile } from "./components/UI/UserProfile";
+import { Order } from "./components/UI/Order";
 
 function App() {
   const isAuthenticated = useUserStore((state) => !!state.accessToken);
@@ -81,6 +82,7 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="/" element={<Dashboard />} />
               <Route path="/profile" element={<UserProfile />} />
+              <Route path="/order" element={<Order />} />
             </Route>
           </Route>
           <Route path="*" element={<p>404 Page</p>} />
