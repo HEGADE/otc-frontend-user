@@ -18,13 +18,13 @@ export const AccountComponent = ({
             <form onSubmit={(e) => handleOrderSubmit(e)}>
               <div className="contact_info__inpuarea mb-6 mb-md-8 bg1-color br2 rounded-20 p-3">
                 <div className="contact_info__inpuarea-group gap-5 gap-md-6 mb-4 position-relative">
-                  <label for="first-name" className="form-label text-white">
+                  <label htmlFor="first-name" className="form-label text-white">
                     Account Holder Name
                   </label>
                   <input
                     className="bg4-color"
                     type="text"
-                    Value={adminBankDetails.accountHolderName}
+                    value={adminBankDetails.accountHolderName}
                     disabled={true}
                   />
                   <div className="tick-mark">
@@ -32,13 +32,13 @@ export const AccountComponent = ({
                   </div>
                 </div>
                 <div className="contact_info__inpuarea-group gap-5 gap-md-6 mb-4 position-relative">
-                  <label for="first-name" className="form-label text-white">
+                  <label htmlFor="first-name" className="form-label text-white">
                     Bank Name
                   </label>
                   <input
                     className="bg4-color"
                     type="text"
-                    Value={adminBankDetails.bankName}
+                    value={adminBankDetails.bankName}
                     disabled={true}
                   />
                   <div className="tick-mark">
@@ -46,13 +46,13 @@ export const AccountComponent = ({
                   </div>
                 </div>
                 <div className="contact_info__inpuarea-group gap-5 gap-md-6 mb-4 position-relative">
-                  <label for="first-name" className="form-label text-white">
+                  <label htmlFor="first-name" className="form-label text-white">
                     Account Number
                   </label>
                   <input
                     className="bg4-color"
                     type="text"
-                    Value={adminBankDetails.accountNumber}
+                    value={adminBankDetails.accountNumber}
                     disabled={true}
                   />
                   <div className="tick-mark">
@@ -60,13 +60,13 @@ export const AccountComponent = ({
                   </div>
                 </div>
                 <div className="contact_info__inpuarea-group gap-5 gap-md-6 mb-4 position-relative">
-                  <label for="first-name" className="form-label text-white">
+                  <label htmlFor="first-name" className="form-label text-white">
                     Branch
                   </label>
                   <input
                     className="bg4-color"
                     type="text"
-                    Value={adminBankDetails.branch}
+                    value={adminBankDetails.branch}
                     disabled={true}
                   />
                   <div className="tick-mark">
@@ -74,13 +74,13 @@ export const AccountComponent = ({
                   </div>
                 </div>
                 <div className="contact_info__inpuarea-group gap-5 gap-md-6 mb-4 position-relative">
-                  <label for="first-name" className="form-label text-white">
+                  <label htmlFor="first-name" className="form-label text-white">
                     IFSC
                   </label>
                   <input
                     className="bg4-color"
                     type="text"
-                    Value={adminBankDetails.ifsCode}
+                    value={adminBankDetails.ifsCode}
                     disabled={true}
                   />
                   <div className="tick-mark">
@@ -93,7 +93,7 @@ export const AccountComponent = ({
               <div className="contact_info__inpuarea mb-6 mb-md-8 bg1-color br2 rounded-20 p-3">
                 <div className="contact_info__inpuarea-group gap-5 gap-md-6 mb-4 position-relative">
                   <label
-                    for="user-account-number"
+                    htmlFor="user-account-number"
                     className="form-label text-white"
                   >
                     Account Number
@@ -101,7 +101,7 @@ export const AccountComponent = ({
                   <input
                     className="bg4-color"
                     type="text"
-                    Value={userBankDetails.accountNumber}
+                    value={userBankDetails.accountNumber}
                     disabled={true}
                   />
                   <div className="tick-mark">
@@ -114,6 +114,7 @@ export const AccountComponent = ({
                 <label className="mb-2">Primary Transaction Receipt</label>
                 <div className="br2 p-1 rounded-4 bg1-color">
                   <input
+                    style={{ backgroundColor: '#1c4c55', color: '#ffffff', borderColor: '#1c4c55' }}
                     name="primaryTransactionReceipt"
                     value={orderData.primaryTransactionReceipt}
                     type="text"

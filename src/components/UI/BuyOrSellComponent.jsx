@@ -60,6 +60,7 @@ export const BuyOrSellComponent = ({
               </label>
               <div className="d-flex align-items-center br2 p-1 rounded-4 bg1-color">
                 <input
+                  style={{ backgroundColor: '#1c4c55', color: '#ffffff', borderColor: '#1c4c55' }}
                   name={activeTab === "buy" ? "receivedAmount" : "sendAmount"}
                   value={
                     activeTab === "buy"
@@ -132,6 +133,7 @@ export const BuyOrSellComponent = ({
               </label>
               <div className="d-flex align-items-center br2 p-1 rounded-4 mb-2 bg1-color">
                 <input
+                  style={{ backgroundColor: '#1c4c55', color: '#ffffff', borderColor: '#1c4c55' }}
                   name={activeTab === "buy" ? "sendAmount" : "receivedAmount"}
                   value={
                     activeTab === "buy"
@@ -209,6 +211,7 @@ export const BuyOrSellComponent = ({
               rows="3"
               name="walletAddress"
               value={orderData.walletAddress}
+              style={{ backgroundColor: '#1c4c55', color: '#ffffff', borderColor: '#1c4c55' }}
               type="text"
               className="form-control showhide-pass"
               id="input-wallet-address"
