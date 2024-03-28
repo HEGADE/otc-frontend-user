@@ -1,57 +1,71 @@
 export const OrderTable = ({ activeTransactionTypeTab, orderData }) => {
+  if (orderData?.length == 0) {
+    return (
+      <div className="tab-content">
+        <div className="pools_table__totalitem overflow-auto">
+          <br />
+          <br />
+          <h6>ℹ️ No {activeTransactionTypeTab === "FIAT" ? 'buy' : 'sell'} orders found!</h6>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div class="tab-content">
-      <div class="pools_table__totalitem overflow-auto">
+    <div className="tab-content">
+      <div className="pools_table__totalitem overflow-auto">
         <table>
           <th>Order Name</th>
           <th>
-            <div class="d-flex align-items-center gap-1">
+            <div className="d-flex align-items-center gap-1">
               <span>Amount Sent</span>
-              <div class="d-flex flex-column gap-0">
-                <i class="ti ti-caret-up-filled fs-nine cpoint pools_table__totalitem-ticonone"></i>
-                <i class="ti ti-caret-down-filled fs-nine cpoint pools_table__totalitem-ticontwo"></i>
+              <div className="d-flex flex-column gap-0">
+                <i className="ti ti-caret-up-filled fs-nine cpoint pools_table__totalitem-ticonone"></i>
+                <i className="ti ti-caret-down-filled fs-nine cpoint pools_table__totalitem-ticontwo"></i>
               </div>
             </div>
           </th>
           <th>
-            <div class="d-flex align-items-center gap-1">
+            <div className="d-flex align-items-center gap-1">
               <span>Amount Recieved</span>
-              <div class="d-flex flex-column gap-0">
-                <i class="ti ti-caret-up-filled fs-nine cpoint pools_table__totalitem-ticonone"></i>
-                <i class="ti ti-caret-down-filled fs-nine cpoint pools_table__totalitem-ticontwo"></i>
+              <div className="d-flex flex-column gap-0">
+                <i className="ti ti-caret-up-filled fs-nine cpoint pools_table__totalitem-ticonone"></i>
+                <i className="ti ti-caret-down-filled fs-nine cpoint pools_table__totalitem-ticontwo"></i>
               </div>
             </div>
           </th>
+          <th>Network</th>
           <th>Type</th>
           <th>Status</th>
           {orderData?.map((order) => {
             return (
               <tr key={orderData?.id}>
                 <td>
-                  <div class="pools_table__totalitem-ftd d-flex align-items-center gap-3 gap-md-4 ms-3 ms-md-6">
-                    <div class="d-flex align-items-center">
+                  <div className="pools_table__totalitem-ftd d-flex align-items-center gap-3 gap-md-4 ms-3 ms-md-6">
+                    <div className="d-flex align-items-center">
                       <img
                         src="assets/images/btc.png"
                         style={{ height: "30px" }}
                         alt="Icons"
                       />
                       <img
-                        class="pools_table__totalitem-img"
+                        className="pools_table__totalitem-img"
                         src="assets/images/inr.png"
                         style={{ height: "30px" }}
                         alt="Icons"
                       />
                     </div>
-                    <div class="d-flex flex-column">
-                      <span class="roboto fw-bold">{order?.crypto}</span>
-                      <span class="roboto">{order?.currency}</span>
+                    <div className="d-flex flex-column">
+                      <span className="roboto fw-bold">{order?.crypto}</span>
+                      <span className="roboto">{order?.currency}</span>
                     </div>
                   </div>
                 </td>
-                <td>{order?.sendAmount}</td>
-                <td>{order?.receivedAmount}</td>
+                <td>{order?.sendAmount} {order?.currency}</td>
+                <td>{order?.receivedAmount} {order?.crypto}</td>
+                <td>{order?.network}</td>
                 <td>
-                  <div class="d-flex align-items-center gap-2">
+                  <div className="d-flex align-items-center gap-2">
                     <span>
                       {activeTransactionTypeTab === "FIAT"
                         ? "Buy Order"
@@ -60,12 +74,12 @@ export const OrderTable = ({ activeTransactionTypeTab, orderData }) => {
                   </div>
                 </td>
                 <td>
-                  <a
-                    class="cmn-btn py-2 px-6 px-md-8 p1-color"
-                    href="javascript:void(0)"
+                  <div
+                    className="trk-btn trk-btn--border trk-btn--primary"
+                    style={{ cursor: 'default' }}
                   >
                     {order.status}
-                  </a>
+                  </div>
                 </td>
               </tr>
             );

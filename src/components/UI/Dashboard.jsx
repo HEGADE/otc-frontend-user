@@ -5,26 +5,26 @@ import { Transaction } from "./Transaction";
 
 export const Dashboard = () => {
   // SCRIPT LOAD
-  const runScript = () => {
-    loadjs([
-      '/assets/js/all.min.js',
-      '/assets/js/aos.js',
-      '/assets/js/bootstrap.bundle.min.js',
-      '/assets/js/custom.js',
-      '/assets/js/fslightbox.js',
-      '/assets/js/niceCountryInput.js',
-      '/assets/js/plugins.js',
-      '/assets/js/plugin-custom.js',
-      '/assets/js/purecounter_vanilla.js',
-      '/assets/js/swiper-bundle.min.js',
-    ], () => {
-      console.info("Scripts Loaded!");
-    });
-  };
+  // const runScript = () => {
+  //   loadjs([
+  //     '/assets/js/all.min.js',
+  //     '/assets/js/aos.js',
+  //     '/assets/js/bootstrap.bundle.min.js',
+  //     '/assets/js/custom.js',
+  //     '/assets/js/fslightbox.js',
+  //     '/assets/js/niceCountryInput.js',
+  //     '/assets/js/plugins.js',
+  //     '/assets/js/plugin-custom.js',
+  //     '/assets/js/purecounter_vanilla.js',
+  //     '/assets/js/swiper-bundle.min.js',
+  //   ], () => {
+  //     console.info("Scripts Loaded!");
+  //   });
+  // };
 
-  React.useEffect(() => {
-    runScript();
-  }, [])
+  // React.useEffect(() => {
+  //   runScript();
+  // }, [])
 
   return (
     <body>
