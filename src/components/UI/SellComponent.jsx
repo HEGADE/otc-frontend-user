@@ -122,7 +122,7 @@ export const SellComponent = () => {
                   </div>
                 </div>
               </div>
-              <span className="text-white">1 BTC = 3,547,292 INR</span>
+              {/* <span className="text-white">1 BTC = 3,547,292 INR</span> */}
             </div>
           </div>
         </div>
@@ -145,8 +145,8 @@ export const SellComponent = () => {
             </div>
           </div>
           <div className="d-flex justify-content-between">
-            <span>Gass fee</span>
-            <span className="p1-color">5 USDT</span>
+            <span>Tax Deduction At Source (TDS)</span>
+            <span className="p1-color">1%</span>
           </div>
         </div>
         <div className="buy_crypto__formarea-group mb-6 mb-md-8">

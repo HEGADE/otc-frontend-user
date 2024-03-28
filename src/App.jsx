@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import MultifactorAuth from "./pages/MultifactorAuth";
 import { Navbar } from "./components/UI/Navbar";
 import { Footer } from "./components/UI/Footer";
+import { Preloader } from "./components/UI/Preloader";
 
 import { useUserStore } from "./store/user.store";
 import { ForgotPassword } from "./components/Auth/ForgotPassword";
@@ -22,6 +23,7 @@ import { UserProfile } from "./components/UI/UserProfile";
 import { Order } from "./components/UI/Order";
 
 function App() {
+  const [pageLoading, setPageLoading] = React.useState(false);
   const isAuthenticated = useUserStore((state) => !!state.accessToken);
   const user = useUserStore((state) => state.user);
 
@@ -56,6 +58,11 @@ function App() {
 
   React.useEffect(() => {
     runScript();
+    setPageLoading(true);
+
+    setTimeout(() => {
+      setPageLoading(false);
+    }, [1500])
   }, []);
 
   const NavbarLayout = () => (
@@ -68,6 +75,7 @@ function App() {
 
   return (
     <>
+      {pageLoading && <Preloader />}
       <Router>
         <Routes>
           <Route path="/signup" element={<Signup />} />
