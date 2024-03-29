@@ -3,12 +3,12 @@ import toast, { Toaster } from "react-hot-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useQuery, useMutation } from "@tanstack/react-query";
 
-import axios from "../../lib/http-request";
-import { API } from "../../utils/config/api-end-points.config";
-import { bankDetailsSchema } from "../../utils/validation/auth.validation";
-import { useUserStore } from "../../store/user.store";
-import { ValidationError } from "../UI/Errors";
-import ButtonWithLoading from "../UI/Button";
+import axios from "../../../lib/http-request";
+import { API } from "../../../utils/config/api-end-points.config";
+import { bankDetailsSchema } from "../../../utils/validation/auth.validation";
+import { useUserStore } from "../../../store/user.store";
+import { ValidationError } from "../../UI/Errors";
+import ButtonWithLoading from "../../UI/Button";
 
 export const BankDetails = () => {
   const accessToken = useUserStore((state) => state.accessToken);

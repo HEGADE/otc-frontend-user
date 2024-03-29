@@ -1,4 +1,4 @@
-import { ValidationError } from "../UI/Errors";
+import { ValidationError } from "../../UI/Errors";
 
 export const WalletComponent = ({
   orderData,

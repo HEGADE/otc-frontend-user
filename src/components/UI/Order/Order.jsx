@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import { useUserStore } from "../../store/user.store";
-import axios from "../../lib/http-request";
-import { API } from "../../utils/config/api-end-points.config";
-import { Preloader } from "./Preloader";
+import { useUserStore } from "../../../store/user.store";
+import axios from "../../../lib/http-request";
+import { API } from "../../../utils/config/api-end-points.config";
+import { Preloader } from "../Preloader";
 import { OrderTable } from "./OrderTable";
 
 export const Order = () => {

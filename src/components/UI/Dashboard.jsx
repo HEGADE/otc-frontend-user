@@ -1,7 +1,7 @@
 import React from "react";
 import loadjs from "loadjs";
 import { Preloader } from "./Preloader";
-import { Transaction } from "./Transaction";
+import { Transaction } from "./Transaction/Transaction";
 
 export const Dashboard = () => {
   // SCRIPT LOAD

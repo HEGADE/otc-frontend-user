@@ -18,8 +18,8 @@ import { ForgotPassword } from "./components/Auth/ForgotPassword";
 import { ResetPassword } from "./components/Auth/ResetPassword";
 import { Dashboard } from "./components/UI/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { UserProfile } from "./components/UI/UserProfile";
-import { Order } from "./components/UI/Order";
+import { UserProfile } from "./components/UI/UserProfile/UserProfile";
+import { Order } from "./components/UI/Order/Order";
 
 function App() {
   const isAuthenticated = useUserStore((state) => !!state.accessToken);

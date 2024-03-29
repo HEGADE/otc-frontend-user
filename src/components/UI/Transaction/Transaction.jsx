@@ -3,9 +3,9 @@ import loadjs from "loadjs";
 import { useMutation } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
 
-import axios from "../../lib/http-request";
-import { API } from "../../utils/config/api-end-points.config";
-import { useUserStore } from "../../store/user.store";
+import axios from "../../../lib/http-request";
+import { API } from "../../../utils/config/api-end-points.config";
+import { useUserStore } from "../../../store/user.store";
 import { BuyOrSellComponent } from "./BuyOrSellComponent";
 import { AccountComponent } from "./AccountComponent";
 import { WalletComponent } from "./WalletComponent";
