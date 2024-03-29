@@ -5,7 +5,9 @@ import { useUserStore } from "../../../store/user.store";
 import axios from "../../../lib/http-request";
 import { API } from "../../../utils/config/api-end-points.config";
 import { Preloader } from "../Preloader";
+import { Error } from "../Error";
 import { OrderTable } from "./OrderTable";
+import { Pagination } from "../Pagination/Pagination";
 
 export const Order = () => {
   const accessToken = useUserStore((state) => state.accessToken);
@@ -15,28 +17,42 @@ export const Order = () => {
 
   const [orderData, setOrderData] = useState([]);
 
+  const [paginationInput, setPaginationInput] = useState({
+    totalResults: 0,
+    totalPages: 1,
+    currentPage: 1,
+    limit: 10,
+  });
+
   const handleTabClick = (tab) => {
-    console.log("🟣 handleTabClick: tab: ", tab);
     setActiveTransactionTypeTab(tab);
   };
 
   let fetchOrderDetails = async () => {
     try {
-      console.log(
-        "🟣 OrderDetails: fetchOrderDetails API Called!!!!",
-        activeTransactionTypeTab
-      );
       const res = await axios.get(API.getOrderDetails, {
         headers: {
           Authorization: "Bearer " + accessToken,
         },
         params: {
           transactionType: activeTransactionTypeTab,
+          limit: paginationInput.limit,
+          page: paginationInput.currentPage,
         },
       });
-      const orderRes = res?.data?.data?.orders?.results;
-      console.log("🔷 orderRes: ", orderRes);
-      setOrderData(orderRes);
+      const orderRes = res?.data?.data?.orders;
+      console.log(
+        "🔷 orderRes: transactionType: ",
+        activeTransactionTypeTab,
+        orderRes
+      );
+      setOrderData(orderRes?.results);
+      setPaginationInput({
+        ...paginationInput,
+        totalResults: orderRes.totalResults,
+        totalPages: orderRes.totalPages,
+        currentPage: orderRes.page,
+      });
       return orderRes;
     } catch (error) {
       console.log("🔺 useQuery: error: ", error);
@@ -45,7 +61,7 @@ export const Order = () => {
   };
 
   let { data, isLoading, isError, error, refetch } = useQuery({
-    queryKey: "userDetails",
+    queryKey: ["orderDetails"],
     queryFn: fetchOrderDetails,
   });
 
@@ -53,9 +69,11 @@ export const Order = () => {
     if (activeTransactionTypeTab) {
       refetch({ transactionType: activeTransactionTypeTab });
     }
-  }, [activeTransactionTypeTab, refetch]);
+  }, [activeTransactionTypeTab, refetch, paginationInput.currentPage]);
 
   if (isLoading) return <Preloader />;
+
+  if (isError) return <Error />;
 
   return (
     <>
@@ -119,6 +137,12 @@ export const Order = () => {
             orderData={orderData}
             activeTransactionTypeTab={activeTransactionTypeTab}
           />
+          {!!paginationInput?.totalResults && (
+            <Pagination
+              paginationInput={paginationInput}
+              setPaginationInput={setPaginationInput}
+            />
+          )}
         </div>
       </section>
     </>

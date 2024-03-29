@@ -1,0 +1,52 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -35px;
+}
+span {
+  margin: 0 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.page-item {
+  padding: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+.page-item.active {
+  background-color: #fff;
+}
+.pagination-page-num {
+  margin: 0;
+}
+.pageList {
+  padding-left: 5px;
+  padding-right: 5px;
+  cursor: pointer;
+}
+.pageBox > li > a {
+  text-decoration: none;
+}
+.activePage,
+a:active {
+  background: #00d094;
+  border-radius: 50%;
+  color: white;
+}
+.prev {
+  font-size: 1.1rem;
+  padding-right: 5px;
+  cursor: pointer;
+}
+.next {
+  font-size: 1.1rem;
+  padding-left: 5px;
+  cursor: pointer;
+}
+.pageBox {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  font-size: 1.1rem;
+}
