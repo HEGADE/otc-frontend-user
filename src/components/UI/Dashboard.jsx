@@ -1,12 +1,7 @@
 import React from "react";
-<<<<<<< HEAD
 import loadjs from "loadjs";
 import { Preloader } from "./Preloader";
 import { Transaction } from "./Transaction/Transaction";
-=======
-import axios from "../../lib/http-request";
-import { Transaction } from "./Transaction";
->>>>>>> dbae278357c14216b540c55d96a998f0438270f9
 
 export const Dashboard = () => {
   const [cryptoPrice, setCryptoPrice] = React.useState({
