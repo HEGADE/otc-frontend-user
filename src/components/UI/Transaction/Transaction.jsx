@@ -17,13 +17,13 @@ export const Transaction = () => {
     BSC: ["BNB", "USDT"],
     BTC: ["BTC"],
   };
-  const currencyOptions = ["AED", "INR"];
+  const currencyOptions = ["INR"];
 
   let initialOrderData = {
     network: "ETH",
     transactionType: "FIAT",
     crypto: "USDT",
-    currency: "AED",
+    currency: "INR",
     sendAmount: null,
     receivedAmount: null,
     bankAccount: null,
@@ -317,7 +317,7 @@ export const Transaction = () => {
       // refetch();
     },
     onError: (error) => {
-      // console.log("🔺 useMutation: error: UserDetails: ", error);
+      console.log("🔺 useMutation: error: UserDetails: ", error);
       toast.error(
         error?.response?.data?.message ||
           "Something went wrong. Please try again later."
@@ -429,31 +429,43 @@ export const Transaction = () => {
             <div className="buy_crypto__formarea p-6 p-px-8 rounded-20 bg7-color wow fadeInUp">
               <div className="demo">
                 <div className="tab">
-                  <div className="tab-wrapper">
-                    <input
-                      id="tab1"
-                      type="radio"
-                      name="tabBuy"
-                      className="radio-inputs"
-                      checked={activeTab === "buy"}
-                      defaultChecked
-                      onChange={() => handleTabClick("buy")}
-                    />
-                    <label className="tab-button" htmlFor="tab1">
-                      Buy Assets
-                    </label>
-                    <input
-                      id="tab2"
-                      type="radio"
-                      className="radio-inputs"
-                      name="tabSell"
-                      checked={activeTab === "sell"}
-                      onChange={() => handleTabClick("sell")}
-                    />
-                    <label className="tab-button" htmlFor="tab2">
-                      Sell Assets
-                    </label>
-                  </div>
+                  {currentStep == 1 && (
+                    <div className="tab">
+                      <input
+                        id="tab1"
+                        type="radio"
+                        name="tabBuy"
+                        className="radio-inputs"
+                        checked={activeTab === "buy"}
+                        defaultChecked
+                        onChange={() => handleTabClick("buy")}
+                      />
+                      <label className="tab-button" htmlFor="tab1">
+                        Buy Assets
+                      </label>
+                      <input
+                        id="tab2"
+                        type="radio"
+                        className="radio-inputs"
+                        name="tabSell"
+                        checked={activeTab === "sell"}
+                        onChange={() => handleTabClick("sell")}
+                      />
+                      <label className="tab-button" htmlFor="tab2">
+                        Sell Assets
+                      </label>
+                    </div>
+                  )}
+                  {currentStep == 2 && (
+                    <div className="tab">
+                      {/* <p >🔙</p> */}
+                      <img
+                        src="assets/images/back.png"
+                        style={{ width: "60px", height: "30px", cursor: "pointer" }}
+                        onClick={() => setCurrentStep(1)}
+                      />
+                    </div>
+                  )}
                   {renderTabContent()}
                 </div>
               </div>

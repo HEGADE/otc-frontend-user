@@ -127,6 +127,7 @@ export const UserDetails = () => {
                     className="form-control"
                     type="text"
                     id="first-name"
+                    disabled={true}
                   />
                   <ValidationError err={errors?.userDetails?.firstName} />
                 </div>
@@ -141,6 +142,7 @@ export const UserDetails = () => {
                     className="form-control"
                     type="text"
                     id="last-name"
+                    disabled={true}
                   />
                   <ValidationError err={errors?.userDetails?.lastName} />
                 </div>
@@ -190,6 +192,7 @@ export const UserDetails = () => {
               isLoading={loading}
               loaderColor="blue"
               text="Save Details"
+              disabled={true}
             />
           </form>
         </div>

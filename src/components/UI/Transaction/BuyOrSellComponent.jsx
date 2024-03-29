@@ -14,13 +14,13 @@ export const BuyOrSellComponent = ({
     BSC: ["BNB", "USDT"],
     BTC: ["BTC"],
   };
-  const currencyOptions = ["AED", "INR"];
+  const currencyOptions = ["INR"];
 
   return (
     <div className="tab-content">
-      <h2 className="mb-3 text-white">
-        {activeTab === "buy" ? "Buy Assets" : "Sell Assets"}
-      </h2>
+      {/* <h2 className="mb-3 text-white">
+        {activeTab === "buy" ? "Buy Crypto" : "Sell Crypto"}
+      </h2> */}
       <form
         className="account__form needs-validation"
         onSubmit={(e) => handleNextClick(e)}
@@ -49,8 +49,8 @@ export const BuyOrSellComponent = ({
               </div>
             </div>
             <div className="d-flex justify-content-between">
-              <span>Gass fee</span>
-              <span className="p1-color">5 USDT</span>
+              <span>Tax Deduction At Source (TDS)</span>
+              <span className="p1-color">1%</span>
             </div>
           </div>
           <div className="col-lg-12">
@@ -60,6 +60,7 @@ export const BuyOrSellComponent = ({
               </label>
               <div className="d-flex align-items-center br2 p-1 rounded-4 bg1-color">
                 <input
+                  style={{ backgroundColor: '#1c4c55', color: '#ffffff', borderColor: '#1c4c55' }}
                   name={activeTab === "buy" ? "receivedAmount" : "sendAmount"}
                   value={
                     activeTab === "buy"
@@ -132,6 +133,7 @@ export const BuyOrSellComponent = ({
               </label>
               <div className="d-flex align-items-center br2 p-1 rounded-4 mb-2 bg1-color">
                 <input
+                  style={{ backgroundColor: '#1c4c55', color: '#ffffff', borderColor: '#1c4c55' }}
                   name={activeTab === "buy" ? "sendAmount" : "receivedAmount"}
                   value={
                     activeTab === "buy"
@@ -196,7 +198,7 @@ export const BuyOrSellComponent = ({
                 </div>
               </div>
               <ValidationError err={validationErrors.receivedAmount} />
-              <span className="text-white">1 BTC = 3,547,292 INR</span>
+              {/* <span className="text-white">1 BTC = 3,547,292 INR</span> */}
             </div>
           </div>
         </div>
@@ -206,9 +208,10 @@ export const BuyOrSellComponent = ({
             {/* <textarea placeholder="Address" cols="15" rows="3"></textarea> */}
             <textarea
               cols="15"
-              rows="3"
+              rows="1"
               name="walletAddress"
               value={orderData.walletAddress}
+              style={{ backgroundColor: '#1c4c55', color: '#ffffff', borderColor: '#1c4c55' }}
               type="text"
               className="form-control showhide-pass"
               id="input-wallet-address"

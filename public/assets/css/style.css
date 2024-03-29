@@ -5439,7 +5439,7 @@ h6 a {
 @media (min-width: 992px) {
   .account__content--style2 {
     padding: 25px 30px; overflow: auto;
-    height: 500px;
+    height: 650px;
   }
 }
 @media (min-width: 992px) {
@@ -14303,7 +14303,7 @@ iframe {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding-right: 12px; 
+    padding-right: 12px;
     color: #fff;
 }
 
@@ -16011,7 +16011,7 @@ iframe {
     width: 100%;
     position: relative;
   }
-  
+
   .niceCountryInputMenu {
     color: #546274 !important;
     border: none;
@@ -16026,7 +16026,7 @@ iframe {
     justify-content: flex-start;
     margin-bottom: 25px;
   }
-  
+
   .niceCountryInputMenuCountryFlag {
     border: 0;
     width: 30px;
@@ -16035,7 +16035,7 @@ iframe {
     margin-left: 5px;
     margin-right: 14px;
   }
-  
+
   .niceCountryInputMenuDefaultText {
     width: calc(100% - 30px);
   }
@@ -16049,11 +16049,11 @@ iframe {
     line-height: 30px;
     color: #546274;
   }
-  
+
   .niceCountryInputMenuFilter {
     display: none !important;
   }
-  
+
   .niceCountryInputMenuDropdown {
     font-size: 16px;
     color: #546274;
@@ -16062,7 +16062,7 @@ iframe {
     content: url(../images/dropdown-icon.svg);
     opacity: 0.4;
    }
-  
+
   .niceCountryInputMenuDropdownContent {
     position: absolute;
     z-index: 1;
@@ -16101,7 +16101,7 @@ iframe {
     line-height: 24px;
     color: #000000;
   }
-  
+
   /* country select dropdown end */
   .form-group{
   position: relative;

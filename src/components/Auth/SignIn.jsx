@@ -57,7 +57,7 @@ export const SignIn = () => {
   return (
     <>
       <Toaster />
-      <div className="row align-items-center">
+      <div className="row align-items-center" style={{ backgroundColor: '#eef3f9', border: "45px solid #eef3f9", borderRadius: "5px" }}>
         <div className="col-lg-6">
           <div className="account__thumb">
             <img

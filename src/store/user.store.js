@@ -19,7 +19,9 @@ export const useUserStore = create(
         });
       },
       clear: () => {
+        console.log('clearing storage');
         localStorage.clear();
+        sessionStorage.clear();
         return set({ user: null, accessToken: null, refreshToken: null });
       },
     }),

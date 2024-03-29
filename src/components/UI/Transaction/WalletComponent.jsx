@@ -19,13 +19,13 @@ export const WalletComponent = ({
             <form onSubmit={(e) => handleOrderSubmit(e)}>
               <div className="contact_info__inpuarea mb-6 mb-md-8 bg1-color br2 rounded-20 p-3">
                 <div className="contact_info__inpuarea-group gap-5 gap-md-6 mb-4 position-relative">
-                  <label for="first-name" className="form-label text-white">
+                  <label htmlFor="first-name" className="form-label text-white">
                     Wallet Address
                   </label>
                   <input
                     className="bg4-color"
                     type="text"
-                    Value={adminWalletDetails.walletAddress}
+                    value={adminWalletDetails.walletAddress}
                     disabled={true}
                   />
                   <div className="tick-mark">
@@ -38,7 +38,7 @@ export const WalletComponent = ({
               <div className="contact_info__inpuarea mb-6 mb-md-8 bg1-color br2 rounded-20 p-3">
                 <div className="contact_info__inpuarea-group gap-5 gap-md-6 mb-4 position-relative">
                   <label
-                    for="user-account-number"
+                    htmlFor="user-account-number"
                     className="form-label text-white"
                   >
                     Account Number
@@ -46,7 +46,7 @@ export const WalletComponent = ({
                   <input
                     className="bg4-color"
                     type="text"
-                    Value={userBankDetails.accountNumber}
+                    value={userBankDetails.accountNumber}
                     disabled={true}
                   />
                   <div className="tick-mark">
@@ -59,6 +59,7 @@ export const WalletComponent = ({
                 <label className="mb-2">Primary Transaction Receipt</label>
                 <div className="br2 p-1 rounded-4 bg1-color">
                   <input
+                    style={{ backgroundColor: '#1c4c55', color: '#ffffff', borderColor: '#1c4c55' }}
                     name="primaryTransactionReceipt"
                     value={orderData.primaryTransactionReceipt}
                     type="text"

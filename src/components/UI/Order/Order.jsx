@@ -60,54 +60,54 @@ export const Order = () => {
   return (
     <>
       <section
-        class="page-header bg--cover"
+        className="page-header bg--cover"
         style={{ backgroundImage: "url(assets/images/breadcrumb.png)" }}
       >
-        <div class="container">
+        <div className="container">
           <div
-            class="page-header__content mt-100 text-center"
+            className="page-header__content mt-100 text-center"
             data-aos="fade-right"
             data-aos-duration="1000"
           >
             <h2>Orders</h2>
           </div>
-          <div class="page-header__shape">
-            <span class="page-header__shape-item page-header__shape-item--1">
+          <div className="page-header__shape">
+            <span className="page-header__shape-item page-header__shape-item--1">
               <img src="assets/images/2.png" alt="shape-icon" />
             </span>
           </div>
         </div>
       </section>
-      <section class="pools_table padding-top padding-bottom bg5-color">
-        <div class="container">
-          <div class="row">
-            <div class="pools_table__part">
-              <div class="singletab">
-                <div class="demo">
-                  <div class="tab">
-                    <div class="tab-wrapper" style={{ padding: "20px" }}>
+      <section className="pools_table padding-top padding-bottom bg5-color">
+        <div className="container">
+          <div className="row">
+            <div className="pools_table__part">
+              <div className="singletab">
+                <div className="demo">
+                  <div className="tab">
+                    <div className="tab-wrapper" style={{ padding: "20px" }}>
                       <input
                         id="tab1"
                         type="radio"
                         name="tabsA"
-                        class="radio-inputs"
+                        className="radio-inputs"
                         checked={activeTransactionTypeTab === "FIAT"}
                         defaultChecked
                         onChange={() => handleTabClick("FIAT")}
                       />
-                      <label class="tab-button order-btn" for="tab1">
-                        FIAT Orders
+                      <label className="tab-button order-btn" htmlFor="tab1">
+                        Buy Orders
                       </label>
                       <input
                         id="tab2"
                         type="radio"
-                        class="radio-inputs"
+                        className="radio-inputs"
                         name="tabsA"
                         checked={activeTransactionTypeTab === "CRYPTO"}
                         onChange={() => handleTabClick("CRYPTO")}
                       />
-                      <label class="tab-button order-btn" for="tab2">
-                        Crypto Orders
+                      <label className="tab-button order-btn" htmlFor="tab2">
+                        Sell Orders
                       </label>
                     </div>
                   </div>
