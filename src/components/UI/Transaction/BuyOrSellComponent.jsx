@@ -1,4 +1,9 @@
 import { ValidationError } from "../../UI/Errors";
+import {
+  networkOptions,
+  cryptoOptions,
+  currencyOptions,
+} from "../../../utils/config/constants";
 
 export const BuyOrSellComponent = ({
   activeTab,
@@ -8,19 +13,8 @@ export const BuyOrSellComponent = ({
   handleOnInputChange,
   validationErrors,
 }) => {
-  const networkOptions = ["ETH", "BSC", "BTC"];
-  const cryptoOptions = {
-    ETH: ["ETH", "USDT"],
-    BSC: ["BNB", "USDT"],
-    BTC: ["BTC"],
-  };
-  const currencyOptions = ["INR"];
-
   return (
     <div className="tab-content">
-      {/* <h2 className="mb-3 text-white">
-        {activeTab === "buy" ? "Buy Crypto" : "Sell Crypto"}
-      </h2> */}
       <form
         className="account__form needs-validation"
         onSubmit={(e) => handleNextClick(e)}
@@ -60,7 +54,11 @@ export const BuyOrSellComponent = ({
               </label>
               <div className="d-flex align-items-center br2 p-1 rounded-4 bg1-color">
                 <input
-                  style={{ backgroundColor: '#1c4c55', color: '#ffffff', borderColor: '#1c4c55' }}
+                  style={{
+                    backgroundColor: "#1c4c55",
+                    color: "#ffffff",
+                    borderColor: "#1c4c55",
+                  }}
                   name={activeTab === "buy" ? "receivedAmount" : "sendAmount"}
                   value={
                     activeTab === "buy"
@@ -74,7 +72,7 @@ export const BuyOrSellComponent = ({
                       ? "input-receive-amount"
                       : "input-send-amount"
                   }
-                  placeholder="Enter Send Amount"
+                  placeholder="Enter Crypto"
                   onChange={(event) => handleOnInputChange(event)}
                 />
                 <div className="text-end">
@@ -128,12 +126,14 @@ export const BuyOrSellComponent = ({
           </div>
           <div className="col-lg-12">
             <div className="buy_crypto__formarea-group mb-5 mb-md-6">
-              <label className="mb-2 text-white">
-                {activeTab == "buy" ? "Purchase Amount" : "Receive Amount"}
-              </label>
+              <label className="mb-2 text-white">Crypto Value</label>
               <div className="d-flex align-items-center br2 p-1 rounded-4 mb-2 bg1-color">
                 <input
-                  style={{ backgroundColor: '#1c4c55', color: '#ffffff', borderColor: '#1c4c55' }}
+                  style={{
+                    backgroundColor: "#1c4c55",
+                    color: "#ffffff",
+                    borderColor: "#1c4c55",
+                  }}
                   name={activeTab === "buy" ? "sendAmount" : "receivedAmount"}
                   value={
                     activeTab === "buy"
@@ -147,8 +147,7 @@ export const BuyOrSellComponent = ({
                       ? "input-send-amount"
                       : "input-receive-amount"
                   }
-                  placeholder="Enter purchase amount"
-                  onChange={(event) => handleOnInputChange(event)}
+                  disabled={true}
                 />
                 <div className="text-end">
                   <div className="apex_section__slider-selector markets_section__rcard-selector">
@@ -198,44 +197,104 @@ export const BuyOrSellComponent = ({
                 </div>
               </div>
               <ValidationError err={validationErrors.receivedAmount} />
-              {/* <span className="text-white">1 BTC = 3,547,292 INR</span> */}
             </div>
           </div>
-        </div>
-        <div className="buy_crypto__formarea-group mb-6 mb-md-8">
-          <label className="mb-2">Wallet Address</label>
-          <div className="br2 p-1 rounded-4 bg1-color">
-            {/* <textarea placeholder="Address" cols="15" rows="3"></textarea> */}
-            <textarea
-              cols="15"
-              rows="1"
-              name="walletAddress"
-              value={orderData.walletAddress}
-              style={{ backgroundColor: '#1c4c55', color: '#ffffff', borderColor: '#1c4c55' }}
-              type="text"
-              className="form-control showhide-pass"
-              id="input-wallet-address"
-              placeholder="Enter wallet address"
-              onChange={(event) => handleOnInputChange(event)}
-            />
+          {activeTab === "sell" && (
+            <div className="col-lg-12">
+              <div className="buy_crypto__formarea-group mb-5 mb-md-6">
+                <label className="mb-2 text-white">
+                  Received Amount after TDS Deduction
+                </label>
+                <div className="d-flex align-items-center br2 p-1 rounded-4 mb-2 bg1-color">
+                  <input
+                    style={{
+                      backgroundColor: "#1c4c55",
+                      color: "#ffffff",
+                      borderColor: "#1c4c55",
+                    }}
+                    name="receivedAmountAfterTdsDeduction"
+                    value={orderData.receivedAmountAfterTdsDeduction}
+                    type="number"
+                    className="form-control showhide-pass"
+                    id="input-received-amount-after-tds-deduction"
+                    disabled={true}
+                  />
+                  <div className="text-end">
+                    <div className="apex_section__slider-selector markets_section__rcard-selector">
+                      <div className="f-group">
+                        <div className="f-dropdown selectDropdown filled">
+                          <select
+                            id="select-crypto"
+                            className="f-control f-dropdown"
+                            value={orderData.currency}
+                            onChange={(e) => handleOnSelect(e, "currency")}
+                          >
+                            {currencyOptions.map((currencyOption) => (
+                              <option value={currencyOption}>
+                                {currencyOption}
+                              </option>
+                            ))}
+                          </select>
+                          <ul>
+                            <li>
+                              <a data-val="1">
+                                <img src="assets/images/usdt.png" />
+                                <span>USDT</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a data-val="2">
+                                <img src="assets/images/eth.png" />
+                                <span>ETH</span>
+                              </a>
+                            </li>
+                            <li>
+                              <a data-val="3">
+                                <img src="assets/images/btc.png" />
+                                <span>BTC</span>
+                              </a>
+                            </li>
+                            <li className="active">
+                              <a data-val="4">
+                                <img src="assets/images/inr.png" />
+                                <span>INR</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <ValidationError err={validationErrors.receivedAmount} />
+              </div>
+            </div>
+          )}
+          <div className="col-lg-12">
+            <div className="buy_crypto__formarea-group mb-6 mb-md-8">
+              <label className="mb-2 text-white">Wallet Address</label>
+              <div className="br2 p-1 rounded-4 bg1-color">
+                <textarea
+                  cols="15"
+                  rows="3"
+                  name="walletAddress"
+                  value={orderData.walletAddress}
+                  style={{
+                    backgroundColor: "#1c4c55",
+                    color: "#ffffff",
+                    borderColor: "#1c4c55",
+                  }}
+                  type="text"
+                  className="form-control showhide-pass"
+                  id="input-wallet-address"
+                  placeholder="Enter wallet address"
+                  onChange={(event) => handleOnInputChange(event)}
+                />
+              </div>
+            </div>
+            <ValidationError err={validationErrors.walletAddress} />
           </div>
         </div>
-        <ValidationError err={validationErrors.walletAddress} />
-        {/* <div className="buy_crypto__formarea-group mb-6 mb-md-8">
-          <label className="mb-2">Primary Transaction Receipt</label>
-          <div className="br2 p-1 rounded-4 bg1-color">
-            <input
-              name="primaryTransactionReceipt"
-              value={orderData.primaryTransactionReceipt}
-              type="text"
-              className="form-control showhide-pass"
-              id="input-primary-transaction-receipt"
-              placeholder="Enter primary transaction receipt"
-              onChange={(event) => handleOnInputChange(event)}
-            />
-          </div>
-        </div>
-        <ValidationError err={validationErrors.primaryTransactionReceipt} /> */}
         <br />
         <button type="submit" className="cmn-btn py-3 px-5 px-md-6 d-block">
           Next

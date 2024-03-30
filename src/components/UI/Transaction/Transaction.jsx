@@ -1,24 +1,17 @@
 import { useState, useEffect } from "react";
-import loadjs from "loadjs";
 import { useMutation } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
 
+import { cryptoOptions } from "../../../utils/config/constants";
 import axios from "../../../lib/http-request";
 import { API } from "../../../utils/config/api-end-points.config";
+import { calculateAmountAfterTDS } from "../../../utils/config/helper-functions";
 import { useUserStore } from "../../../store/user.store";
 import { BuyOrSellComponent } from "./BuyOrSellComponent";
 import { AccountComponent } from "./AccountComponent";
 import { WalletComponent } from "./WalletComponent";
 
 export const Transaction = () => {
-  const networkOptions = ["ETH", "BSC", "BTC"];
-  const cryptoOptions = {
-    ETH: ["ETH", "USDT"],
-    BSC: ["BNB", "USDT"],
-    BTC: ["BTC"],
-  };
-  const currencyOptions = ["INR"];
-
   let initialOrderData = {
     network: "ETH",
     transactionType: "FIAT",
@@ -26,6 +19,7 @@ export const Transaction = () => {
     currency: "INR",
     sendAmount: null,
     receivedAmount: null,
+    receivedAmountAfterTdsDeduction: null,
     bankAccount: null,
     walletAddress: "",
     primaryTransactionReceipt: "",
@@ -34,6 +28,13 @@ export const Transaction = () => {
   const accessToken = useUserStore((state) => state.accessToken);
   const user = useUserStore((state) => state.user);
   // console.log("🟡 user: ", user);
+
+  const [cryptoPrice, setCryptoPrice] = useState({
+    BTC: null,
+    ETH: null,
+    BNB: null,
+    USDT: null,
+  });
 
   const [activeTab, setActiveTab] = useState("buy");
   const [currentStep, setCurrentStep] = useState(1);
@@ -68,6 +69,29 @@ export const Transaction = () => {
   });
 
   const [orderData, setOrderData] = useState(initialOrderData);
+
+  // price api start
+  const fetchCryptoPrice = async () => {
+    console.info("🟣 coingecko api call 🔥");
+    const priceData = await axios.get(
+      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Cethereum%2Cbinance-coin-wormhole%2Ctether&vs_currencies=inr",
+      { headers: { "x-cg-demo-api-key": "CG-6cV1jEXLFDiEnkhUJH5CehaH" } }
+    );
+    setCryptoPrice({
+      BTC: priceData?.data?.bitcoin?.inr,
+      ETH: priceData?.data?.ethereum?.inr,
+      BNB: priceData?.data["binance-coin-wormhole"]["inr"],
+      USDT: priceData?.data?.tether?.inr,
+    });
+    console.info("🟣 priceData: ", priceData);
+  };
+  // price api end
+
+  useEffect(() => {
+    fetchCryptoPrice();
+  }, []);
+
+  console.info("cryptoPrice: ", cryptoPrice);
 
   let fetchAdminBankDetails = async () => {
     try {
@@ -260,18 +284,36 @@ export const Transaction = () => {
   }, [orderData.network]);
 
   const handleOnInputChange = (event) => {
-    // console.log("🟢 handleOnInputChange: ", orderData.network);
     event.preventDefault();
     const { name, value } = event.target;
-    console.log(
-      "🔶 Transaction: handleOnInputChange: name, value: ",
+
+    console.log("🔶 handleOnInputChange: data: ", {
+      activeTab,
       name,
-      value
-    );
+      value,
+    });
+
     setOrderData((prevOrderData) => ({
       ...prevOrderData,
       [name]: value,
     }));
+    if (["sendAmount", "receivedAmount"].includes(name)) {
+      const cryptoValueInputName =
+        name === "sendAmount" ? "receivedAmount" : "sendAmount";
+      const cryptoValue = Number(value) * 3600000;
+      setOrderData((prevOrderData) => ({
+        ...prevOrderData,
+        [cryptoValueInputName]: Number(value) * cryptoPrice[orderData?.crypto],
+      }));
+      if (name === "sendAmount") {
+        const receivedAmountAfterTdsDeduction =
+          calculateAmountAfterTDS(cryptoValue);
+        setOrderData((prevOrderData) => ({
+          ...prevOrderData,
+          receivedAmountAfterTdsDeduction,
+        }));
+      }
+    }
   };
 
   const handleOrderSubmit = (event) => {
@@ -284,7 +326,13 @@ export const Transaction = () => {
 
     if (hasNoErrors) {
       console.log("Form submitted:", orderData);
-      mutate(orderData);
+
+      let data = orderData;
+      if (activeTab === "buy") {
+        const { receivedAmountAfterTdsDeduction, ...restOrderData } = orderData;
+        data = restOrderData;
+      }
+      mutate(data);
     } else {
       setValidationErrors(validationErrors);
     }
@@ -336,6 +384,8 @@ export const Transaction = () => {
       errors.sendAmount.message = "Send amount is required";
     } else if (isNaN(data.sendAmount)) {
       errors.sendAmount.message = "Send amount must be a valid number";
+    } else if (data.sendAmoun < 1000000) {
+      errors.sendAmount.message = "Send amount must be greater than or equal to 1000000";
     }
 
     if (!data.receivedAmount) {
@@ -420,6 +470,10 @@ export const Transaction = () => {
   //   currentStep,
   // });
 
+  if (!adminBankDetails?.accountNumber || !userBankDetails?.accountNumber) {
+    return <p>Please contact Admin</p>;
+  }
+
   return (
     <>
       <Toaster />
@@ -461,7 +515,11 @@ export const Transaction = () => {
                       {/* <p >🔙</p> */}
                       <img
                         src="assets/images/back.png"
-                        style={{ width: "60px", height: "30px", cursor: "pointer" }}
+                        style={{
+                          width: "60px",
+                          height: "30px",
+                          cursor: "pointer",
+                        }}
                         onClick={() => setCurrentStep(1)}
                       />
                     </div>
