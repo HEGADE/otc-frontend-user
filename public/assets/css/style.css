@@ -13349,6 +13349,43 @@ iframe {
     color: rgb(var(--p1))
 }
 
+
+.dashboard-warning-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 25px !important;
+}
+
+.dashboard-warning-p {
+  font-size: 20px;
+  font-family: fantasy;
+  text-align: center;
+}
+
+@media screen and (min-width: 992px) {
+  .dashboard-warning-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 775px !important;
+  }
+
+  .dashboard-warning-p {
+    font-size: 20px;
+    font-family: fantasy;
+    text-align: center;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .dashboard-warning-p {
+    font-size: 35px;
+    font-family: fantasy;
+    text-align: center;
+  }
+}
+
 @media(max-width: 480px) {
     .buy_crycoinx__card-icon img {
         width:30%

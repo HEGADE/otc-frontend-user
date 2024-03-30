@@ -53,6 +53,8 @@ export const Transaction = () => {
     ifsCode: "",
   });
 
+  const [adminWalletsList, setAdminWalletsList] = useState([]);
+
   const [adminWalletDetails, setAdminWalletDetails] = useState({
     id: "",
     walletAddress: "",
@@ -113,8 +115,8 @@ export const Transaction = () => {
       });
       return { accountHolderName, bankName, accountNumber, branch, ifsCode };
     } catch (error) {
-      // console.log("🔺 fetchAdminBankDetails: error: ", error);
-      throw new Error("Error fetching bank details: " + error.message);
+      console.log("🔺 fetchAdminBankDetails: error: ", error);
+      // throw new Error("Error fetching bank details: " + error.message);
     }
   };
 
@@ -154,8 +156,8 @@ export const Transaction = () => {
         ifsCode,
       };
     } catch (error) {
-      // console.log("🔺 fetchUserBankDetails: error: ", error);
-      throw new Error("Error fetching bank details: " + error.message);
+      console.log("🔺 fetchUserBankDetails: error: ", error);
+      // throw new Error("Error fetching bank details: " + error.message);
     }
   };
 
@@ -170,10 +172,13 @@ export const Transaction = () => {
           Authorization: "Bearer " + accessToken,
         },
         payload: {
-          status: "active",
+          status: "ACTIVE",
         },
       });
+      console.info('🟣🟠🟢🟡 fetchAdminWalletDetails  -> res: ', res);
       const wallets = res?.data?.data?.wallets;
+
+      setAdminWalletsList(wallets);
 
       const selectNetworkWalletDetails = wallets?.find(
         (wallet) => wallet.network === orderData.network
@@ -198,10 +203,10 @@ export const Transaction = () => {
 
       return selectNetworkWalletDetails;
     } catch (error) {
-      // console.log("🔺 fetchAdminWalletDetails: error: ", error);
-      throw new Error(
-        "Error fetching user wallet address details: " + error.message
-      );
+      console.log("🔺 fetchAdminWalletDetails: error: ", error);
+      // throw new Error(
+      //   "Error fetching user wallet address details: " + error.message
+      // );
     }
   };
 
@@ -259,22 +264,14 @@ export const Transaction = () => {
   };
 
   useEffect(() => {
-    if (activeTab === "buy") {
-      let fetchData = async () => {
-        await Promise.all([fetchAdminBankDetails(), fetchUserBankDetails()]);
-      };
-      fetchData();
-    }
-    if (activeTab === "sell") {
-      let fetchData = async () => {
-        await Promise.all([
-          fetchAdminBankDetails(),
-          fetchAdminWalletDetails(),
-          fetchUserBankDetails(),
-        ]);
-      };
-      fetchData();
-    }
+    let fetchData = async () => {
+      await Promise.all([
+        fetchAdminBankDetails(),
+        fetchAdminWalletDetails(),
+        fetchUserBankDetails(),
+      ]);
+    };
+    fetchData();
   }, [activeTab]);
 
   useEffect(() => {
@@ -473,18 +470,17 @@ export const Transaction = () => {
 
   if (
     !adminBankDetails.accountNumber ||
-    !adminWalletDetails.walletAddress ||
-    !userBankDetails.accountNumber
+    adminWalletsList.length < 3
   ) {
     return (
-      <div className="col-lg-12">
+      <div className="col-lg-6">
         <div className="row gy-5 gy-md-6 justify-content-center">
           <div className="col-lg-6 col-xxl-12">
-            <div className="buy_crypto__formarea p-6 p-px-8 rounded-20 bg7-color wow fadeInUp">
+            <div className="buy_crypto__formarea p-6 p-px-8 rounded-20 bg7-color wow fadeInUp dashboard-warning-div">
               <div className="col-lg-6 col-xxl-12">
                 <div className="demo">
                   <br />
-                  <p>You can't submit any order. Please contact Admin!</p>
+                  <p className="dashboard-warning-p">You can't submit any order. Please contact Admin!</p>
                   <br />
                 </div>
               </div>
@@ -497,18 +493,18 @@ export const Transaction = () => {
 
   if (
     (!!adminBankDetails.accountNumber &&
-    !!adminWalletDetails.walletAddress) &&
+    adminWalletsList.length == 3) &&
     !userBankDetails.accountNumber
   ) {
     return (
-      <div className="col-lg-12">
+      <div className="col-lg-6">
         <div className="row gy-5 gy-md-6 justify-content-center">
           <div className="col-lg-6 col-xxl-12">
-            <div className="buy_crypto__formarea p-6 p-px-8 rounded-20 bg7-color wow fadeInUp">
+            <div className="buy_crypto__formarea p-6 p-px-8 rounded-20 bg7-color wow fadeInUp dashboard-warning-div">
               <div className="col-lg-6 col-xxl-12">
                 <div className="demo">
                   <br />
-                  <p>Please add your bank details in profile section</p>
+                  <p className="dashboard-warning-p">Please add your bank details in profile section</p>
                   <br />
                 </div>
               </div>
@@ -520,8 +516,8 @@ export const Transaction = () => {
   }
 
   if (
-    !!adminBankDetails.accountNumber ||
-    !!adminWalletDetails.walletAddress ||
+    !!adminBankDetails.accountNumber &&
+    adminWalletsList.length == 3 &&
     !!userBankDetails.accountNumber
   ) {
     return (
