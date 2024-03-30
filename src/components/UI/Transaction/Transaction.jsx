@@ -471,7 +471,11 @@ export const Transaction = () => {
   //   currentStep,
   // });
 
-  if (!adminBankDetails?.accountNumber || !userBankDetails?.accountNumber) {
+  if (
+    !adminBankDetails.accountNumber ||
+    !adminWalletDetails.walletAddress ||
+    !userBankDetails?.accountNumber
+  ) {
     return <p>Please contact Admin</p>;
   }
 
