@@ -474,68 +474,114 @@ export const Transaction = () => {
   if (
     !adminBankDetails.accountNumber ||
     !adminWalletDetails.walletAddress ||
-    !userBankDetails?.accountNumber
+    !userBankDetails.accountNumber
   ) {
-    return <p>Please contact Admin</p>;
-  }
-
-  return (
-    <>
-      <Toaster />
-      <div className="col-lg-6">
+    return (
+      <div className="col-lg-12">
         <div className="row gy-5 gy-md-6 justify-content-center">
           <div className="col-lg-6 col-xxl-12">
             <div className="buy_crypto__formarea p-6 p-px-8 rounded-20 bg7-color wow fadeInUp">
-              <div className="demo">
-                <div className="tab">
-                  {currentStep == 1 && (
-                    <div className="tab">
-                      <input
-                        id="tab1"
-                        type="radio"
-                        name="tabBuy"
-                        className="radio-inputs"
-                        checked={activeTab === "buy"}
-                        defaultChecked
-                        onChange={() => handleTabClick("buy")}
-                      />
-                      <label className="tab-button" htmlFor="tab1">
-                        Buy Assets
-                      </label>
-                      <input
-                        id="tab2"
-                        type="radio"
-                        className="radio-inputs"
-                        name="tabSell"
-                        checked={activeTab === "sell"}
-                        onChange={() => handleTabClick("sell")}
-                      />
-                      <label className="tab-button" htmlFor="tab2">
-                        Sell Assets
-                      </label>
-                    </div>
-                  )}
-                  {currentStep == 2 && (
-                    <div className="tab">
-                      {/* <p >🔙</p> */}
-                      <img
-                        src="assets/images/back.png"
-                        style={{
-                          width: "60px",
-                          height: "30px",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => setCurrentStep(1)}
-                      />
-                    </div>
-                  )}
-                  {renderTabContent()}
+              <div className="col-lg-6 col-xxl-12">
+                <div className="demo">
+                  <br />
+                  <p>You can't submit any order. Please contact Admin!</p>
+                  <br />
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </>
-  );
+    );
+  }
+
+  if (
+    (!!adminBankDetails.accountNumber &&
+    !!adminWalletDetails.walletAddress) &&
+    !userBankDetails.accountNumber
+  ) {
+    return (
+      <div className="col-lg-12">
+        <div className="row gy-5 gy-md-6 justify-content-center">
+          <div className="col-lg-6 col-xxl-12">
+            <div className="buy_crypto__formarea p-6 p-px-8 rounded-20 bg7-color wow fadeInUp">
+              <div className="col-lg-6 col-xxl-12">
+                <div className="demo">
+                  <br />
+                  <p>Please add your bank details in profile section</p>
+                  <br />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (
+    !!adminBankDetails.accountNumber ||
+    !!adminWalletDetails.walletAddress ||
+    !!userBankDetails.accountNumber
+  ) {
+    return (
+      <>
+        <Toaster />
+        <div className="col-lg-6">
+          <div className="row gy-5 gy-md-6 justify-content-center">
+            <div className="col-lg-6 col-xxl-12">
+              <div className="buy_crypto__formarea p-6 p-px-8 rounded-20 bg7-color wow fadeInUp">
+                <div className="demo">
+                  <div className="tab">
+                    {currentStep == 1 && (
+                      <div className="tab">
+                        <input
+                          id="tab1"
+                          type="radio"
+                          name="tabBuy"
+                          className="radio-inputs"
+                          checked={activeTab === "buy"}
+                          defaultChecked
+                          onChange={() => handleTabClick("buy")}
+                        />
+                        <label className="tab-button" htmlFor="tab1">
+                          Buy Assets
+                        </label>
+                        <input
+                          id="tab2"
+                          type="radio"
+                          className="radio-inputs"
+                          name="tabSell"
+                          checked={activeTab === "sell"}
+                          onChange={() => handleTabClick("sell")}
+                        />
+                        <label className="tab-button" htmlFor="tab2">
+                          Sell Assets
+                        </label>
+                      </div>
+                    )}
+                    {currentStep == 2 && (
+                      <div className="tab">
+                        {/* <p >🔙</p> */}
+                        <img
+                          src="assets/images/back.png"
+                          style={{
+                            width: "60px",
+                            height: "30px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => setCurrentStep(1)}
+                        />
+                      </div>
+                    )}
+                    {renderTabContent()}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
 };
