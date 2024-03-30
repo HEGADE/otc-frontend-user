@@ -384,8 +384,9 @@ export const Transaction = () => {
       errors.sendAmount.message = "Send amount is required";
     } else if (isNaN(data.sendAmount)) {
       errors.sendAmount.message = "Send amount must be a valid number";
-    } else if (data.sendAmoun < 1000000) {
-      errors.sendAmount.message = "Send amount must be greater than or equal to 1000000";
+    } else if (activeTab === "buy" && data.sendAmount < 1000000) {
+      errors.sendAmount.message =
+        "Send amount must be greater than or equal to 1000000";
     }
 
     if (!data.receivedAmount) {
