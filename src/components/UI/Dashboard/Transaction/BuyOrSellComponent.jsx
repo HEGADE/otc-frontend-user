@@ -21,7 +21,7 @@ export const BuyOrSellComponent = ({
       >
         <div className="row">
           <div className="buy_crypto__formarea-group mb-5 mb-md-6">
-            <label className="mb-2">Network</label>
+            <label className="mb-2 text-white">Network</label>
             <div className="mb-2 br2 p-1 rounded-4 bg1-color">
               <div className="text-end">
                 <div className="apex_section__slider-selector markets_section__rcard-selector">
