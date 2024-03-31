@@ -287,7 +287,7 @@ export const Transaction = () => {
   ) => {
     if (orderData.sendAmount !== null) {
       const receivedAmountAfterTdsDeduction = calculateAmountAfterTDS(
-        orderData.sendAmount
+        orderData.receivedAmount
       );
       setOrderData((prevOrderData) => ({
         ...prevOrderData,
@@ -319,10 +319,10 @@ export const Transaction = () => {
     selectDropwdownName,
     networkValue
   ) => {
-    if (orderData.receivedAmount !== null) {
+    if (orderData.sendAmount !== null) {
       const selectedCrypto = cryptoOptions[networkValue][0];
       const receivedAmountAfterTdsDeduction = calculateAmountAfterTDS(
-        orderData.sendAmount
+        orderData.receivedAmount
       );
       setOrderData((prevOrderData) => ({
         ...prevOrderData,
@@ -392,7 +392,7 @@ export const Transaction = () => {
     if (["sendAmount", "receivedAmount"].includes(name)) {
       const cryptoValueInputName =
         name === "sendAmount" ? "receivedAmount" : "sendAmount";
-      const cryptoValue = Number(value) * 3600000;
+      const cryptoValue = Number(value) * cryptoPrice[orderData.crypto];
       setOrderData((prevOrderData) => ({
         ...prevOrderData,
         [cryptoValueInputName]: Number(value) * cryptoPrice[orderData?.crypto],
@@ -480,7 +480,7 @@ export const Transaction = () => {
       errors.sendAmount.message =
         "Send amount must be greater than or equal to 1000000";
     } else if (activeTab === "sell" && data.receivedAmount < 1000000) {
-      errors.sendAmount.message =
+      errors.receivedAmount.message =
         "Received Amount must be greater than or equal to 1000000";
     }
 
