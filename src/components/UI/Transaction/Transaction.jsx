@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 import { cryptoOptions } from "../../../utils/config/constants";
 import axios from "../../../lib/http-request";
@@ -12,6 +13,8 @@ import { AccountComponent } from "./AccountComponent";
 import { WalletComponent } from "./WalletComponent";
 
 export const Transaction = () => {
+  const navigate = useNavigate();
+
   let initialOrderData = {
     network: "ETH",
     transactionType: "FIAT",
@@ -264,23 +267,67 @@ export const Transaction = () => {
     setCurrentStep(currentStep - 1);
   };
 
-  const handleCryptoDropdwonSelectionForBuyAssets = (selectedCrypto) => {
+  const handleCryptoDropdwonSelectionForBuyAssets = (
+    selectDropwdownName,
+    selectedCrypto
+  ) => {
     if (orderData.receivedAmount !== null) {
       setOrderData((prevOrderData) => ({
         ...prevOrderData,
+        [selectDropwdownName]: selectedCrypto,
         sendAmount:
           Number(orderData.receivedAmount) * cryptoPrice[selectedCrypto],
       }));
     }
   };
 
-  const handleCryptoDropdwonSelectionForSellAssets = (selectedCrypto) => {
+  const handleCryptoDropdwonSelectionForSellAssets = (
+    selectDropwdownName,
+    selectedCrypto
+  ) => {
     if (orderData.sendAmount !== null) {
       const receivedAmountAfterTdsDeduction = calculateAmountAfterTDS(
         orderData.sendAmount
       );
       setOrderData((prevOrderData) => ({
         ...prevOrderData,
+        [selectDropwdownName]: selectedCrypto,
+        receivedAmount:
+          Number(orderData.sendAmount) * cryptoPrice[selectedCrypto],
+        receivedAmountAfterTdsDeduction,
+      }));
+    }
+  };
+
+  const handleNetworkDropdwonSelectionForBuyAssets = (
+    selectDropwdownName,
+    networkValue
+  ) => {
+    if (orderData.sendAmount !== null) {
+      const selectedCrypto = cryptoOptions[networkValue][0];
+      setOrderData((prevOrderData) => ({
+        ...prevOrderData,
+        [selectDropwdownName]: networkValue,
+        crypto: selectedCrypto,
+        sendAmount:
+          Number(orderData.receivedAmount) * cryptoPrice[selectedCrypto],
+      }));
+    }
+  };
+
+  const handleNetworkDropdwonSelectionForSellAssets = (
+    selectDropwdownName,
+    networkValue
+  ) => {
+    if (orderData.receivedAmount !== null) {
+      const selectedCrypto = cryptoOptions[networkValue][0];
+      const receivedAmountAfterTdsDeduction = calculateAmountAfterTDS(
+        orderData.sendAmount
+      );
+      setOrderData((prevOrderData) => ({
+        ...prevOrderData,
+        [selectDropwdownName]: networkValue,
+        crypto: selectedCrypto,
         receivedAmount:
           Number(orderData.sendAmount) * cryptoPrice[selectedCrypto],
         receivedAmountAfterTdsDeduction,
@@ -297,16 +344,16 @@ export const Transaction = () => {
       [selectDropwdownName]: value,
     }));
     if (selectDropwdownName === "network") {
-      setOrderData((prevOrderData) => ({
-        ...prevOrderData,
-        [selectDropwdownName]: value,
-        crypto: cryptoOptions[value][0],
-      }));
+      if (activeTab === "buy") {
+        handleNetworkDropdwonSelectionForBuyAssets(selectDropwdownName, value);
+      } else if (activeTab === "sell") {
+        handleNetworkDropdwonSelectionForSellAssets(selectDropwdownName, value);
+      }
     } else if (selectDropwdownName === "crypto") {
       if (activeTab === "buy") {
-        handleCryptoDropdwonSelectionForBuyAssets(value);
+        handleCryptoDropdwonSelectionForBuyAssets(selectDropwdownName, value);
       } else if (activeTab === "sell") {
-        handleCryptoDropdwonSelectionForSellAssets(value);
+        handleCryptoDropdwonSelectionForSellAssets(selectDropwdownName, value);
       }
     }
   };
@@ -406,7 +453,8 @@ export const Transaction = () => {
     onSuccess: (res) => {
       console.log("🔶 useMutation: res: UserDetails: ", res);
       toast.success("Transaction completed successfully");
-      // refetch();
+      resetTransactionDetails();
+      navigate("/");
     },
     onError: (error) => {
       console.error("🔺 useMutation: error: UserDetails: ", error);
@@ -431,6 +479,9 @@ export const Transaction = () => {
     } else if (activeTab === "buy" && data.sendAmount < 1000000) {
       errors.sendAmount.message =
         "Send amount must be greater than or equal to 1000000";
+    } else if (activeTab === "sell" && data.receivedAmount < 1000000) {
+      errors.sendAmount.message =
+        "Received Amount must be greater than or equal to 1000000";
     }
 
     if (!data.receivedAmount) {
