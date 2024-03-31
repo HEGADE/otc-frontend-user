@@ -269,9 +269,10 @@ export const Transaction = () => {
   };
 
   const handleCryptoDropdwonSelectionForSellAssets = (selectedCrypto) => {
-    if (orderData[sendAmount] !== null) {
-      const receivedAmountAfterTdsDeduction =
-        calculateAmountAfterTDS(cryptoValue);
+    if (orderData.sendAmount !== null) {
+      const receivedAmountAfterTdsDeduction = calculateAmountAfterTDS(
+        orderData.sendAmount
+      );
       setOrderData((prevOrderData) => ({
         ...prevOrderData,
         receivedAmount:
