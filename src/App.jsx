@@ -17,7 +17,7 @@ import { Preloader } from "./components/UI/Preloader";
 import { useUserStore } from "./store/user.store";
 import { ForgotPassword } from "./components/Auth/ForgotPassword";
 import { ResetPassword } from "./components/Auth/ResetPassword";
-import { Dashboard } from "./components/UI/Dashboard";
+import { Dashboard } from "./components/UI/Dashboard/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { UserProfile } from "./components/UI/UserProfile/UserProfile";
 import { Order } from "./components/UI/Order/Order";

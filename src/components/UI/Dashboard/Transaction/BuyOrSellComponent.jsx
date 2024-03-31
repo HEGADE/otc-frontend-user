@@ -1,9 +1,9 @@
-import { ValidationError } from "../../UI/Errors";
+import { ValidationError } from "../../../UI/Errors";
 import {
   networkOptions,
   cryptoOptions,
   currencyOptions,
-} from "../../../utils/config/constants";
+} from "../../../../utils/config/constants";
 
 export const BuyOrSellComponent = ({
   activeTab,

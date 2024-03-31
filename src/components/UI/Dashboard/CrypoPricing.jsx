@@ -1,62 +1,5 @@
-import React from "react";
-import loadjs from "loadjs";
-
-import axios from "../../lib/http-request";
-import { Preloader } from "./Preloader";
-import { Transaction } from "./Transaction/Transaction";
-
-export const Dashboard = () => {
-  const [cryptoPrice, setCryptoPrice] = React.useState({
-    btc: null,
-    eth: null,
-    bnb: null,
-    usdt: null,
-  });
-
-  // price api start
-  const fetchCryptoPrice = async () => {
-    console.info("🟣 coingecko api call 🔥");
-    const priceData = await axios.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Cethereum%2Cbinance-coin-wormhole%2Ctether&vs_currencies=inr', { headers: { 'x-cg-demo-api-key': 'CG-6cV1jEXLFDiEnkhUJH5CehaH' } });
-    setCryptoPrice({
-      btc: priceData?.data?.bitcoin?.inr,
-      eth: priceData?.data?.ethereum?.inr,
-      bnb: priceData?.data['binance-coin-wormhole']['inr'],
-      usdt: priceData?.data?.tether?.inr,
-    })
-    console.info("🟣 priceData: ", priceData);
-  }
-  // price api end
-
-  React.useEffect(() => {
-    fetchCryptoPrice();
-  }, [])
-
-  console.info('cryptoPrice: ', cryptoPrice);
-
-  return (
-    <body>
-      <section
-        className="page-header bg--cover"
-        style={{ backgroundImage: "url(assets/images/breadcrumb.png)" }}
-      >
-        <div className="container">
-          <div
-            className="page-header__content mt-100 text-center"
-            // data-aos="fade-right"
-            data-aos-duration="1000"
-          >
-            <h2>Dashboard</h2>
-          </div>
-          <div className="page-header__shape">
-            <span className="page-header__shape-item page-header__shape-item--1">
-              <img src="assets/images/2.png" alt="shape-icon" />
-            </span>
-          </div>
-        </div>
-      </section>
-      <section className="markets_section padding-top padding-bottom bg5-color">
-        <div className="container">
-          <div className="row gy-6">
+export const CryptoPricing = ({ cryptoPrice }) => {
+    return (
             <div className="col-lg-6">
               <div className="row gy-6">
                 <div className="col-md-12 col-xl-12">
@@ -367,7 +310,7 @@ export const Dashboard = () => {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 2,
                           }).format(
-                            cryptoPrice?.btc
+                            cryptoPrice?.BTC
                           )}
                         </span>
                       </div>
@@ -403,7 +346,7 @@ export const Dashboard = () => {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 2,
                           }).format(
-                            cryptoPrice?.eth
+                            cryptoPrice?.ETH
                           )}
                         </span>
                       </div>
@@ -435,7 +378,7 @@ export const Dashboard = () => {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 2,
                           }).format(
-                            cryptoPrice?.bnb
+                            cryptoPrice?.BNB
                           )}
                         </span>
                       </div>
@@ -467,7 +410,7 @@ export const Dashboard = () => {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 2,
                           }).format(
-                            cryptoPrice?.usdt
+                            cryptoPrice?.USDT
                           )}
                         </span>
                       </div>
@@ -476,13 +419,5 @@ export const Dashboard = () => {
                 </div>
               </div>
             </div>
-            <Transaction />
-          </div>
-        </div>
-      </section>
-      <a href="#" className="scrollToTop scrollToTop--style1">
-        <i className="fa-solid fa-arrow-up-from-bracket"></i>
-      </a>
-    </body>
-  );
-};
+    )
+}

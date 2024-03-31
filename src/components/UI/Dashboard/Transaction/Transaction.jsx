@@ -3,16 +3,16 @@ import { useMutation } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-import { cryptoOptions } from "../../../utils/config/constants";
-import axios from "../../../lib/http-request";
-import { API } from "../../../utils/config/api-end-points.config";
-import { calculateAmountAfterTDS } from "../../../utils/config/helper-functions";
-import { useUserStore } from "../../../store/user.store";
+import { cryptoOptions } from "../../../../utils/config/constants";
+import axios from "../../../../lib/http-request";
+import { API } from "../../../../utils/config/api-end-points.config";
+import { calculateAmountAfterTDS } from "../../../../utils/config/helper-functions";
+import { useUserStore } from "../../../../store/user.store";
 import { BuyOrSellComponent } from "./BuyOrSellComponent";
 import { AccountComponent } from "./AccountComponent";
 import { WalletComponent } from "./WalletComponent";
 
-export const Transaction = () => {
+export const Transaction = ({ cryptoPrice }) => {
   const navigate = useNavigate();
 
   let initialOrderData = {
@@ -62,13 +62,6 @@ export const Transaction = () => {
   const user = useUserStore((state) => state.user);
   // console.log("🟡 user: ", user);
 
-  const [cryptoPrice, setCryptoPrice] = useState({
-    BTC: null,
-    ETH: null,
-    BNB: null,
-    USDT: null,
-  });
-
   const [activeTab, setActiveTab] = useState("buy");
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -98,27 +91,6 @@ export const Transaction = () => {
     setAdminWalletDetails(initialAdminWalletDetails);
     setUserBankDetails(initialUserBankDetails);
   };
-
-  // price api start
-  const fetchCryptoPrice = async () => {
-    console.info("🟣 coingecko api call 🔥");
-    const priceData = await axios.get(
-      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Cethereum%2Cbinance-coin-wormhole%2Ctether&vs_currencies=inr",
-      { headers: { "x-cg-demo-api-key": "CG-6cV1jEXLFDiEnkhUJH5CehaH" } }
-    );
-    setCryptoPrice({
-      BTC: priceData?.data?.bitcoin?.inr,
-      ETH: priceData?.data?.ethereum?.inr,
-      BNB: priceData?.data["binance-coin-wormhole"]["inr"],
-      USDT: priceData?.data?.tether?.inr,
-    });
-    console.info("🟣 priceData: ", priceData);
-  };
-  // price api end
-
-  useEffect(() => {
-    fetchCryptoPrice();
-  }, []);
 
   console.info("cryptoPrice: ", cryptoPrice);
 

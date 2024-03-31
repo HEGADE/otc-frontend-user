@@ -1,4 +1,3 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import QRCode from "react-qr-code";
 import { yupResolver } from "@hookform/resolvers/yup";
