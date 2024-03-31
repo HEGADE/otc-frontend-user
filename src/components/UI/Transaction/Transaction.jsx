@@ -25,6 +25,29 @@ export const Transaction = () => {
     primaryTransactionReceipt: "",
   };
 
+  let initialAdminBankDetails = {
+    accountHolderName: "Admin",
+    accountNumber: "",
+    bankName: "",
+    branch: "",
+    ifsCode: "",
+  };
+
+  let initialAdminWalletDetails = {
+    id: "",
+    walletAddress: "",
+    network: "",
+    status: "",
+  };
+
+  let initialUserBankDetails = {
+    accountHolderName: "User",
+    accountNumber: "",
+    bankName: "",
+    branch: "",
+    ifsCode: "",
+  };
+
   const accessToken = useUserStore((state) => state.accessToken);
   const user = useUserStore((state) => state.user);
   // console.log("🟡 user: ", user);
@@ -45,32 +68,27 @@ export const Transaction = () => {
     primaryTransactionReceipt: { message: "" },
   });
 
-  const [adminBankDetails, setAdminBankDetails] = useState({
-    accountHolderName: "Admin",
-    accountNumber: "",
-    bankName: "",
-    branch: "",
-    ifsCode: "",
-  });
+  const [adminBankDetails, setAdminBankDetails] = useState(
+    initialAdminBankDetails
+  );
 
   const [adminWalletsList, setAdminWalletsList] = useState([]);
 
-  const [adminWalletDetails, setAdminWalletDetails] = useState({
-    id: "",
-    walletAddress: "",
-    network: "",
-    status: "",
-  });
+  const [adminWalletDetails, setAdminWalletDetails] = useState(
+    initialAdminWalletDetails
+  );
 
-  const [userBankDetails, setUserBankDetails] = useState({
-    accountHolderName: "User",
-    accountNumber: "",
-    bankName: "",
-    branch: "",
-    ifsCode: "",
-  });
+  const [userBankDetails, setUserBankDetails] = useState(
+    initialUserBankDetails
+  );
 
   const [orderData, setOrderData] = useState(initialOrderData);
+
+  const resetTransactionDetails = () => {
+    setAdminBankDetails(initialAdminBankDetails);
+    setAdminWalletDetails(initialAdminWalletDetails);
+    setUserBankDetails(initialUserBankDetails);
+  };
 
   // price api start
   const fetchCryptoPrice = async () => {
@@ -175,7 +193,7 @@ export const Transaction = () => {
           status: "ACTIVE",
         },
       });
-      console.info('🟣🟠🟢🟡 fetchAdminWalletDetails  -> res: ', res);
+      console.info("🟣🟠🟢🟡 fetchAdminWalletDetails  -> res: ", res);
       const wallets = res?.data?.data?.wallets;
 
       setAdminWalletsList(wallets);
@@ -247,9 +265,39 @@ export const Transaction = () => {
     setCurrentStep(currentStep - 1);
   };
 
+  console.log("🟢🟢🟢🟢 orderData: ", orderData);
+
+  const handleCryptoDropdwonSelectionForBuyAssets = (selectedCrypto) => {
+    if (orderData.receivedAmount !== null) {
+      setOrderData((prevOrderData) => ({
+        ...prevOrderData,
+        sendAmount:
+          Number(orderData.receivedAmount) * cryptoPrice[selectedCrypto],
+      }));
+    }
+  };
+
+  const handleCryptoDropdwonSelectionForSellAssets = (selectedCrypto) => {
+    if (orderData[sendAmount] !== null) {
+      const receivedAmountAfterTdsDeduction =
+        calculateAmountAfterTDS(cryptoValue);
+      setOrderData((prevOrderData) => ({
+        ...prevOrderData,
+        receivedAmount:
+          Number(orderData.sendAmount) * cryptoPrice[selectedCrypto],
+        receivedAmountAfterTdsDeduction,
+      }));
+    }
+  };
+
   const handleOnSelect = (event, selectDropwdownName) => {
     event.preventDefault();
-    const { name, value } = event.target;
+    const { value } = event.target;
+
+    console.log("🟢 selectDropwdownName: ", {
+      selectDropwdownName,
+      value,
+    });
 
     setOrderData((prevOrderData) => ({
       ...prevOrderData,
@@ -258,8 +306,15 @@ export const Transaction = () => {
     if (selectDropwdownName === "network") {
       setOrderData((prevOrderData) => ({
         ...prevOrderData,
+        [selectDropwdownName]: value,
         crypto: cryptoOptions[value][0],
       }));
+    } else if (selectDropwdownName === "crypto") {
+      if (activeTab === "buy") {
+        handleCryptoDropdwonSelectionForBuyAssets(value);
+      } else if (activeTab === "sell") {
+        handleCryptoDropdwonSelectionForSellAssets(value);
+      }
     }
   };
 
@@ -468,10 +523,7 @@ export const Transaction = () => {
   //   currentStep,
   // });
 
-  if (
-    !adminBankDetails.accountNumber ||
-    adminWalletsList.length < 3
-  ) {
+  if (!adminBankDetails.accountNumber || adminWalletsList.length < 3) {
     return (
       <div className="col-lg-6">
         <div className="row gy-5 gy-md-6 justify-content-center">
@@ -480,7 +532,9 @@ export const Transaction = () => {
               <div className="col-lg-6 col-xxl-12">
                 <div className="demo">
                   <br />
-                  <p className="dashboard-warning-p">You can't submit any order. Please contact Admin!</p>
+                  <p className="dashboard-warning-p">
+                    You can't submit any order. Please contact Admin!
+                  </p>
                   <br />
                 </div>
               </div>
@@ -492,8 +546,8 @@ export const Transaction = () => {
   }
 
   if (
-    (!!adminBankDetails.accountNumber &&
-    adminWalletsList.length == 3) &&
+    !!adminBankDetails.accountNumber &&
+    adminWalletsList.length == 3 &&
     !userBankDetails.accountNumber
   ) {
     return (
@@ -504,7 +558,9 @@ export const Transaction = () => {
               <div className="col-lg-6 col-xxl-12">
                 <div className="demo">
                   <br />
-                  <p className="dashboard-warning-p">Please add your bank details in profile section</p>
+                  <p className="dashboard-warning-p">
+                    Please add your bank details in profile section
+                  </p>
                   <br />
                 </div>
               </div>
