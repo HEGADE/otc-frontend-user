@@ -202,13 +202,9 @@ export const BuyOrSellComponent = ({
                   </div>
                 </div>
               </div>
-              <ValidationError
-                err={
-                  activeTab === "buy"
-                    ? validationErrors.sendAmount
-                    : validationErrors.receivedAmount
-                }
-              />
+              {activeTab === "buy" && (
+                <ValidationError err={validationErrors.sendAmount} />
+              )}
             </div>
           </div>
           {activeTab === "sell" && (
@@ -278,7 +274,13 @@ export const BuyOrSellComponent = ({
                     </div>
                   </div>
                 </div>
-                <ValidationError err={validationErrors.receivedAmount} />
+                <ValidationError
+                  err={
+                    activeTab === "buy"
+                      ? validationErrors.sendAmount
+                      : validationErrors.receivedAmountAfterTdsDeduction
+                  }
+                />
               </div>
             </div>
           )}

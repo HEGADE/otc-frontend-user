@@ -56,6 +56,7 @@ export const Transaction = ({ cryptoPrice }) => {
     receivedAmount: { message: "" },
     walletAddress: { message: "" },
     primaryTransactionReceipt: { message: "" },
+    receivedAmountAfterTdsDeduction: { message: "" },
   };
 
   const accessToken = useUserStore((state) => state.accessToken);
@@ -443,6 +444,8 @@ export const Transaction = ({ cryptoPrice }) => {
       sendAmount: { message: "" },
       receivedAmount: { message: "" },
       walletAddress: { message: "" },
+      primaryTransactionReceipt: { message: "" },
+      receivedAmountAfterTdsDeduction: { message: "" },
     };
     if (!data.sendAmount) {
       errors.sendAmount.message = "Send amount is required";
@@ -451,8 +454,11 @@ export const Transaction = ({ cryptoPrice }) => {
     } else if (activeTab === "buy" && data.sendAmount < 1000000) {
       errors.sendAmount.message =
         "Send amount must be greater than or equal to 1000000";
-    } else if (activeTab === "sell" && data.receivedAmount < 1000000) {
-      errors.receivedAmount.message =
+    } else if (
+      activeTab === "sell" &&
+      data.receivedAmountAfterTdsDeduction < 1000000
+    ) {
+      errors.receivedAmountAfterTdsDeduction.message =
         "Received Amount must be greater than or equal to 1000000";
     }
 
