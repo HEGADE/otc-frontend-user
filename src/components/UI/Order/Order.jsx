@@ -84,7 +84,7 @@ export const Order = () => {
         <div className="container">
           <div
             className="page-header__content mt-100 text-center"
-            data-aos="fade-right"
+            // data-aos="fade-right"
             data-aos-duration="1000"
           >
             <h2>Orders</h2>
