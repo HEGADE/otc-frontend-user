@@ -121,7 +121,13 @@ export const BuyOrSellComponent = ({
                   </div>
                 </div>
               </div>
-              <ValidationError err={validationErrors.sendAmount} />
+              <ValidationError
+                err={
+                  activeTab === "buy"
+                    ? validationErrors.receivedAmount
+                    : validationErrors.sendAmount
+                }
+              />
             </div>
           </div>
           <div className="col-lg-12">
@@ -196,7 +202,13 @@ export const BuyOrSellComponent = ({
                   </div>
                 </div>
               </div>
-              <ValidationError err={validationErrors.receivedAmount} />
+              <ValidationError
+                err={
+                  activeTab === "buy"
+                    ? validationErrors.sendAmount
+                    : validationErrors.receivedAmount
+                }
+              />
             </div>
           </div>
           {activeTab === "sell" && (

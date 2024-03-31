@@ -1,5 +1,4 @@
 import { ValidationError } from "../../UI/Errors";
-import { transactionAccountDetailsSchema } from "../../../utils/validation/auth.validation";
 
 export const AccountComponent = ({
   orderData,

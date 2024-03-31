@@ -133,8 +133,7 @@ export const Transaction = () => {
       });
       return { accountHolderName, bankName, accountNumber, branch, ifsCode };
     } catch (error) {
-      console.log("🔺 fetchAdminBankDetails: error: ", error);
-      // throw new Error("Error fetching bank details: " + error.message);
+      throw new Error("Error fetching admin bank details: " + error.message);
     }
   };
 
@@ -174,16 +173,12 @@ export const Transaction = () => {
         ifsCode,
       };
     } catch (error) {
-      console.log("🔺 fetchUserBankDetails: error: ", error);
+      console.error("🔺 fetchUserBankDetails: error: ", error);
       // throw new Error("Error fetching bank details: " + error.message);
     }
   };
 
   let fetchAdminWalletDetails = async () => {
-    // console.log(
-    //   "🟣🟠🟢🟡 fetchAdminWalletDetails called!!!!! network: ",
-    //   orderData.network
-    // );
     try {
       const res = await axios.get(API.getUserWalletDetails, {
         headers: {
@@ -193,7 +188,7 @@ export const Transaction = () => {
           status: "ACTIVE",
         },
       });
-      console.info("🟣🟠🟢🟡 fetchAdminWalletDetails  -> res: ", res);
+      console.info("🟣 fetchAdminWalletDetails  -> res: ", res);
       const wallets = res?.data?.data?.wallets;
 
       setAdminWalletsList(wallets);
@@ -202,11 +197,11 @@ export const Transaction = () => {
         (wallet) => wallet.network === orderData.network
       );
       console.log(
-        "🟣🟠🟢🟡 fetchAdminWalletDetails: orderData.network ",
+        "🟣 fetchAdminWalletDetails: orderData.network ",
         orderData.network
       );
       console.log(
-        "🟣🟠🟢🟡 fetchAdminWalletDetails: selectNetworkWalletDetails ",
+        "🟡 fetchAdminWalletDetails: selectNetworkWalletDetails ",
         selectNetworkWalletDetails
       );
       const { id, status, network, address } = selectNetworkWalletDetails;
@@ -221,14 +216,12 @@ export const Transaction = () => {
 
       return selectNetworkWalletDetails;
     } catch (error) {
-      console.log("🔺 fetchAdminWalletDetails: error: ", error);
-      // throw new Error(
-      //   "Error fetching user wallet address details: " + error.message
-      // );
+      console.error("🔺 fetchAdminWalletDetails: error: ", error);
     }
   };
 
   const handleTabClick = (tab) => {
+    resetTransactionDetails();
     setActiveTab(tab);
     setCurrentStep(1);
     if (tab == "buy") {
@@ -247,7 +240,7 @@ export const Transaction = () => {
   const handleNextClick = (e) => {
     e.preventDefault();
     const validationErrors = validateStep1Inputs(orderData);
-    console.log("🔴🔺 handleNextClick: validationErrors: ", validationErrors);
+    console.log("🔺 handleNextClick: validationErrors: ", validationErrors);
     const hasNoErrors = Object.values(validationErrors).every(
       (error) => error.message === ""
     );
@@ -264,8 +257,6 @@ export const Transaction = () => {
     event.preventDefault();
     setCurrentStep(currentStep - 1);
   };
-
-  console.log("🟢🟢🟢🟢 orderData: ", orderData);
 
   const handleCryptoDropdwonSelectionForBuyAssets = (selectedCrypto) => {
     if (orderData.receivedAmount !== null) {
@@ -293,11 +284,6 @@ export const Transaction = () => {
   const handleOnSelect = (event, selectDropwdownName) => {
     event.preventDefault();
     const { value } = event.target;
-
-    console.log("🟢 selectDropwdownName: ", {
-      selectDropwdownName,
-      value,
-    });
 
     setOrderData((prevOrderData) => ({
       ...prevOrderData,
@@ -404,7 +390,6 @@ export const Transaction = () => {
       });
       return res;
     } catch (error) {
-      // console.log("🔺 createOrder: error: ", error);
       throw new Error("Error creating order: " + error.message);
     }
   };
@@ -417,7 +402,7 @@ export const Transaction = () => {
       // refetch();
     },
     onError: (error) => {
-      console.log("🔺 useMutation: error: UserDetails: ", error);
+      console.error("🔺 useMutation: error: UserDetails: ", error);
       toast.error(
         error?.response?.data?.message ||
           "Something went wrong. Please try again later."
