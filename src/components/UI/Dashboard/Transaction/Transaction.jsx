@@ -258,14 +258,14 @@ export const Transaction = ({ cryptoPrice }) => {
     selectedCrypto
   ) => {
     if (orderData.sendAmount !== null) {
-      const receivedAmountAfterTdsDeduction = calculateAmountAfterTDS(
-        orderData.receivedAmount
-      );
+      const receivedAmount =
+        Number(orderData.sendAmount) * cryptoPrice[selectedCrypto];
+      const receivedAmountAfterTdsDeduction =
+        calculateAmountAfterTDS(receivedAmount);
       setOrderData((prevOrderData) => ({
         ...prevOrderData,
         [selectDropwdownName]: selectedCrypto,
-        receivedAmount:
-          Number(orderData.sendAmount) * cryptoPrice[selectedCrypto],
+        receivedAmount,
         receivedAmountAfterTdsDeduction,
       }));
     }
@@ -293,15 +293,15 @@ export const Transaction = ({ cryptoPrice }) => {
   ) => {
     if (orderData.sendAmount !== null) {
       const selectedCrypto = cryptoOptions[networkValue][0];
-      const receivedAmountAfterTdsDeduction = calculateAmountAfterTDS(
-        orderData.receivedAmount
-      );
+      const receivedAmount =
+        Number(orderData.sendAmount) * cryptoPrice[selectedCrypto];
+      const receivedAmountAfterTdsDeduction =
+        calculateAmountAfterTDS(receivedAmount);
       setOrderData((prevOrderData) => ({
         ...prevOrderData,
         [selectDropwdownName]: networkValue,
         crypto: selectedCrypto,
-        receivedAmount:
-          Number(orderData.sendAmount) * cryptoPrice[selectedCrypto],
+        receivedAmount,
         receivedAmountAfterTdsDeduction,
       }));
     }
