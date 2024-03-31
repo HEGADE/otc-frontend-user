@@ -48,6 +48,13 @@ export const Transaction = () => {
     ifsCode: "",
   };
 
+  const initialValidationErrors = {
+    sendAmount: { message: "" },
+    receivedAmount: { message: "" },
+    walletAddress: { message: "" },
+    primaryTransactionReceipt: { message: "" },
+  };
+
   const accessToken = useUserStore((state) => state.accessToken);
   const user = useUserStore((state) => state.user);
   // console.log("🟡 user: ", user);
@@ -61,12 +68,10 @@ export const Transaction = () => {
 
   const [activeTab, setActiveTab] = useState("buy");
   const [currentStep, setCurrentStep] = useState(1);
-  const [validationErrors, setValidationErrors] = useState({
-    sendAmount: { message: "" },
-    receivedAmount: { message: "" },
-    walletAddress: { message: "" },
-    primaryTransactionReceipt: { message: "" },
-  });
+
+  const [validationErrors, setValidationErrors] = useState(
+    initialValidationErrors
+  );
 
   const [adminBankDetails, setAdminBankDetails] = useState(
     initialAdminBankDetails
@@ -85,6 +90,7 @@ export const Transaction = () => {
   const [orderData, setOrderData] = useState(initialOrderData);
 
   const resetTransactionDetails = () => {
+    setValidationErrors(initialValidationErrors);
     setAdminBankDetails(initialAdminBankDetails);
     setAdminWalletDetails(initialAdminWalletDetails);
     setUserBankDetails(initialUserBankDetails);
