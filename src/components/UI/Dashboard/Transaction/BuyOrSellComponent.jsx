@@ -42,10 +42,6 @@ export const BuyOrSellComponent = ({
                 </div>
               </div>
             </div>
-            <div className="d-flex justify-content-between">
-              <span>Tax Deduction At Source (TDS)</span>
-              <span className="p1-color">1%</span>
-            </div>
           </div>
           <div className="col-lg-12">
             <div className="buy_crypto__formarea-group mb-5 mb-md-6">
@@ -90,32 +86,6 @@ export const BuyOrSellComponent = ({
                               <option value={buy}>{buy}</option>
                             ))}
                         </select>
-                        <ul>
-                          <li className="active">
-                            <a data-val="1">
-                              <img src="assets/images/btc.png" />
-                              <span>BTC</span>
-                            </a>
-                          </li>
-                          <li>
-                            <a data-val="2">
-                              <img src="assets/images/icon/eth.png" />
-                              <span>ETH</span>
-                            </a>
-                          </li>
-                          <li>
-                            <a data-val="3">
-                              <img src="assets/images/usdt.png" />
-                              <span>USDT</span>
-                            </a>
-                          </li>
-                          <li>
-                            <a data-val="4">
-                              <img src="assets/images/inr.png" />
-                              <span>TLP</span>
-                            </a>
-                          </li>
-                        </ul>
                       </div>
                     </div>
                   </div>
@@ -171,32 +141,6 @@ export const BuyOrSellComponent = ({
                             </option>
                           ))}
                         </select>
-                        <ul>
-                          <li>
-                            <a data-val="1">
-                              <img src="assets/images/usdt.png" />
-                              <span>USDT</span>
-                            </a>
-                          </li>
-                          <li>
-                            <a data-val="2">
-                              <img src="assets/images/eth.png" />
-                              <span>ETH</span>
-                            </a>
-                          </li>
-                          <li>
-                            <a data-val="3">
-                              <img src="assets/images/btc.png" />
-                              <span>BTC</span>
-                            </a>
-                          </li>
-                          <li className="active">
-                            <a data-val="4">
-                              <img src="assets/images/inr.png" />
-                              <span>INR</span>
-                            </a>
-                          </li>
-                        </ul>
                       </div>
                     </div>
                   </div>
@@ -208,81 +152,61 @@ export const BuyOrSellComponent = ({
             </div>
           </div>
           {activeTab === "sell" && (
-            <div className="col-lg-12">
-              <div className="buy_crypto__formarea-group mb-5 mb-md-6">
-                <label className="mb-2 text-white">
-                  Received Amount after TDS Deduction
-                </label>
-                <div className="d-flex align-items-center br2 p-1 rounded-4 mb-2 bg1-color">
-                  <input
-                    style={{
-                      backgroundColor: "#1c4c55",
-                      color: "#ffffff",
-                      borderColor: "#1c4c55",
-                    }}
-                    name="receivedAmountAfterTdsDeduction"
-                    value={orderData.receivedAmountAfterTdsDeduction}
-                    type="number"
-                    className="form-control showhide-pass"
-                    id="input-received-amount-after-tds-deduction"
-                    disabled={true}
-                  />
-                  <div className="text-end">
-                    <div className="apex_section__slider-selector markets_section__rcard-selector">
-                      <div className="f-group">
-                        <div className="f-dropdown selectDropdown filled">
-                          <select
-                            id="select-crypto"
-                            className="f-control f-dropdown"
-                            value={orderData.currency}
-                            onChange={(e) => handleOnSelect(e, "currency")}
-                          >
-                            {currencyOptions.map((currencyOption) => (
-                              <option value={currencyOption}>
-                                {currencyOption}
-                              </option>
-                            ))}
-                          </select>
-                          <ul>
-                            <li>
-                              <a data-val="1">
-                                <img src="assets/images/usdt.png" />
-                                <span>USDT</span>
-                              </a>
-                            </li>
-                            <li>
-                              <a data-val="2">
-                                <img src="assets/images/eth.png" />
-                                <span>ETH</span>
-                              </a>
-                            </li>
-                            <li>
-                              <a data-val="3">
-                                <img src="assets/images/btc.png" />
-                                <span>BTC</span>
-                              </a>
-                            </li>
-                            <li className="active">
-                              <a data-val="4">
-                                <img src="assets/images/inr.png" />
-                                <span>INR</span>
-                              </a>
-                            </li>
-                          </ul>
+            <>
+              <div className="col-lg-12">
+                <div className="buy_crypto__formarea-group mb-5 mb-md-6">
+                  <label className="mb-2 text-white">
+                    Received Amount after TDS
+                  </label>
+                  <div className="d-flex align-items-center br2 p-1 rounded-4 mb-2 bg1-color">
+                    <input
+                      style={{
+                        backgroundColor: "#1c4c55",
+                        color: "#ffffff",
+                        borderColor: "#1c4c55",
+                      }}
+                      name="receivedAmountAfterTdsDeduction"
+                      value={orderData.receivedAmountAfterTdsDeduction}
+                      type="number"
+                      className="form-control showhide-pass"
+                      id="input-received-amount-after-tds-deduction"
+                      disabled={true}
+                    />
+                    <div className="text-end">
+                      <div className="apex_section__slider-selector markets_section__rcard-selector">
+                        <div className="f-group">
+                          <div className="f-dropdown selectDropdown filled">
+                            <select
+                              id="select-crypto"
+                              className="f-control f-dropdown"
+                              value={orderData.currency}
+                              onChange={(e) => handleOnSelect(e, "currency")}
+                            >
+                              {currencyOptions.map((currencyOption) => (
+                                <option value={currencyOption}>
+                                  {currencyOption}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                  <ValidationError
+                    err={
+                      activeTab === "buy"
+                        ? validationErrors.sendAmount
+                        : validationErrors.receivedAmountAfterTdsDeduction
+                    }
+                  />
+                  <div className="d-flex justify-content-between">
+                    <span>Tax Deduction At Source (TDS)</span>
+                    <span className="p1-color">1%</span>
+                  </div>
                 </div>
-                <ValidationError
-                  err={
-                    activeTab === "buy"
-                      ? validationErrors.sendAmount
-                      : validationErrors.receivedAmountAfterTdsDeduction
-                  }
-                />
               </div>
-            </div>
+            </>
           )}
           <div className="col-lg-12">
             <div className="buy_crypto__formarea-group mb-6 mb-md-8">

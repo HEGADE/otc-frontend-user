@@ -86,8 +86,9 @@ export const Transaction = ({ cryptoPrice }) => {
 
   const [orderData, setOrderData] = useState(initialOrderData);
 
-  const resetTransactionDetails = () => {
+  const resetTransactionForm = () => {
     setValidationErrors(initialValidationErrors);
+    setOrderData(initialOrderData)
     setAdminBankDetails(initialAdminBankDetails);
     setAdminWalletDetails(initialAdminWalletDetails);
     setUserBankDetails(initialUserBankDetails);
@@ -203,7 +204,7 @@ export const Transaction = ({ cryptoPrice }) => {
   };
 
   const handleTabClick = (tab) => {
-    resetTransactionDetails();
+    resetTransactionForm();
     setActiveTab(tab);
     setCurrentStep(1);
     if (tab == "buy") {
@@ -426,7 +427,7 @@ export const Transaction = ({ cryptoPrice }) => {
     onSuccess: (res) => {
       console.log("🔶 useMutation: res: UserDetails: ", res);
       toast.success("Transaction completed successfully");
-      resetTransactionDetails();
+      resetTransactionForm();
       navigate("/");
     },
     onError: (error) => {
