@@ -1,11 +1,9 @@
-/* eslint-disable react/no-unescaped-entities */
-
+import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import axios from "../../lib/http-request";
 import { API } from "../../utils/config/api-end-points.config";
@@ -38,15 +36,27 @@ export const SignIn = () => {
     });
   };
 
-  const { mutate, isPending: loading } = useMutation({
-    mutationKey,
-    mutationFn: (data) => {
-      return onSubmit(data);
-    },
-    onSuccess: (res) => {
-      setUser(res?.data?.data?.user);
-      setAuthToken(res?.data?.data?.tokens);
-      navigate("/two-step-auth");
+  const {
+    mutate,
+    isPending: loading,
+    isSuccess,
+  } = useMutation({
+    mutationKey: [mutationKey],
+    mutationFn: (data) => onSubmit(data),
+    onSuccess: async (res) => {
+      let data = res?.data?.data;
+      console.log("🟢 data: ", data);
+      await setUser(data?.user);
+      await setAuthToken(data?.tokens);
+      if (!data?.user?.isEmailVerified || !data?.user?.isPhoneNumberVerified) {
+        console.log(
+          "🟢 Cond: ",
+          !data?.user?.isEmailVerified || !data?.user?.isPhoneNumberVerified
+        );
+        navigate("/two-step-auth");
+      } else {
+        navigate("/");
+      }
     },
     onError: (error) => {
       console.log(error, "error login");
@@ -57,7 +67,14 @@ export const SignIn = () => {
   return (
     <>
       <Toaster />
-      <div className="row align-items-center" style={{ backgroundColor: '#eef3f9', border: "45px solid #eef3f9", borderRadius: "5px" }}>
+      <div
+        className="row align-items-center"
+        style={{
+          backgroundColor: "#eef3f9",
+          border: "45px solid #eef3f9",
+          borderRadius: "5px",
+        }}
+      >
         <div className="col-lg-6">
           <div className="account__thumb">
             <img

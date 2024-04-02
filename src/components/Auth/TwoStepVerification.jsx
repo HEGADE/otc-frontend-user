@@ -248,12 +248,6 @@ export const TwoStepVerification = () => {
     await sendOtpForPhoneNumVerification(phoneNumber);
   };
 
-  if (
-    verificationStatus.isEmailVerified &&
-    verificationStatus.isPhoneNumberVerified
-  ) {
-    return navigate("/login");
-  }
 
   return (
     <>
