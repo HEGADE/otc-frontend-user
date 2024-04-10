@@ -13,7 +13,7 @@ import MultifactorAuth from "./pages/MultifactorAuth";
 import { Navbar } from "./components/UI/Navbar";
 import { Footer } from "./components/UI/Footer";
 import { Preloader } from "./components/UI/Preloader";
-
+import { Addphone } from "./pages/PhoneVerify";
 import { useUserStore } from "./store/user.store";
 import { ForgotPassword } from "./components/Auth/ForgotPassword";
 import { ResetPassword } from "./components/Auth/ResetPassword";
@@ -83,6 +83,7 @@ function App() {
             path="/login"
             element={isAuthenticated ? <Navigate to="/" /> : <Login />}
           />
+          <Route path="/Phone" element={<Addphone />} />
           <Route path="/two-step-auth" element={<MultifactorAuth />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />

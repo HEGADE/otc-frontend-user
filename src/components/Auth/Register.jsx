@@ -9,9 +9,13 @@ import ButtonWithLoading from "../UI/Button";
 import toast, { Toaster } from "react-hot-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../../utils/validation/auth.validation";
+import { useUserStore } from "../../store/user.store";
 
 const Register = () => {
   const navigate = useNavigate();
+
+  const setUser = useUserStore((state) => state.setUser);
+  const setAuthToken = useUserStore((state) => state.setAuthToken);
 
   const [loading, setLoading] = useState(false);
 
@@ -51,6 +55,10 @@ const Register = () => {
         phoneNumber,
       });
       console.log("res: ", res);
+      let data = res?.data?.data;
+      console.log("🟢 data: ", data);
+      await setUser(data?.user);
+      await setAuthToken(data?.tokens);
       if (res?.data?.success) {
         navigate("/two-step-auth", {
           state: { email, phoneNumber, userId: res?.data?.data?.user?.id },
@@ -64,6 +72,7 @@ const Register = () => {
     }
   };
 
+ 
   return (
     <>
       <Toaster />
@@ -86,17 +95,17 @@ const Register = () => {
                 from you to get started. Let's do this!
               </p>
             </div>
-            <div className="account__social">
+            {/* <div className="account__social">
               <a className="account__social-btn" href="/signup">
                 <span>
                   <img src="assets/images/google.svg" alt="google icon" />
                 </span>
                 Continue with google
               </a>
-            </div>
-            <div className="account__divider account__divider--style1">
+            </div> */}
+            {/* <div className="account__divider account__divider--style1">
               <span>or</span>
-            </div>
+            </div> */}
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="account__form needs-validation"
@@ -212,9 +221,6 @@ const Register = () => {
               />
             </form>
             <div className="account__switch">
-              {/* <p>
-                Don’t have an account yet? <a href="login.html">Login</a>
-              </p> */}
               <p>
                 Don’t have an account yet? <Link to="/login">Login</Link>
               </p>

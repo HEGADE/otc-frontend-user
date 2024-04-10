@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
@@ -11,8 +11,8 @@ import { ValidationError } from "../UI/Errors";
 import ButtonWithLoading from "../UI/Button";
 import { useUserStore } from "../../store/user.store";
 import { loginSchema } from "../../utils/validation/auth.validation";
-
 const mutationKey = ["login"];
+
 
 export const SignIn = () => {
   const {
@@ -24,7 +24,7 @@ export const SignIn = () => {
   });
 
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
   const setUser = useUserStore((state) => state.setUser);
   const setAuthToken = useUserStore((state) => state.setAuthToken);
   const onSubmit = (data) => {
@@ -38,7 +38,6 @@ export const SignIn = () => {
 
   const {
     mutate,
-    isPending: loading,
     isSuccess,
   } = useMutation({
     mutationKey: [mutationKey],
@@ -63,6 +62,68 @@ export const SignIn = () => {
       toast.error(error?.response?.data?.message || "Something went wrong");
     },
   });
+
+  const GoogleSignInButton = () => {
+    const handleSignIn = () => {
+      window.location.href = 'http://localhost:3000/v1/auth/google/callback';
+    };
+  
+    return (
+      <div className="account__social">
+        <a className="account__social-btn" onClick={handleSignIn}>
+          <span>
+            <img src="assets/images/google.svg" alt="google icon" />
+          </span>
+          Continue with Google
+        </a>
+      </div>
+  
+    );
+  }
+
+  const verifyGoogleToken = async (idToken) => {
+    setLoading(true);
+    console.log("hi");
+    try {
+      const res = await axios.post('http://localhost:3000/v1/auth/verify-google-token', {
+        token: idToken,
+      });
+      let data = res?.data?.data;
+      console.log("🟢 data: ", data);
+      await setUser(data?.user);
+      await setAuthToken(data?.tokens);
+      console.log(!data?.user?.phoneNumber);
+      if (!data?.user?.phoneNumber) {
+        navigate("/phone");
+      }
+      else if (!data?.user?.isEmailVerified  ||  data?.user?.phoneNumber && !data?.user?.isPhoneNumberVerified) {
+        // console.log(
+        //   "🟢 Cond: ",
+        //   !data?.user?.isEmailVerified || !data?.user?.isPhoneNumberVerified
+        // );
+        navigate("/two-step-auth");
+      } else {
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error, "error login");
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  
+useEffect(() => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const idToken = urlParams.get('idToken');
+  console.log('ID Token:', idToken);
+
+  if (idToken) {
+    verifyGoogleToken(idToken);
+  }
+}, [window.location.search]);
+
 
   return (
     <>
@@ -134,19 +195,7 @@ export const SignIn = () => {
                 </div>
               </div>
               <div className="account__check">
-                {/* <div className="account__check-remember">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    defaultValue=""
-                    id="terms-check"
-                  />
-                  <label htmlFor="terms-check" className="form-check-label">
-                    Remember me
-                  </label>
-                </div> */}
                 <div className="account__check-forgot">
-                  {/* <a href="forget-password.html">Forgot Password?</a> */}
                   <Link to="/forgot-password">Forgot Password?</Link>
                 </div>
               </div>
@@ -158,10 +207,11 @@ export const SignIn = () => {
                 text="Login"
               />
             </form>
+            <div className="account__divider account__divider--style1">
+              <span>or</span>
+            </div>
+            <GoogleSignInButton />
             <div className="account__switch">
-              {/* <p>
-                Don't have an account? <a href="signup.html">Sign up</a>
-              </p> */}
               <p>
                 Don't have an account? <Link to="/signup">Sign up</Link>
               </p>
