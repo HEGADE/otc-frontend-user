@@ -25,6 +25,7 @@ export const OrderTable = ({ activeTransactionTypeTab, orderData }) => {
               </div>
             </div>
           </th>
+       
           <th>
             <div className="d-flex align-items-center gap-1">
               <span>Amount Recieved</span>
@@ -34,6 +35,19 @@ export const OrderTable = ({ activeTransactionTypeTab, orderData }) => {
               </div>
             </div>
           </th>
+          {
+            activeTransactionTypeTab === "CRYPTO" && (
+              <th>
+                <div className="d-flex align-items-center gap-1">
+                  <span>Recieved After Deduction</span>
+                  <div className="d-flex flex-column gap-0">
+                    <i className="ti ti-caret-up-filled fs-nine cpoint pools_table__totalitem-ticonone"></i>
+                    <i className="ti ti-caret-down-filled fs-nine cpoint pools_table__totalitem-ticontwo"></i>
+                  </div>
+                </div>
+              </th>
+            )
+          }
           <th>Network</th>
           <th>Type</th>
           <th>Status</th>
@@ -61,8 +75,18 @@ export const OrderTable = ({ activeTransactionTypeTab, orderData }) => {
                     </div>
                   </div>
                 </td>
-                <td>{order?.sendAmount} {order?.currency}</td>
-                <td>{order?.receivedAmount} {order?.crypto}</td>
+                <td>   {order?.sendAmount} {activeTransactionTypeTab === "FIAT" ? "INR" : `${order?.crypto}`}</td>
+                
+                <td>{order?.receivedAmount} {activeTransactionTypeTab === "CRYPTO" ? "INR" : `${order?.crypto}`}</td>
+                {
+                  activeTransactionTypeTab === "CRYPTO" && (
+                    <td>
+                      
+                        {order?.receivedAmountAfterTdsDeduction} INR
+                     
+                    </td>
+                  )
+                }
                 <td>{order?.network}</td>
                 <td>
                   <div className="d-flex align-items-center gap-2">
