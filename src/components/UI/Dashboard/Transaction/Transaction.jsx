@@ -428,7 +428,7 @@ export const Transaction = ({ cryptoPrice }) => {
       console.log("🔶 useMutation: res: UserDetails: ", res);
       toast.success("Transaction completed successfully");
       resetTransactionForm();
-      navigate("/");
+      navigate("/orders");
     },
     onError: (error) => {
       console.error("🔺 useMutation: error: UserDetails: ", error);
