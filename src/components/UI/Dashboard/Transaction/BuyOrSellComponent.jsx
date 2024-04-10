@@ -17,8 +17,8 @@ export const BuyOrSellComponent = ({
     <div className="tab-content">
       <form
         className="account__form needs-validation"
-        onSubmit={(e) => handleNextClick(e)}
-      >
+        onSubmit={(e) => handleNextClick(e)}>
+
         <div className="row">
           <div className="buy_crypto__formarea-group mb-5 mb-md-6">
             <label className="mb-2 text-white">Network</label>
@@ -31,18 +31,17 @@ export const BuyOrSellComponent = ({
                         id="select-network"
                         className="f-control f-dropdown"
                         value={orderData.network}
-                        onChange={(e) => handleOnSelect(e, "network")}
+                        onChange={(e) => {
+                          handleOnSelect(e, "network");
+                          if (e.target.value === "BTC") {
+                            orderData.crypto = "BTC";
+                          }
+                        }}
                       >
                         {networkOptions.map((network) => (
                           <option value={network}>{network}</option>
                         ))}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                      </select></div></div></div></div></div></div>
           <div className="col-lg-12">
             <div className="buy_crypto__formarea-group mb-5 mb-md-6">
               <label className="mb-2 text-white">
@@ -62,6 +61,7 @@ export const BuyOrSellComponent = ({
                       : orderData.sendAmount
                   }
                   type="number"
+                  min="0"
                   className="form-control showhide-pass"
                   id={
                     activeTab === "buy"
@@ -71,6 +71,7 @@ export const BuyOrSellComponent = ({
                   placeholder="Enter Crypto"
                   onChange={(event) => handleOnInputChange(event)}
                 />
+
                 <div className="text-end">
                   <div className="apex_section__slider-selector markets_section__rcard-selector">
                     <div className="f-group">
@@ -79,18 +80,18 @@ export const BuyOrSellComponent = ({
                           id="select-crypto"
                           className="f-control f-dropdown"
                           value={orderData.crypto}
-                          onChange={(e) => handleOnSelect(e, "crypto")}
+                          onChange={(e) => {
+                            handleOnSelect(e, "crypto");
+                            if (orderData.network === "BTC" && e.target.value !== "BTC") {
+                              orderData.crypto = "BTC";
+                            }
+                          }}
                         >
                           {orderData.network &&
                             cryptoOptions[orderData.network].map((buy) => (
                               <option value={buy}>{buy}</option>
                             ))}
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                        </select></div></div></div> </div></div>
               <ValidationError
                 err={
                   activeTab === "buy"
@@ -170,8 +171,7 @@ export const BuyOrSellComponent = ({
                       type="number"
                       className="form-control showhide-pass"
                       id="input-received-amount-after-tds-deduction"
-                      disabled={true}
-                    />
+                      disabled={true} />
                     <div className="text-end">
                       <div className="apex_section__slider-selector markets_section__rcard-selector">
                         <div className="f-group">
@@ -180,19 +180,11 @@ export const BuyOrSellComponent = ({
                               id="select-crypto"
                               className="f-control f-dropdown"
                               value={orderData.currency}
-                              onChange={(e) => handleOnSelect(e, "currency")}
-                            >
+                              onChange={(e) => handleOnSelect(e, "currency")}>
                               {currencyOptions.map((currencyOption) => (
                                 <option value={currencyOption}>
-                                  {currencyOption}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                                  {currencyOption}</option>
+                              ))}</select></div></div></div></div></div>
                   <ValidationError
                     err={
                       activeTab === "buy"
