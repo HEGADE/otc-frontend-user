@@ -1,4 +1,5 @@
 export const CryptoPricing = ({ cryptoPrice }) => {
+  console.log('cryptoPrice.............................----------------------', cryptoPrice);
     return (
             <div className="col-lg-6">
               <div className="row gy-6">
@@ -411,6 +412,38 @@ export const CryptoPricing = ({ cryptoPrice }) => {
                             maximumFractionDigits: 2,
                           }).format(
                             cryptoPrice?.USDT
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                 <div className="col-md-12 col-xl-12">
+                  <div className="markets_section__card bg4-color rounded-20 br2 p-4 p-md-6 wow fadeInUp">
+                    <div className="markets_section__card-head d-flex align-items-center gap-2 mb-4 mb-md-5">
+                      <img
+                        src="assets/images/usdt.png"
+                        alt="icon"
+                        style={{ height: "40px" }}
+                      />
+                      <h4 className="text-white">TRON</h4>
+                      <span className="fs-ten">TRX</span>
+                    </div>
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div className="d-flex align-items-center gap-2">
+                        <span className="fs-four text-white">
+                          <img
+                            src="assets/images/inr2.png"
+                            alt="INR"
+                            style={{ height: "30px ", paddingLeft: "5px" }}
+                          />
+                        </span>
+                        <span className="fs-four p1-color">
+                          {new Intl.NumberFormat('en-US', {
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 2,
+                          }).format(
+                            cryptoPrice?.TRX
                           )}
                         </span>
                       </div>

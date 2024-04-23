@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { ValidationError } from "../../../UI/Errors";
 
 export const WalletComponent = ({
@@ -9,6 +10,24 @@ export const WalletComponent = ({
   validationErrors,
 }) => {
   console.log("🟠🟡🟢 adminWalletDetails: ", adminWalletDetails);
+  console.log("🟠🟡🟢 orderData: ", orderData);
+
+  const [value, setValue] = useState("");
+
+  useEffect(() => {
+    if (orderData.network === "ETH") {
+      setValue(adminWalletDetails.ethAddress);
+    }
+    if (orderData.network === "BSC") {
+      setValue(adminWalletDetails.bscAddress);
+    }
+    if (orderData.network === "BTC") {
+      setValue(adminWalletDetails.btcAddress);
+    }
+    if (orderData.network === "TRON") {
+      setValue(adminWalletDetails.tronAddress);
+    }
+  },[orderData]);
 
   return (
     <div className="col-lg-12">
@@ -25,7 +44,7 @@ export const WalletComponent = ({
                   <input
                     className="bg4-color"
                     type="text"
-                    value={adminWalletDetails.walletAddress}
+                    value={value}
                     disabled={true}
                   />
                   <div className="tick-mark">

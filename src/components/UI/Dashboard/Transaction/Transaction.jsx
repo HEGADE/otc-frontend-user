@@ -74,11 +74,16 @@ export const Transaction = ({ cryptoPrice }) => {
     initialAdminBankDetails
   );
 
-  const [adminWalletsList, setAdminWalletsList] = useState([]);
+  const [adminWalletsList, setAdminWalletsList] = useState({
+    bscAddress: "",
+    btcAddress: "",
+    ethAddress: "",
+    tronAddress: "",
+  });
 
-  const [adminWalletDetails, setAdminWalletDetails] = useState(
-    initialAdminWalletDetails
-  );
+  // const [adminWalletDetails, setAdminWalletDetails] = useState(
+  //   initialAdminWalletDetails
+  // );
 
   const [userBankDetails, setUserBankDetails] = useState(
     initialUserBankDetails
@@ -88,9 +93,9 @@ export const Transaction = ({ cryptoPrice }) => {
 
   const resetTransactionForm = () => {
     setValidationErrors(initialValidationErrors);
-    setOrderData(initialOrderData)
+    setOrderData(initialOrderData);
     setAdminBankDetails(initialAdminBankDetails);
-    setAdminWalletDetails(initialAdminWalletDetails);
+    // setAdminWalletDetails(initialAdminWalletDetails);
     setUserBankDetails(initialUserBankDetails);
   };
 
@@ -172,32 +177,35 @@ export const Transaction = ({ cryptoPrice }) => {
         },
       });
       console.info("🟣 fetchAdminWalletDetails  -> res: ", res);
-      const wallets = res?.data?.data?.wallets;
+      const wallets = res?.data?.data?.wallets?.[0];
 
-      setAdminWalletsList(wallets);
+      if (wallets) {
+        setAdminWalletsList(wallets);
+      }
 
-      const selectNetworkWalletDetails = wallets?.find(
-        (wallet) => wallet.network === orderData.network
-      );
-      console.log(
-        "🟣 fetchAdminWalletDetails: orderData.network ",
-        orderData.network
-      );
-      console.log(
-        "🟡 fetchAdminWalletDetails: selectNetworkWalletDetails ",
-        selectNetworkWalletDetails
-      );
-      const { id, status, network, address } = selectNetworkWalletDetails;
+      // const selectNetworkWalletDetails = wallets?.find(
+      //   (wallet) => wallet.network === orderData.network
+      // );
+      // console.log(
+      //   "🟣 fetchAdminWalletDetails: orderData.network ",
+      //   orderData.network
+      // );
+      // console.log(
+      //   "🟡 fetchAdminWalletDetails: selectNetworkWalletDetails ",
+      //   selectNetworkWalletDetails
+      // );
+      // const { id, status, network, address } = selectNetworkWalletDetails;
 
-      setAdminWalletDetails((prevOrderData) => ({
-        ...prevOrderData,
-        id,
-        status,
-        network,
-        walletAddress: address,
-      }));
+      // setAdminWalletDetails((prevOrderData) => ({
+      //   ...prevOrderData,
+      //   id,
+      //   status,
+      //   network,
+      //   walletAddress: address,
+      // }));
 
-      return selectNetworkWalletDetails;
+      // return selectNetworkWalletDetails;
+      return wallets;
     } catch (error) {
       console.error("🔺 fetchAdminWalletDetails: error: ", error);
     }
@@ -277,7 +285,6 @@ export const Transaction = ({ cryptoPrice }) => {
     selectDropwdownName,
     networkValue
   ) => {
-    if (orderData.sendAmount !== null) {
       const selectedCrypto = cryptoOptions[networkValue][0];
       setOrderData((prevOrderData) => ({
         ...prevOrderData,
@@ -286,14 +293,13 @@ export const Transaction = ({ cryptoPrice }) => {
         sendAmount:
           Number(orderData.receivedAmount) * cryptoPrice[selectedCrypto],
       }));
-    }
+    
   };
 
   const handleNetworkDropdwonSelectionForSellAssets = (
     selectDropwdownName,
     networkValue
   ) => {
-    if (orderData.sendAmount !== null) {
       const selectedCrypto = cryptoOptions[networkValue][0];
       const receivedAmount =
         Number(orderData.sendAmount) * cryptoPrice[selectedCrypto];
@@ -306,7 +312,6 @@ export const Transaction = ({ cryptoPrice }) => {
         receivedAmount,
         receivedAmountAfterTdsDeduction,
       }));
-    }
   };
 
   const handleOnSelect = (event, selectDropwdownName) => {
@@ -532,7 +537,7 @@ export const Transaction = ({ cryptoPrice }) => {
             handleOrderSubmit={handleOrderSubmit}
             userBankDetails={userBankDetails}
             validationErrors={validationErrors}
-            adminWalletDetails={adminWalletDetails}
+            adminWalletDetails={adminWalletsList}
           />
         );
       default:
@@ -540,12 +545,16 @@ export const Transaction = ({ cryptoPrice }) => {
     }
   };
 
+  const { bscAddress, btcAddress, ethAddress, tronAddress } = adminWalletsList;
+  const allAddressPresent =
+    bscAddress && btcAddress && ethAddress && tronAddress;
+
   // console.log("🟣 : ", {
   //   activeTab,
   //   currentStep,
   // });
 
-  if (!adminBankDetails.accountNumber || adminWalletsList.length < 3) {
+  if (!adminBankDetails.accountNumber || !allAddressPresent) {
     return (
       <div className="col-lg-6">
         <div className="row gy-5 gy-md-6 justify-content-center">
@@ -569,7 +578,7 @@ export const Transaction = ({ cryptoPrice }) => {
 
   if (
     !!adminBankDetails.accountNumber &&
-    adminWalletsList.length == 3 &&
+    allAddressPresent &&
     !userBankDetails.accountNumber
   ) {
     return (
@@ -595,7 +604,7 @@ export const Transaction = ({ cryptoPrice }) => {
 
   if (
     !!adminBankDetails.accountNumber &&
-    adminWalletsList.length == 3 &&
+    allAddressPresent &&
     !!userBankDetails.accountNumber
   ) {
     return (

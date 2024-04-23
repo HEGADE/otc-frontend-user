@@ -14,6 +14,7 @@ export const Dashboard = () => {
     ETH: null,
     BNB: null,
     USDT: null,
+    TRX: null
   });
 
   // price api start
@@ -24,11 +25,13 @@ export const Dashboard = () => {
       url: API.getCryptoPricing,
       headers: { "x-cg-demo-api-key": "CG-6cV1jEXLFDiEnkhUJH5CehaH" },
     });
+    console.log('priceData------------------------------------', priceData);
     setCryptoPrice({
       BTC: priceData?.data?.bitcoin?.inr,
       ETH: priceData?.data?.ethereum?.inr,
       BNB: priceData?.data["binance-coin-wormhole"]["inr"],
       USDT: priceData?.data?.tether?.inr,
+      TRX: priceData?.data?.tron?.inr,
     });
     console.info("🟣 priceData: ", priceData);
     return priceData;
