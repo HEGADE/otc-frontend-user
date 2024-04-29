@@ -6,6 +6,8 @@ import {
   Route,
   Navigate,
   Outlet,
+  Link,
+  useNavigate,
 } from "react-router-dom";
 import { Signup } from "./pages/Signup";
 import Login from "./pages/Login";
@@ -21,12 +23,13 @@ import { Dashboard } from "./components/UI/Dashboard/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { UserProfile } from "./components/UI/UserProfile/UserProfile";
 import { Order } from "./components/UI/Order/Order";
+import MessageContainer from "./components/UI/Messages/MessageContainer";
+import MessageIcon from "./components/UI/MessageIcon";
 
 function App() {
   const [pageLoading, setPageLoading] = React.useState(false);
   const isAuthenticated = useUserStore((state) => !!state.accessToken);
   const user = useUserStore((state) => state.user);
-
   console.log("🟡 user: ", user);
 
   // SCRIPT LOAD
@@ -62,7 +65,7 @@ function App() {
 
     setTimeout(() => {
       setPageLoading(false);
-    }, [1500])
+    }, [1500]);
   }, []);
 
   const NavbarLayout = () => (
@@ -90,12 +93,14 @@ function App() {
           <Route element={<NavbarLayout />}>
             <Route element={<ProtectedRoute />}>
               <Route path="/" element={<Dashboard />} />
+              <Route path="/messages" element={<MessageContainer />} />
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/orders" element={<Order />} />
             </Route>
           </Route>
           <Route path="*" element={<p>404 Page</p>} />
         </Routes>
+        {isAuthenticated && <MessageIcon />}
       </Router>
     </>
   );
