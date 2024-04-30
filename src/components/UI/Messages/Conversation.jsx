@@ -4,6 +4,7 @@ import axios from "axios";
 import Message from "./Message";
 import MessageInput from "./MessageInput";
 import { useConversation } from "../../../store/message.store";
+import { useSocketContext } from "../../../context/SocketContext";
 
 function Conversation() {
   const [error, setError] = useState();
@@ -11,8 +12,14 @@ function Conversation() {
   const accessToken = useUserStore((state) => state.accessToken);
   const user = useUserStore((state) => state.user);
   const lastMessageRef = useRef();
+  const { socket } = useSocketContext();
 
-  console.log(user.id);
+  useEffect(() => {
+    socket?.on("newMessage", (newMessage) => {
+      setMessages([...messages, newMessage]);
+    });
+    return () => socket?.off("newMessage");
+  }, [messages, socket]);
 
   useEffect(() => {
     try {
@@ -31,14 +38,16 @@ function Conversation() {
         setMessages(messages);
       };
       getMessages();
-    } catch (e) {
-      setError(error);
+    } catch (err) {
+      setError(err);
     }
   }, [user?.id, setMessages]);
 
+  console.log("messages-------------------------------------", messages);
+
   useEffect(() => {
     setTimeout(() => {
-      lastMessageRef?.current?.scrollIntoView({behavior: "smooth" });
+      lastMessageRef?.current?.scrollIntoView({ behavior: "smooth" });
     }, 10);
   }, [messages]);
 
