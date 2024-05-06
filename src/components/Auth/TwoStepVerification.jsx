@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import { API } from "../../utils/config/api-end-points.config";
 import axios from "../../lib/http-request";
-import { verifyEmailAndPhoneNumberSchema } from "../../utils/validation/auth.validation";
+// import { verifyEmailAndPhoneNumberSchema } from "../../utils/validation/auth.validation";
 import { useUserStore } from "../../store/user.store";
 
 export const TwoStepVerification = () => {

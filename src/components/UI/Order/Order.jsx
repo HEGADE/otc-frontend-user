@@ -16,6 +16,8 @@ export const Order = () => {
     useState("FIAT");
 
   const [orderData, setOrderData] = useState([]);
+  const [selectedNetwork, setSelectedNetwork] = useState("");
+  const [submissionStatus, setSubmissionStatus] = useState("");
 
   const [paginationInput, setPaginationInput] = useState({
     totalResults: 0,
@@ -28,17 +30,28 @@ export const Order = () => {
     setActiveTransactionTypeTab(tab);
   };
 
+  const handleRefresh = () => {
+    window.location.reload()
+  }
+
   let fetchOrderDetails = async () => {
+    const params = {
+      transactionType: activeTransactionTypeTab,
+      limit: paginationInput.limit,
+      page: paginationInput.currentPage,
+    };
+    if (selectedNetwork) {
+      params.network = selectedNetwork;
+    }
+    if (submissionStatus) {
+      params.status = submissionStatus;
+    }
     try {
       const res = await axios.get(API.getOrderDetails, {
         headers: {
           Authorization: "Bearer " + accessToken,
         },
-        params: {
-          transactionType: activeTransactionTypeTab,
-          limit: paginationInput.limit,
-          page: paginationInput.currentPage,
-        },
+        params,
       });
       const orderRes = res?.data?.data?.orders;
       console.log(
@@ -69,7 +82,13 @@ export const Order = () => {
     if (activeTransactionTypeTab) {
       refetch({ transactionType: activeTransactionTypeTab });
     }
-  }, [activeTransactionTypeTab, refetch, paginationInput.currentPage]);
+  }, [
+    activeTransactionTypeTab,
+    refetch,
+    paginationInput.currentPage,
+    selectedNetwork,
+    submissionStatus,
+  ]);
 
   if (isLoading) return <Preloader />;
 
@@ -103,7 +122,10 @@ export const Order = () => {
               <div className="singletab">
                 <div className="demo">
                   <div className="tab">
-                    <div className="tab-wrapper" style={{ padding: "20px" }}>
+                    <div
+                      className="tab-wrapper"
+                      style={{ paddingRight: "20px", paddingLeft: "20px" }}
+                    >
                       <input
                         id="tab1"
                         type="radio"
@@ -127,6 +149,66 @@ export const Order = () => {
                       <label className="tab-button order-btn" htmlFor="tab2">
                         Sell Orders
                       </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row mb-4">
+            <div className="pools_table__part">
+              <div className="singletab">
+                <div className="demo">
+                  <div className="tab">
+                    <div className="tab-wrapper d-flex gap-3 p-3">
+                      <button
+                        style={{
+                          border: "1px solid gray",
+                          borderRadius: "10px",
+                          padding: "10px",
+                        }}
+                        onClick={handleRefresh}
+                      >
+                        Refresh
+                      </button>
+                      <select
+                        className=""
+                        name=""
+                        id=""
+                        onChange={(e) => setSelectedNetwork(e.target.value)}
+                        style={{
+                          border: "1px solid gray",
+                          borderRadius: "10px",
+                          padding: "10px",
+                        }}
+                      >
+                        <option value=""selected>
+                          All Networks
+                        </option>
+                        <option value="ETH">ETH</option>
+                        <option value="BSC">BSC</option>
+                        <option value="BTC">BTC</option>
+                        <option value="TRON">TRON</option>
+                      </select>
+                      <select
+                        className=""
+                        name=""
+                        id=""
+                        onChange={(e) => setSubmissionStatus(e.target.value)}
+                        style={{
+                          border: "1px solid gray",
+                          borderRadius: "10px",
+                          padding: "10px",
+                        }}
+                      >
+                        <option value="" selected>
+                          All Statuses
+                        </option>
+                        <option value="SUBMITTED">SUBMITTED</option>
+                        <option value="APPROVED">APPROVED</option>
+                        <option value="REJECTED">REJECTED</option>
+                        <option value="COMPLETED">COMPLETED</option>
+                      </select>
                     </div>
                   </div>
                 </div>

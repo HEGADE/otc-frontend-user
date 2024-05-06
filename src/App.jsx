@@ -31,6 +31,8 @@ function App() {
   const isAuthenticated = useUserStore((state) => !!state.accessToken);
   const user = useUserStore((state) => state.user);
   console.log("🟡 user: ", user);
+  console.log("🟡 accessToken: ", isAuthenticated);
+
 
   // SCRIPT LOAD
   const runScript = () => {
@@ -84,14 +86,37 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route
             path="/login"
-            element={isAuthenticated ? <Navigate to="/" /> : <Login />}
+            element={
+              isAuthenticated && user ? (
+                user.isEmailVerified && user.isPhoneNumberVerified ? (
+                  <Navigate to="/" />
+                ) : (
+                  <Navigate to="/verify" />
+                )
+              ) : (
+                <Login />
+              )
+            }
           />
           <Route path="/Phone" element={<Addphone />} />
-          <Route path="/two-step-auth" element={<MultifactorAuth />} />
+          <Route
+            path="/verify"
+            element={
+              isAuthenticated && user ? (
+                user.isEmailVerified && user.isPhoneNumberVerified ? (
+                  <Navigate to="/" />
+                ) : (
+                  <MultifactorAuth />
+                )
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route element={<NavbarLayout />}>
-            <Route element={<ProtectedRoute />}>
+          <Route element={<ProtectedRoute />}>
+            <Route element={<NavbarLayout />}>
               <Route path="/" element={<Dashboard />} />
               <Route path="/messages" element={<MessageContainer />} />
               <Route path="/profile" element={<UserProfile />} />
@@ -100,7 +125,10 @@ function App() {
           </Route>
           <Route path="*" element={<p>404 Page</p>} />
         </Routes>
-        {isAuthenticated && <MessageIcon />}
+        {isAuthenticated &&
+          user &&
+          user.isEmailVerified &&
+          user.isPhoneNumberVerified && <MessageIcon />}
       </Router>
     </>
   );

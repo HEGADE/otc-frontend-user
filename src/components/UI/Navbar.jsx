@@ -8,7 +8,7 @@ export const Navbar = () => {
 
   const handleLogOut = async () => {
     console.log("Logging out!");
-    clearAuth()();
+    clearAuth();
     navigate("/login");
   }
 

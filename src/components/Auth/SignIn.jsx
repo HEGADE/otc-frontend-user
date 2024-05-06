@@ -13,7 +13,6 @@ import { useUserStore } from "../../store/user.store";
 import { loginSchema } from "../../utils/validation/auth.validation";
 const mutationKey = ["login"];
 
-
 export const SignIn = () => {
   const {
     register,
@@ -36,23 +35,21 @@ export const SignIn = () => {
     });
   };
 
-  const {
-    mutate,
-    isSuccess,
-  } = useMutation({
+  const { mutate, isSuccess } = useMutation({
     mutationKey: [mutationKey],
     mutationFn: (data) => onSubmit(data),
     onSuccess: async (res) => {
       let data = res?.data?.data;
       console.log("🟢 data: ", data);
       await setUser(data?.user);
+      console.log(data?.tokens);
       await setAuthToken(data?.tokens);
       if (!data?.user?.isEmailVerified || !data?.user?.isPhoneNumberVerified) {
         console.log(
           "🟢 Cond: ",
           !data?.user?.isEmailVerified || !data?.user?.isPhoneNumberVerified
         );
-        navigate("/two-step-auth");
+        navigate("/verify");
       } else {
         navigate("/");
       }
@@ -65,9 +62,9 @@ export const SignIn = () => {
 
   const GoogleSignInButton = () => {
     const handleSignIn = () => {
-      window.location.href = 'http://localhost:3000/v1/auth/google/callback';
+      window.location.href = "http://localhost:3000/v1/auth/google/callback";
     };
-  
+
     return (
       <div className="account__social">
         <a className="account__social-btn" onClick={handleSignIn}>
@@ -77,17 +74,18 @@ export const SignIn = () => {
           Continue with Google
         </a>
       </div>
-  
     );
-  }
+  };
 
   const verifyGoogleToken = async (idToken) => {
     setLoading(true);
-    console.log("hi");
     try {
-      const res = await axios.post('http://localhost:3000/v1/auth/verify-google-token', {
-        token: idToken,
-      });
+      const res = await axios.post(
+        "http://localhost:3000/v1/auth/verify-google-token",
+        {
+          token: idToken,
+        }
+      );
       let data = res?.data?.data;
       console.log("🟢 data: ", data);
       await setUser(data?.user);
@@ -95,13 +93,15 @@ export const SignIn = () => {
       console.log(!data?.user?.phoneNumber);
       if (!data?.user?.phoneNumber) {
         navigate("/phone");
-      }
-      else if (!data?.user?.isEmailVerified  ||  data?.user?.phoneNumber && !data?.user?.isPhoneNumberVerified) {
+      } else if (
+        !data?.user?.isEmailVerified ||
+        (data?.user?.phoneNumber && !data?.user?.isPhoneNumberVerified)
+      ) {
         // console.log(
         //   "🟢 Cond: ",
         //   !data?.user?.isEmailVerified || !data?.user?.isPhoneNumberVerified
         // );
-        navigate("/two-step-auth");
+        navigate("/verify");
       } else {
         navigate("/");
       }
@@ -113,17 +113,15 @@ export const SignIn = () => {
     }
   };
 
-  
-useEffect(() => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const idToken = urlParams.get('idToken');
-  console.log('ID Token:', idToken);
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const idToken = urlParams.get("idToken");
+    console.log("ID Token:", idToken);
 
-  if (idToken) {
-    verifyGoogleToken(idToken);
-  }
-}, [window.location.search]);
-
+    if (idToken) {
+      verifyGoogleToken(idToken);
+    }
+  }, [window.location.search]);
 
   return (
     <>
