@@ -25,6 +25,7 @@ import { UserProfile } from "./components/UI/UserProfile/UserProfile";
 import { Order } from "./components/UI/Order/Order";
 import MessageContainer from "./components/UI/Messages/MessageContainer";
 import MessageIcon from "./components/UI/MessageIcon";
+import KycVerification from "./components/UI/KYC/KycVerification";
 
 function App() {
   const [pageLoading, setPageLoading] = React.useState(false);
@@ -32,7 +33,6 @@ function App() {
   const user = useUserStore((state) => state.user);
   console.log("🟡 user: ", user);
   console.log("🟡 accessToken: ", isAuthenticated);
-
 
   // SCRIPT LOAD
   const runScript = () => {
@@ -121,14 +121,23 @@ function App() {
               <Route path="/messages" element={<MessageContainer />} />
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/orders" element={<Order />} />
+              <Route
+                path="/kyc-verify"
+                element={
+                  user?.isKYCVerified ? (
+                    <Navigate to={"/"} />
+                  ) : (
+                    <KycVerification />
+                  )
+                }
+              />
             </Route>
           </Route>
           <Route path="*" element={<p>404 Page</p>} />
         </Routes>
         {isAuthenticated &&
-          user &&
-          user.isEmailVerified &&
-          user.isPhoneNumberVerified && <MessageIcon />}
+          user?.isEmailVerified &&
+          user?.isPhoneNumberVerified && <MessageIcon />}
       </Router>
     </>
   );

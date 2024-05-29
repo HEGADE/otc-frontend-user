@@ -285,33 +285,32 @@ export const Transaction = ({ cryptoPrice }) => {
     selectDropwdownName,
     networkValue
   ) => {
-      const selectedCrypto = cryptoOptions[networkValue][0];
-      setOrderData((prevOrderData) => ({
-        ...prevOrderData,
-        [selectDropwdownName]: networkValue,
-        crypto: selectedCrypto,
-        sendAmount:
-          Number(orderData.receivedAmount) * cryptoPrice[selectedCrypto],
-      }));
-    
+    const selectedCrypto = cryptoOptions[networkValue][0];
+    setOrderData((prevOrderData) => ({
+      ...prevOrderData,
+      [selectDropwdownName]: networkValue,
+      crypto: selectedCrypto,
+      sendAmount:
+        Number(orderData.receivedAmount) * cryptoPrice[selectedCrypto],
+    }));
   };
 
   const handleNetworkDropdwonSelectionForSellAssets = (
     selectDropwdownName,
     networkValue
   ) => {
-      const selectedCrypto = cryptoOptions[networkValue][0];
-      const receivedAmount =
-        Number(orderData.sendAmount) * cryptoPrice[selectedCrypto];
-      const receivedAmountAfterTdsDeduction =
-        calculateAmountAfterTDS(receivedAmount);
-      setOrderData((prevOrderData) => ({
-        ...prevOrderData,
-        [selectDropwdownName]: networkValue,
-        crypto: selectedCrypto,
-        receivedAmount,
-        receivedAmountAfterTdsDeduction,
-      }));
+    const selectedCrypto = cryptoOptions[networkValue][0];
+    const receivedAmount =
+      Number(orderData.sendAmount) * cryptoPrice[selectedCrypto];
+    const receivedAmountAfterTdsDeduction =
+      calculateAmountAfterTDS(receivedAmount);
+    setOrderData((prevOrderData) => ({
+      ...prevOrderData,
+      [selectDropwdownName]: networkValue,
+      crypto: selectedCrypto,
+      receivedAmount,
+      receivedAmountAfterTdsDeduction,
+    }));
   };
 
   const handleOnSelect = (event, selectDropwdownName) => {
@@ -591,6 +590,28 @@ export const Transaction = ({ cryptoPrice }) => {
                   <br />
                   <p className="dashboard-warning-p">
                     Please add your bank details in profile section
+                  </p>
+                  <br />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user.isKYCVerified) {
+    return (
+      <div className="col-lg-6">
+        <div className="row gy-5 gy-md-6 justify-content-center">
+          <div className="col-lg-6 col-xxl-12">
+            <div className="buy_crypto__formarea p-6 p-px-8 rounded-20 bg7-color wow fadeInUp dashboard-warning-div">
+              <div className="col-lg-6 col-xxl-12">
+                <div className="demo">
+                  <br />
+                  <p className="dashboard-warning-p">
+                    Please Verify your KYC Status for submitting orders
                   </p>
                   <br />
                 </div>

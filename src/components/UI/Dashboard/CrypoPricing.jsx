@@ -1,5 +1,4 @@
 export const CryptoPricing = ({ cryptoPrice }) => {
-  console.log('cryptoPrice.............................----------------------', cryptoPrice);
     return (
             <div className="col-lg-6">
               <div className="row gy-6">

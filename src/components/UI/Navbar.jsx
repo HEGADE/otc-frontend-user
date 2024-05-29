@@ -3,8 +3,9 @@ import { useUserStore } from "../../store/user.store";
 
 export const Navbar = () => {
   const navigate = useNavigate();
-
   const clearAuth = useUserStore((state) => state.clear);
+  const user = useUserStore((state) => state.user);
+
 
   const handleLogOut = async () => {
     console.log("Logging out!");
@@ -39,14 +40,14 @@ export const Navbar = () => {
             </div>
             <div className="header-action">
               <div className="menu-area">
-                <div className="header-btn">
+                {!user.isKYCVerified && <div className="header-btn">
                   <Link
-                    to="/kyc-step1"
+                    to="/kyc-verify"
                     className="trk-btn trk-btn--border trk-btn--primary"
                   >
                     <span>Submit KYC</span>
                   </Link>
-                </div>
+                </div>}
                 <div className="ml-10">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

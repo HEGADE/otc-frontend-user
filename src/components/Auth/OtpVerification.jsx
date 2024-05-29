@@ -16,7 +16,6 @@ export const OtpVerification = () => {
 
   const accessToken = useUserStore((state) => state.accessToken);
   const user = useUserStore((state) => state.user);
-
   const setUser = useUserStore((state) => state.setUser);
 
   // let { state } = useLocation();
