@@ -21,6 +21,7 @@ export const BankDetails = () => {
           Authorization: "Bearer " + accessToken,
         },
       });
+      console.log("🔶 BankDetails: ", res?.data?.data?.bankDetails);
       const { accountHolderName, bankName, accountNumber, branch, ifsCode } =
         res?.data?.data?.bankDetails;
       setValue(
@@ -118,6 +119,7 @@ export const BankDetails = () => {
                     className="form-control"
                     type="text"
                     id="first-name"
+                    disabled={data}
                   />
                   <ValidationError
                     err={errors?.bankDetails?.accountHolderName}
@@ -134,6 +136,7 @@ export const BankDetails = () => {
                     type="text"
                     className="form-control"
                     id="account-bank-name"
+                    disabled={data}
                   />
                   <ValidationError err={errors?.bankDetails?.bankName} />
                 </div>
@@ -148,6 +151,7 @@ export const BankDetails = () => {
                     className="form-control"
                     type="text"
                     id="account-number"
+                    disabled={data}
                   />
                   <ValidationError err={errors?.bankDetails?.accountNumber} />
                 </div>
@@ -163,6 +167,7 @@ export const BankDetails = () => {
                     type="text"
                     className="form-control"
                     id="account-branch"
+                    disabled={data}
                   />
                   <ValidationError err={errors?.bankDetails?.branch} />
                 </div>
@@ -177,6 +182,7 @@ export const BankDetails = () => {
                     type="text"
                     className="form-control"
                     id="account-ifsc"
+                    disabled={data}
                   />
                   <ValidationError err={errors?.bankDetails?.ifsCode} />
                 </div>
@@ -188,6 +194,7 @@ export const BankDetails = () => {
               isLoading={loading}
               loaderColor="blue"
               text="Save Details"
+              disabled={data}
             />
           </form>
         </div>

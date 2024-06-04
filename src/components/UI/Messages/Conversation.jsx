@@ -17,6 +17,9 @@ function Conversation() {
   useEffect(() => {
     socket?.on("newMessage", (newMessage) => {
       setMessages([...messages, newMessage]);
+      socket.emit("readMessage", {
+        id: newMessage.id,
+      });
     });
     return () => socket?.off("newMessage");
   }, [messages, socket]);
@@ -42,8 +45,6 @@ function Conversation() {
       setError(err);
     }
   }, [user?.id, setMessages]);
-
-  console.log("messages-------------------------------------", messages);
 
   useEffect(() => {
     setTimeout(() => {

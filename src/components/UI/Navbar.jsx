@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from "../../store/user.store";
+import toast from "react-hot-toast";
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -11,6 +12,14 @@ export const Navbar = () => {
     console.log("Logging out!");
     clearAuth();
     navigate("/login");
+  }
+
+  const handleKycSubmission = () => {
+    if(user?.isBankVerified){
+      navigate('kyc-verify');
+    }else{
+      toast.error('Please verify your bank details first.')
+    }
   }
 
   return (
@@ -41,12 +50,13 @@ export const Navbar = () => {
             <div className="header-action">
               <div className="menu-area">
                 {!user.isKYCVerified && <div className="header-btn">
-                  <Link
+                  <span
+                  onClick={handleKycSubmission}
                     to="/kyc-verify"
                     className="trk-btn trk-btn--border trk-btn--primary"
                   >
                     <span>Submit KYC</span>
-                  </Link>
+                  </span>
                 </div>}
                 <div className="ml-10">
                   <svg

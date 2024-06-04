@@ -1,4 +1,3 @@
-import React from "react";
 import loadjs from "loadjs";
 import {
   BrowserRouter as Router,
@@ -6,8 +5,6 @@ import {
   Route,
   Navigate,
   Outlet,
-  Link,
-  useNavigate,
 } from "react-router-dom";
 import { Signup } from "./pages/Signup";
 import Login from "./pages/Login";
@@ -26,6 +23,7 @@ import { Order } from "./components/UI/Order/Order";
 import MessageContainer from "./components/UI/Messages/MessageContainer";
 import MessageIcon from "./components/UI/MessageIcon";
 import KycVerification from "./components/UI/KYC/KycVerification";
+import React from "react";
 
 function App() {
   const [pageLoading, setPageLoading] = React.useState(false);
@@ -126,8 +124,10 @@ function App() {
                 element={
                   user?.isKYCVerified ? (
                     <Navigate to={"/"} />
-                  ) : (
+                  ) : user?.isBankVerified ? (
                     <KycVerification />
+                  ) : (
+                    <Navigate to={"/profile"} />
                   )
                 }
               />
