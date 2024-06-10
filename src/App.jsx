@@ -25,10 +25,12 @@ import MessageIcon from "./components/UI/MessageIcon";
 import KycVerification from "./components/UI/KYC/KycVerification";
 import React from "react";
 
+
 function App() {
   const [pageLoading, setPageLoading] = React.useState(false);
   const isAuthenticated = useUserStore((state) => !!state.accessToken);
   const user = useUserStore((state) => state.user);
+
   console.log("🟡 user: ", user);
   console.log("🟡 accessToken: ", isAuthenticated);
 
@@ -58,6 +60,7 @@ function App() {
       }
     );
   };
+  
 
   React.useEffect(() => {
     runScript();

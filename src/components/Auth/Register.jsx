@@ -60,7 +60,7 @@ const Register = () => {
       await setUser(data?.user);
       await setAuthToken(data?.tokens);
       if (res?.data?.success) {
-        navigate("/two-step-auth", {
+        navigate("/login", {
           state: { email, phoneNumber, userId: res?.data?.data?.user?.id },
         });
       }

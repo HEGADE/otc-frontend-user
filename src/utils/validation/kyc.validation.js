@@ -37,15 +37,15 @@ export const kycDocSchema = (fields, capturedImage) => {
     }
   }
 
-  if (fields.includes("miscellaneousDoc")) {
-    schemaFields.miscellaneousDoc = Yup.mixed()
-      .required("Voter ID or Passport is required")
-      .test(
-        "fileFormat",
-        "Voter ID or Passport must be a PNG, JPEG, or JPG file",
-        (value) => value && SUPPORTED_FORMATS.includes(value[0].type)
-      );
-  }
+  // if (fields.includes("miscellaneousDoc")) {
+  //   schemaFields.miscellaneousDoc = Yup.mixed()
+  //     .required("Voter ID or Passport is required")
+  //     .test(
+  //       "fileFormat",
+  //       "Voter ID or Passport must be a PNG, JPEG, or JPG file",
+  //       (value) => value && SUPPORTED_FORMATS.includes(value[0].type)
+  //     );
+  // }
 
   return Yup.object().shape(schemaFields);
 };

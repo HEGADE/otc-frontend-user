@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useUserStore } from "../../../store/user.store";
-import axios from "axios";
+import axios from "../../../lib/http-request/index";
 import { useConversation } from "../../../store/message.store";
+import { API } from "../../../utils/config/api-end-points.config";
 
 function MessageInput() {
   const [message, setMessage] = useState("");
@@ -16,7 +17,7 @@ function MessageInput() {
     }
     try {
       const response = await axios.post(
-        `http://localhost:3000/v1/messages/${user?.id}`,
+        API.createUserMessages(user?.id),
         { message },
         {
           headers: {

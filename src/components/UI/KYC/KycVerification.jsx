@@ -8,7 +8,7 @@ import { ValidationError } from "../../UI/Errors";
 import WebcamCapture from "../WebCamCapture";
 
 function KycVerification() {
-  const [selectedDocType, setSelectedDocType] = useState("VOTERID");
+  // const [selectedDocType, setSelectedDocType] = useState("VOTERID");
   const [isloading, setIsLoading] = useState(false);
   const [kycCurrentStatus, setkycCurrentStatus] = useState([]);
   const [capturedImage, setCapturedImage] = useState(null);
@@ -19,14 +19,14 @@ function KycVerification() {
   const isPanVerified = kycCurrentStatus.includes("PAN");
   const isAadhaarVerified = kycCurrentStatus.includes("AADHAAR");
   const isImageVerified = kycCurrentStatus.includes("FACE_MATCH");
-  const isMiscellaneousVerified =
-    kycCurrentStatus.includes("PASSPORT") ||
-    kycCurrentStatus.includes("VOTERID");
+  // const isMiscellaneousVerified =
+  //   kycCurrentStatus.includes("PASSPORT") ||
+  //   kycCurrentStatus.includes("VOTERID");
 
   const fieldsToInclude = [];
   if (!isPanVerified) fieldsToInclude.push("panCard");
   if (!isAadhaarVerified) fieldsToInclude.push("aadhaarCard");
-  if (!isMiscellaneousVerified) fieldsToInclude.push("miscellaneousDoc");
+  // if (!isMiscellaneousVerified) fieldsToInclude.push("miscellaneousDoc");
   if (!isImageVerified) fieldsToInclude.push("faceMatch");
 
   useEffect(() => {
@@ -66,12 +66,12 @@ function KycVerification() {
       const blob = await fetch(capturedImage).then((res) => res.blob());
       formData.append("FACE_MATCH", blob, "face_image.jpg");
     }
-    if (selectedDocType === "VOTERID") {
-      formData.append("VOTERID", data?.miscellaneousDoc?.[0]);
-    }
-    if (selectedDocType === "PASSPORT") {
-      formData.append("PASSPORT", data?.miscellaneousDoc?.[0]);
-    }
+    // if (selectedDocType === "VOTERID") {
+    //   formData.append("VOTERID", data?.miscellaneousDoc?.[0]);
+    // }
+    // if (selectedDocType === "PASSPORT") {
+    //   formData.append("PASSPORT", data?.miscellaneousDoc?.[0]);
+    // }
 
     try {
       setIsLoading(true);
@@ -126,9 +126,6 @@ function KycVerification() {
           <div className="row g-4">
             <div className="container-fluid">
               <div className="row justify-content-center">
-                {/* <div className="col-md-4">
-                  <SideBar />
-                </div> */}
                 <div className="col-md-6">
                   <form
                     action="account-category.html"
@@ -183,7 +180,7 @@ function KycVerification() {
                           </div>
                         </div>
                       )}
-                      {!isMiscellaneousVerified && (
+                      {/* {!isMiscellaneousVerified && (
                         <div className="m-3">
                           <p>
                             Please upload your
@@ -216,7 +213,7 @@ function KycVerification() {
                             )}
                           </div>
                         </div>
-                      )}
+                      )} */}
                       {!isImageVerified && (
                         <div className="m-3">
                           <p>
