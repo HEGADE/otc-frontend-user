@@ -2,6 +2,7 @@ import { createContext, useState, useEffect, useContext } from "react";
 import io from "socket.io-client";
 import { useUserStore } from "../store/user.store";
 
+
 export const SocketContext = createContext();
 
 export const useSocketContext = () => {
@@ -15,7 +16,7 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (user) {
-      const socket = io("http://localhost:3000", {
+      const socket = io(import.meta.env.VITE_SERVER_URL_SOCKET, {
         query: {
           userId: user.id,
         },

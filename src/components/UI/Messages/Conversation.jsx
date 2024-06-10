@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useUserStore } from "../../../store/user.store";
-import axios from "axios";
+import axios from '../../../lib/http-request/index'
 import Message from "./Message";
 import MessageInput from "./MessageInput";
 import { useConversation } from "../../../store/message.store";
 import { useSocketContext } from "../../../context/SocketContext";
+import { API } from "../../../utils/config/api-end-points.config";
 
 function Conversation() {
   const [error, setError] = useState();
@@ -13,9 +14,12 @@ function Conversation() {
   const user = useUserStore((state) => state.user);
   const lastMessageRef = useRef();
   const { socket } = useSocketContext();
+  const setUnreadMessages = useConversation((state) => state.setUnreadMessages);
 
   useEffect(() => {
+    setUnreadMessages([]);
     socket?.on("newMessage", (newMessage) => {
+      console.log(newMessage);
       setMessages([...messages, newMessage]);
       socket.emit("readMessage", {
         id: newMessage.id,
@@ -28,7 +32,7 @@ function Conversation() {
     try {
       const getMessages = async () => {
         const getMessages = await axios.get(
-          `http://localhost:3000/v1/messages/${user?.id}`,
+          API.getUserMessages(user?.id),
           {
             headers: {
               Authorization: "Bearer " + accessToken,
@@ -38,7 +42,8 @@ function Conversation() {
         const resData = getMessages;
         console.log("data: ", resData);
         const messages = resData?.data?.data?.messages?.results;
-        setMessages(messages);
+        const reverseMessage = messages.reverse();
+        setMessages(reverseMessage);
       };
       getMessages();
     } catch (err) {

@@ -9,7 +9,7 @@ export const API = {
   sendTokenForEmailVerification: "auth/send-verification-email",
   sendOtpForPhoneNumVerification: "auth/send-otp",
   getCryptoPricing:
-  "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Cethereum%2Ctron%2Cbinance-coin-wormhole%2Ctether&vs_currencies=inr",
+    "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin%2Cethereum%2Ctron%2Cbinance-coin-wormhole%2Ctether&vs_currencies=inr",
   getUserDetails: "users/auth-user-info",
   saveUserDetails: (userId) => `users/${userId}`,
   getBankDetails: "bank",
@@ -18,4 +18,7 @@ export const API = {
   createOrder: "orders",
   getUserWalletDetails: "wallets",
   getOrderDetails: "orders/user-orders",
+  getUnreadMessages: "messages/unread",
+  getUserMessages: (userId) => `messages/${userId}`,
+  createUserMessages: (userId) => `messages/${userId}`,
 };
