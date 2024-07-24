@@ -12,6 +12,7 @@ import ButtonWithLoading from "../../UI/Button";
 
 export const BankDetails = () => {
   const accessToken = useUserStore((state) => state.accessToken);
+  const setUser = useUserStore((state) => state.setUser);
 
   let fetchBankDetails = async () => {
     try {
@@ -84,6 +85,7 @@ export const BankDetails = () => {
     mutationFn: (data) => saveBankDetails(data),
     onSuccess: (res) => {
       console.log("🔶 useMutation: res: ", res);
+      setUser(res?.data?.data?.userDetails);
       toast.success("Bank account saved successfully");
       refetch();
     },
