@@ -21,4 +21,6 @@ export const API = {
   getUnreadMessages: "messages/unread",
   getUserMessages: (userId) => `messages/${userId}`,
   createUserMessages: (userId) => `messages/${userId}`,
+  getKycDetails: "user/kyc/",
+  saveKycDetails: "user/kyc/"
 };
