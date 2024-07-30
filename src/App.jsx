@@ -89,7 +89,7 @@ function App() {
             path="/login"
             element={
               isAuthenticated && user ? (
-                user.isEmailVerified && user.isPhoneNumberVerified ? (
+                user?.isEmailVerified && user?.isPhoneNumberVerified ? (
                   <Navigate to="/" />
                 ) : (
                   <Navigate to="/verify" />

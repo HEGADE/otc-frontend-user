@@ -69,7 +69,7 @@ export const SignIn = () => {
       <div className="account__social">
         <a className="account__social-btn" onClick={handleSignIn}>
           <span>
-            <img src="assets/images/google.svg" alt="google icon" />
+            <img src="/assets/images/google.svg" alt="google icon" />
           </span>
           Continue with Google
         </a>
@@ -137,7 +137,7 @@ export const SignIn = () => {
         <div className="col-lg-6">
           <div className="account__thumb">
             <img
-              src="assets/images/register.png"
+              src="/assets/images/register.png"
               alt="account-image"
               className="dark"
             />

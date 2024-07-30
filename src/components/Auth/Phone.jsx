@@ -11,7 +11,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useUserStore } from "../../store/user.store";
 import { registerSchema } from "../../utils/validation/auth.validation";
 
-
 const Phone = () => {
   const navigate = useNavigate();
   const setUser = useUserStore((state) => state.setUser);
@@ -19,31 +18,28 @@ const Phone = () => {
   const [loading, setLoading] = useState(false);
   const user = useUserStore((state) => state.user);
   const accessToken = useUserStore((state) => state.accessToken);
-  const {
-    register,
-    handleSubmit,
-  } = useForm({
-    
-  });
+  const { register, handleSubmit } = useForm({});
 
   const onSubmit = async (data) => {
-    const {
-      phoneNumber,
-    } = data;
+    const { phoneNumber } = data;
     setLoading(true);
     try {
-      const res = await axios.patch(`users/${user.id}`, { phoneNumber }, {
-        headers: {
-          Authorization: "Bearer " + accessToken,
-        },
-      });
+      const res = await axios.patch(
+        `users/${user.id}`,
+        { phoneNumber },
+        {
+          headers: {
+            Authorization: "Bearer " + accessToken,
+          },
+        }
+      );
       console.log("res: ", res);
       let data = res?.data?.data;
       console.log("🟢 data: ", data);
       await setUser(data?.user);
       await setAuthToken(data?.tokens);
       if (res?.data?.success) {
-        navigate("/two-step-auth");
+        navigate("/login");
       }
     } catch (err) {
       let message = err?.response?.data?.msg || err?.response?.data?.message;
@@ -52,9 +48,6 @@ const Phone = () => {
       setLoading(false);
     }
   };
-  
-  
-
 
   return (
     <>
@@ -73,72 +66,70 @@ const Phone = () => {
           <div className="account__content account__content--style2">
             <div className="account__header">
               <h2>Fill your details</h2>
-              <p className="mb-0">
-                -------------------------
-              </p>
+              <p className="mb-0">-------------------------</p>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)} className="account__form needs-validation">
-  <div className="row g-3">
-    <div className="col-12">
-      <div>
-        <label htmlFor="first-name" className="form-label">
-          Name
-        </label>
-        <input
-          name="firstName"      
-          className="form-control"
-          type="text"
-          id="first-name"
-          placeholder="Ex. Jhon"
-          value={user.name}
-          disabled
-        />
-      </div>
-    </div>
-    <div className="col-12">
-      <div>
-        <label htmlFor="account-email" className="form-label">
-          Email
-        </label>
-        <input
-          name="email"
-         
-          type="email"
-          className="form-control"
-          id="account-email"
-          placeholder="Enter your email"
-          value={user.email}
-          disabled
-        />
-      </div>
-    </div>
-    <div className="col-12">
-      <div>
-        <label htmlFor="account-phone" className="form-label">
-          Phone
-        </label>
-        <input
-          name="phoneNumber"
-          {...register("phoneNumber", { required: true })}
-          type="text"
-          className="form-control"
-          id="account-phone"
-          placeholder="Enter your Phone number"
-          required=""
-        />
-      </div>
-    </div>
-  </div>
-  <ButtonWithLoading
-    type="submit"
-    className="trk-btn trk-btn--border trk-btn--primary d-block mt-4"
-    isLoading={loading}
-    loaderColor="blue"
-    text="Submit"
-  />
-</form>
-
-
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="account__form needs-validation"
+            >
+              <div className="row g-3">
+                <div className="col-12">
+                  <div>
+                    <label htmlFor="first-name" className="form-label">
+                      Name
+                    </label>
+                    <input
+                      name="firstName"
+                      className="form-control"
+                      type="text"
+                      id="first-name"
+                      placeholder="Ex. Jhon"
+                      value={user.name}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-12">
+                  <div>
+                    <label htmlFor="account-email" className="form-label">
+                      Email
+                    </label>
+                    <input
+                      name="email"
+                      type="email"
+                      className="form-control"
+                      id="account-email"
+                      placeholder="Enter your email"
+                      value={user.email}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-12">
+                  <div>
+                    <label htmlFor="account-phone" className="form-label">
+                      Phone
+                    </label>
+                    <input
+                      name="phoneNumber"
+                      {...register("phoneNumber", { required: true })}
+                      type="text"
+                      className="form-control"
+                      id="account-phone"
+                      placeholder="Enter your Phone number"
+                      required=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <ButtonWithLoading
+                type="submit"
+                className="trk-btn trk-btn--border trk-btn--primary d-block mt-4"
+                isLoading={loading}
+                loaderColor="blue"
+                text="Submit"
+              />
+            </form>
           </div>
         </div>
       </div>
