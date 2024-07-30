@@ -24,7 +24,7 @@ import MessageContainer from "./components/UI/Messages/MessageContainer";
 import MessageIcon from "./components/UI/MessageIcon";
 import KycVerification from "./components/UI/KYC/KycVerification";
 import React from "react";
-import { Buffer } from "buffer";
+// import { Buffer } from "buffer";
 
 function App() {
   const [pageLoading, setPageLoading] = React.useState(false);
@@ -38,7 +38,6 @@ function App() {
   const runScript = () => {
     loadjs(
       [
-        "/assets/js/all.min.js",
         "/assets/js/aos.js",
         "/assets/js/bootstrap.bundle.min.js",
         "/assets/js/custom.js",
