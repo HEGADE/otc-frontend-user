@@ -62,7 +62,7 @@ export const SignIn = () => {
 
   const GoogleSignInButton = () => {
     const handleSignIn = () => {
-      window.location.href = `${import.meta.env.VITE_SERVER_URL}/auth/google/callback`;
+      window.location.href = `${import.meta.env.VITE_SERVER_URL}auth/google/callback`;
     };
 
     return (
