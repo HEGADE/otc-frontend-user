@@ -43,7 +43,7 @@ const Phone = () => {
       await setUser(data?.user);
       await setAuthToken(data?.tokens);
       if (res?.data?.success) {
-        navigate("/two-step-auth");
+        navigate("/login");
       }
     } catch (err) {
       let message = err?.response?.data?.msg || err?.response?.data?.message;
