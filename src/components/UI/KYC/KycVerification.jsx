@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../lib/http-request/index"
 import React, { useEffect, useState } from "react";
 import { useUserStore } from "../../../store/user.store";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { kycDocSchema } from "../../../utils/validation/kyc.validation";
 import { ValidationError } from "../../UI/Errors";
 import WebcamCapture from "../WebCamCapture";
+import { API } from "../../../utils/config/api-end-points.config";
 
 function KycVerification() {
   // const [selectedDocType, setSelectedDocType] = useState("VOTERID");
@@ -33,7 +34,7 @@ function KycVerification() {
     const fetchKycDetails = async () => {
       try {
         const kycStatus = await axios.get(
-          "http://localhost:3000/v1/user/kyc/",
+          API.getKycDetails,
           {
             headers: {
               Authorization: "Bearer " + accessToken,
@@ -76,7 +77,7 @@ function KycVerification() {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "http://localhost:3000/v1/user/kyc/",
+        API.saveKycDetails,
         formData,
         {
           headers: {

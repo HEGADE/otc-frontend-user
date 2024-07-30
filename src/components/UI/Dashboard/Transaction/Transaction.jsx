@@ -11,10 +11,12 @@ import { useUserStore } from "../../../../store/user.store";
 import { BuyOrSellComponent } from "./BuyOrSellComponent";
 import { AccountComponent } from "./AccountComponent";
 import { WalletComponent } from "./WalletComponent";
+import { validate } from "wallet-address-validator";
+import { TronWeb } from "tronweb";
+import { ethers } from "ethers";
 
 export const Transaction = ({ cryptoPrice }) => {
   const navigate = useNavigate();
-
   let initialOrderData = {
     network: "ETH",
     transactionType: "FIAT",
@@ -34,13 +36,6 @@ export const Transaction = ({ cryptoPrice }) => {
     bankName: "",
     branch: "",
     ifsCode: "",
-  };
-
-  let initialAdminWalletDetails = {
-    id: "",
-    walletAddress: "",
-    network: "",
-    status: "",
   };
 
   let initialUserBankDetails = {
@@ -228,9 +223,9 @@ export const Transaction = ({ cryptoPrice }) => {
     }
   };
 
-  const handleNextClick = (e) => {
+  const handleNextClick = async (e) => {
     e.preventDefault();
-    const validationErrors = validateStep1Inputs(orderData);
+    const validationErrors = await validateStep1Inputs(orderData);
     console.log("🔺 handleNextClick: validationErrors: ", validationErrors);
     const hasNoErrors = Object.values(validationErrors).every(
       (error) => error.message === ""
@@ -443,8 +438,26 @@ export const Transaction = ({ cryptoPrice }) => {
     },
   });
 
-  const validateStep1Inputs = (data) => {
+  const provider = new ethers.JsonRpcProvider(
+    "https://bsc-dataseed.binance.org/"
+  ); // Binance Smart Chain provider
+
+  console.log("provider----------------", provider);
+
+  async function getBNBBalance(address) {
+    try {
+      const balanceWei = await provider.getBalance(address); // Balance in wei
+      const balanceBNB = ethers.formatEther(balanceWei); // Convert wei to BNB
+      return balanceBNB;
+    } catch (error) {
+      console.error("Error fetching balance:", error);
+      throw error; // Handle the error appropriately
+    }
+  }
+
+  const validateStep1Inputs = async (data) => {
     console.log("🟢 validateStep1Inputs: ", validationErrors);
+    console.log("data", data);
     let errors = {
       sendAmount: { message: "" },
       receivedAmount: { message: "" },
@@ -473,8 +486,41 @@ export const Transaction = ({ cryptoPrice }) => {
       errors.receivedAmount.message = "Received amount must be a valid number";
     }
 
+    let valid = false;
     if (!data.walletAddress) {
       errors.walletAddress.message = "Wallet Address is required";
+    } else if (data.crypto) {
+      try {
+        if (data.network === "BSC") {
+          try {
+            const balanceBNB = await getBNBBalance(data.walletAddress);
+            console.log("BNB Balance:", balanceBNB);
+            valid = true;
+          } catch (error) {
+            console.error(
+              "Error fetching BNB balance or invalid BNB address:",
+              error
+            );
+            errors.walletAddress.message =
+              "Invalid BNB wallet address or error fetching balance";
+          }
+        } else if (data.network === "TRON") {
+          valid = TronWeb.isAddress(data.walletAddress);
+          console.log("TRON CHECK", valid);
+        } else {
+          valid = validate(data.walletAddress, data.network);
+          console.log("Wallet address validation result:", valid);
+        }
+
+        if (!valid) {
+          errors.walletAddress.message = "Invalid wallet address";
+        }
+      } catch (error) {
+        console.error("Error during wallet address validation:", error);
+        errors.walletAddress.message = "Error validating wallet address";
+      }
+    } else {
+      errors.walletAddress.message = "Crypto type is required for validation";
     }
     setValidationErrors(errors);
     return errors;
