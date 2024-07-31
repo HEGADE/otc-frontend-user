@@ -37,9 +37,9 @@ const Phone = () => {
       let data = res?.data?.data;
       console.log("🟢 data: ", data);
       await setUser(data?.user);
-      await setAuthToken(data?.tokens);
+      // await setAuthToken(data?.tokens);
       if (res?.data?.success) {
-        navigate("/login");
+        navigate("/verify");
       }
     } catch (err) {
       let message = err?.response?.data?.msg || err?.response?.data?.message;
