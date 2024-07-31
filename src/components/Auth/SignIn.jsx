@@ -62,14 +62,14 @@ export const SignIn = () => {
 
   const GoogleSignInButton = () => {
     const handleSignIn = () => {
-      window.location.href = "http://localhost:3000/v1/auth/google/callback";
+      window.location.href = `${import.meta.env.VITE_SERVER_URL}auth/google/callback`;
     };
 
     return (
       <div className="account__social">
         <a className="account__social-btn" onClick={handleSignIn}>
           <span>
-            <img src="assets/images/google.svg" alt="google icon" />
+            <img src="/assets/images/google.svg" alt="google icon" />
           </span>
           Continue with Google
         </a>
@@ -81,7 +81,7 @@ export const SignIn = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:3000/v1/auth/verify-google-token",
+        `${import.meta.env.VITE_SERVER_URL}auth/verify-google-token`,
         {
           token: idToken,
         }
@@ -137,7 +137,7 @@ export const SignIn = () => {
         <div className="col-lg-6">
           <div className="account__thumb">
             <img
-              src="assets/images/register.png"
+              src="/assets/images/register.png"
               alt="account-image"
               className="dark"
             />

@@ -24,7 +24,7 @@ export const SocketContextProvider = ({ children }) => {
 
       setSocket(socket);
 
-      return () => socket.close();
+      // return () => socket.close();
     } else {
       if (socket) {
         socket.close();
