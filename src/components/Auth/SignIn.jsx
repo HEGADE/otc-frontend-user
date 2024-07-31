@@ -194,7 +194,7 @@ export const SignIn = () => {
               </div>
               <div className="account__check">
                 <div className="account__check-forgot">
-                  {/* <Link to="/forgot-password">Forgot Password?</Link> */}
+                  <Link to="/forgot-password">Forgot Password?</Link>
                 </div>
               </div>
               <ButtonWithLoading
