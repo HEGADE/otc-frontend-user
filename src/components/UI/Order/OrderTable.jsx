@@ -58,13 +58,13 @@ export const OrderTable = ({ activeTransactionTypeTab, orderData }) => {
                   <div className="pools_table__totalitem-ftd d-flex align-items-center gap-3 gap-md-4 ms-3 ms-md-6">
                     <div className="d-flex align-items-center">
                       <img
-                        src="assets/images/btc.png"
+                        src="/assets/images/btc.png"
                         style={{ height: "30px" }}
                         alt="Icons"
                       />
                       <img
                         className="pools_table__totalitem-img"
-                        src="assets/images/inr.png"
+                        src="/assets/images/inr.png"
                         style={{ height: "30px" }}
                         alt="Icons"
                       />

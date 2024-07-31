@@ -31,7 +31,7 @@ export const Navbar = () => {
           <div className="header-wrapper">
             <div className="logo">
               <Link to="/">
-                <img src="assets/images/logo/logo-dark.png" alt="logo" />
+                <img src="/assets/images/logo/logo-dark.png" alt="logo" />
               </Link>
             </div>
             <div className="menu-area">

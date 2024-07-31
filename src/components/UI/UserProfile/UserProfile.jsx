@@ -6,7 +6,7 @@ export const UserProfile = () => {
     <>
       <section
         className="page-header bg--cover"
-        style={{ backgroundImage: "url('assets/images/breadcrumb.png')" }}
+        style={{ backgroundImage: "url('/assets/images/breadcrumb.png')" }}
       >
         <div className="container">
           <div
@@ -18,7 +18,7 @@ export const UserProfile = () => {
           </div>
           <div className="page-header__shape">
             <span className="page-header__shape-item page-header__shape-item--1">
-              <img src="assets/images/2.png" alt="shape-icon" />
+              <img src="/assets/images/2.png" alt="shape-icon" />
             </span>
           </div>
         </div>

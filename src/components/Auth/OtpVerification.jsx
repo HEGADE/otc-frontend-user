@@ -153,7 +153,7 @@ export const OtpVerification = () => {
                   <div className="col-lg-6">
                     <div className="account__thumb">
                       <img
-                        src="assets/images/register.png"
+                        src="/assets/images/register.png"
                         alt="account-image"
                         className="dark"
                       />
