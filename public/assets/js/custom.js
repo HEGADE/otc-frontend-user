@@ -234,7 +234,7 @@ const testimonial3 = new Swiper('.testimonial__slider3', {
     speed: 500,
 });
 
-// roadmap slider
+// roadmap slider 
 const roadmapSlider = new Swiper('.roadmap__slider', {
 
     grabCursor: true,

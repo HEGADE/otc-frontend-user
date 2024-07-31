@@ -442,8 +442,6 @@ export const Transaction = ({ cryptoPrice }) => {
     "https://bsc-dataseed.binance.org/"
   ); // Binance Smart Chain provider
 
-  console.log("provider----------------", provider);
-
   async function getBNBBalance(address) {
     try {
       const balanceWei = await provider.getBalance(address); // Balance in wei

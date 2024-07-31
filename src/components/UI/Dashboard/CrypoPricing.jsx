@@ -305,7 +305,7 @@ export const CryptoPricing = ({ cryptoPrice }) => {
                             style={{ height: "30px ", paddingLeft: "5px" }}
                           />
                         </span>
-                        <span className="fs-four p1-color">
+                        <span className="fs-four text-white">
                           {new Intl.NumberFormat('en-US', {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 2,
@@ -341,7 +341,7 @@ export const CryptoPricing = ({ cryptoPrice }) => {
                             style={{ height: "30px ", paddingLeft: "5px" }}
                           />
                         </span>
-                        <span className="fs-four p1-color">
+                        <span className="fs-four text-white">
                           {new Intl.NumberFormat('en-US', {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 2,
@@ -373,7 +373,7 @@ export const CryptoPricing = ({ cryptoPrice }) => {
                             style={{ height: "30px ", paddingLeft: "5px" }}
                           />
                         </span>
-                        <span className="fs-four p1-color">
+                        <span className="fs-four text-white">
                           {new Intl.NumberFormat('en-US', {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 2,
@@ -405,7 +405,7 @@ export const CryptoPricing = ({ cryptoPrice }) => {
                             style={{ height: "30px ", paddingLeft: "5px" }}
                           />
                         </span>
-                        <span className="fs-four p1-color">
+                        <span className="fs-four text-white">
                           {new Intl.NumberFormat('en-US', {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 2,
@@ -437,7 +437,7 @@ export const CryptoPricing = ({ cryptoPrice }) => {
                             style={{ height: "30px ", paddingLeft: "5px" }}
                           />
                         </span>
-                        <span className="fs-four p1-color">
+                        <span className="fs-four text-white">
                           {new Intl.NumberFormat('en-US', {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 2,

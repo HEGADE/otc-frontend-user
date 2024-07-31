@@ -25,7 +25,6 @@ export const Dashboard = () => {
       url: API.getCryptoPricing,
       headers: { "x-cg-demo-api-key": "CG-6cV1jEXLFDiEnkhUJH5CehaH" },
     });
-    console.log('priceData------------------------------------', priceData);
     setCryptoPrice({
       BTC: priceData?.data?.bitcoin?.inr,
       ETH: priceData?.data?.ethereum?.inr,
@@ -33,7 +32,7 @@ export const Dashboard = () => {
       USDT: priceData?.data?.tether?.inr,
       TRX: priceData?.data?.tron?.inr,
     });
-    console.info("🟣 priceData: ", priceData);
+    // console.info("🟣 priceData: ", priceData);
     return priceData;
   };
   // price api end
@@ -43,7 +42,7 @@ export const Dashboard = () => {
     queryFn: fetchCryptoPrice,
   });
 
-  console.info("cryptoPrice: ", cryptoPrice);
+  // console.info("cryptoPrice: ", cryptoPrice);
 
   if (isLoading) return <Preloader />;
   if (isError) return <Error />;
@@ -52,7 +51,7 @@ export const Dashboard = () => {
     <body>
       <section
         className="page-header bg--cover"
-        style={{ backgroundImage: "url(assets/images/breadcrumb.png)" }}
+        style={{ backgroundImage: "url(assets/images/banner/4.jpg)" }}
       >
         <div className="container">
           <div

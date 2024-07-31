@@ -137,7 +137,7 @@ export const SignIn = () => {
         <div className="col-lg-6">
           <div className="account__thumb">
             <img
-              src="assets/images/register.png"
+              src="assets/images/login.jpg"
               alt="account-image"
               className="dark"
             />
@@ -199,7 +199,7 @@ export const SignIn = () => {
               </div>
               <ButtonWithLoading
                 type="submit"
-                className="trk-btn trk-btn--border trk-btn--primary d-block mt-4"
+                className="trk-btn trk-btn--border btn-color d-block mt-4"
                 isLoading={loading}
                 loaderColor="blue"
                 text="Login"

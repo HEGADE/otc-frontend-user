@@ -26,6 +26,7 @@ const Phone = () => {
     
   });
 
+  console.log(accessToken);
   const onSubmit = async (data) => {
     const {
       phoneNumber,
@@ -42,8 +43,9 @@ const Phone = () => {
       console.log("🟢 data: ", data);
       await setUser(data?.user);
       await setAuthToken(data?.tokens);
+      console.log(data);
       if (res?.data?.success) {
-        navigate("/two-step-auth");
+        navigate("/login");
       }
     } catch (err) {
       let message = err?.response?.data?.msg || err?.response?.data?.message;
@@ -63,7 +65,7 @@ const Phone = () => {
         <div className="col-lg-6">
           <div className="account__thumb">
             <img
-              src="assets/images/register.png"
+              src="assets/images/signup.jpg"
               alt="account-image"
               className="dark"
             />

@@ -6,7 +6,7 @@ export const UserProfile = () => {
     <>
       <section
         className="page-header bg--cover"
-        style={{ backgroundImage: "url('assets/images/breadcrumb.png')" }}
+        style={{ backgroundImage: "url('assets/images/banner/4.jpg')" }}
       >
         <div className="container">
           <div

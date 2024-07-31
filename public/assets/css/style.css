@@ -405,15 +405,16 @@ ol {
 
 /* @@@@@@@@@@@@@  aditional Property CSS Writing Now  @@@@@@@@@@@@@@ */
 :root {
-  --brand-color: #00D094;
-  --secondary-color:#00d094;
+  --brand-color: #ed4b00;
+  --secondary-color:#ed4b00;
+  --btn-color: #020035;
   --tertiary-color: #E0FAF2;
   --tertiary-color2: #F5F7FC;
   --tertiary-color3: #F5F7FC;
   --tertiary-color4: #3863e0;
   --body-color:#FFFFFF;
   --header-bg-color: #0e352a;
-  --header-bg-color2: #093d47;
+  --header-bg-color2: #020035;
   --border-color: #E6EDFB;
   --border-color-5: #F1F4FB;
   --border-color-6: #E5F9F3;
@@ -3378,11 +3379,6 @@ h6 a {
     position: relative;
   }
 }
-@media (min-width: 992px) {
-  .header-wrapper {
-    padding-block: 26px;
-  }
-}
 .header-wrapper .logo a img {
   max-width: 100%;
 }
@@ -5439,7 +5435,7 @@ h6 a {
 @media (min-width: 992px) {
   .account__content--style2 {
     padding: 25px 30px; overflow: auto;
-    height: 650px;
+    height: 500px;
   }
 }
 @media (min-width: 992px) {
@@ -5690,7 +5686,7 @@ textarea:focus-within {
 }
 
 .footer {
-  background-color: var(--footer-bg-color);
+  background-color: #020035;
   color: var(--wh-color);
   font-weight: 400;
 }
@@ -6305,6 +6301,7 @@ textarea:focus-within {
 .trk-btn--primary {
   background-color: var(--brand-color);
   border: 1px solid var(--brand-color);
+  color: #fff;
 }
 .trk-btn--tertiary {
   background-color: var(--tertiary-color4);
@@ -6318,8 +6315,8 @@ textarea:focus-within {
   color: var(--wh-color);
 }
 .trk-btn--secondary2 {
-  background-color: #0A4FD5;
-  border: 1px solid #0A4FD5;
+  background-color: #ed4b00;
+  border: 1px solid #ed4b00;
   color: var(--bg-white);
 }
 .trk-btn--secondary3 {
@@ -6575,7 +6572,7 @@ textarea:focus-within {
 .trk-btn.active.trk-btn--outline, .trk-btn:hover.trk-btn--outline {
   background-color: var(--brand-color);
   border-color: var(--brand-color);
-  color: #0C263A;
+  color: #fff;
 }
 .trk-btn.active.trk-btn--outline2, .trk-btn:hover.trk-btn--outline2 {
   background-color: var(--brand-color);
@@ -6759,7 +6756,10 @@ textarea:focus-within {
   left: 0;
   width: 100%;
   height: 100%;
-  display: grid;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   place-items: center;
   background-color: var(--body-color);
   z-index: 99999;
@@ -6770,6 +6770,7 @@ textarea:focus-within {
   -ms-animation: floating 1s cubic-bezier(0.4, -0.35, 0.01, 1.08) infinite alternate;
   -o-animation: floating 1s cubic-bezier(0.4, -0.35, 0.01, 1.08) infinite alternate;
   animation: floating 1s cubic-bezier(0.4, -0.35, 0.01, 1.08) infinite alternate;
+  margin-bottom: 20px;
 }
 
 .lightdark-switch .switch-btn {
@@ -9186,7 +9187,8 @@ textarea:focus-within {
 
 .cta__newsletter-inner {
   gap: 30px;
-  background-color: var(--brand-color);
+  background-color: #020035;
+  color: #fff;
   border-radius: 24px;
   width: 98%;
   z-index: 2;
@@ -9303,10 +9305,10 @@ textarea:focus-within {
   flex: 1;
 }
 .cta__subscribe h2 {
-  color: #0C263A;
+  color: #fff;
 }
 .cta__subscribe h2 span {
-  color: #0A4FD5;
+  color: #ed4b00;
 }
 @media (max-width: 767px) {
   .cta__subscribe h2 {
@@ -9324,7 +9326,7 @@ textarea:focus-within {
   }
 }
 .cta__subscribe p {
-  color: #0C263A;
+  color: #fff;
 }
 @media (min-width: 768px) {
   .cta__subscribe p {
@@ -11080,7 +11082,8 @@ html[data-bs-theme=dark] .partner--gradient::after {
     height: 80px;
     display: flex;
     align-items: center;
-    justify-content: right; background-color: #0c1915;
+    justify-content: right; 
+    background-color: #ffffff;
 }
 .a-section-marquee-box .marquee-content {
     white-space: nowrap;
@@ -11108,7 +11111,7 @@ html[data-bs-theme=dark] .partner--gradient::after {
     display: flex;
     align-items: center;
     justify-content: right;
-    background-color: #000;
+    background-color: #eff4f9;
 }
 .b-section-marquee-box .marquee-content {
     color: #475747;
@@ -11188,7 +11191,7 @@ html[data-bs-theme=dark] .partner--gradient::after {
 }
 
 .p1-color {
-    color: #00d094
+    color: #020035;
 }
 
 .p2-color {
@@ -11339,11 +11342,11 @@ html[data-bs-theme=dark] .partner--gradient::after {
     padding: 0 20px;
     font-weight: 600;
     text-decoration: none;
-    color: #283d1f;
-    background: #00d094;
+    color: #fff;
+    background: #ed4b00;
     cursor: pointer;
     transition: ease-out .5s;
-    border: 2px solid #00d094;
+    border: 2px solid #ed4b00;
     border-radius: 10px;
     box-shadow: inset 0 0 0 0 #0b0b12;
     overflow: hidden
@@ -12620,10 +12623,6 @@ iframe {
     border: none !important
 }
 
-.footer {
-    background-image: url("../images/footerbg.png")
-}
-
 .footer__decs-subscribe form {
     border: 1px solid rgba(var(--p6), 0.2);
     background: rgba(var(--p6), 0.08)
@@ -13347,43 +13346,6 @@ iframe {
 
 .buy_crycoinx__card:hover h4 {
     color: rgb(var(--p1))
-}
-
-
-.dashboard-warning-div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 25px !important;
-}
-
-.dashboard-warning-p {
-  font-size: 20px;
-  font-family: fantasy;
-  text-align: center;
-}
-
-@media screen and (min-width: 992px) {
-  .dashboard-warning-div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 775px !important;
-  }
-
-  .dashboard-warning-p {
-    font-size: 20px;
-    font-family: fantasy;
-    text-align: center;
-  }
-}
-
-@media screen and (min-width: 1400px) {
-  .dashboard-warning-p {
-    font-size: 35px;
-    font-family: fantasy;
-    text-align: center;
-  }
 }
 
 @media(max-width: 480px) {
@@ -14320,11 +14282,6 @@ iframe {
     z-index: 10
 }
 
-.markets_section__rcard-selector .f-dropdown select {
-  cursor: pointer;
-  padding: 8px 12px;
-}
-
 .markets_section__rcard-selector .f-dropdown>span {
     cursor: pointer;
     padding: 8px 12px;
@@ -14340,7 +14297,7 @@ iframe {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding-right: 12px;
+    padding-right: 12px; 
     color: #fff;
 }
 
@@ -15372,7 +15329,7 @@ iframe {
 }
 
 .tab input:checked + .order-btn {
-    background-color: #00d094;
+    background-color: #020035;
     color: #ffffff;
 }
  .tab .tab-button {
@@ -16048,7 +16005,7 @@ iframe {
     width: 100%;
     position: relative;
   }
-
+  
   .niceCountryInputMenu {
     color: #546274 !important;
     border: none;
@@ -16063,7 +16020,7 @@ iframe {
     justify-content: flex-start;
     margin-bottom: 25px;
   }
-
+  
   .niceCountryInputMenuCountryFlag {
     border: 0;
     width: 30px;
@@ -16072,7 +16029,7 @@ iframe {
     margin-left: 5px;
     margin-right: 14px;
   }
-
+  
   .niceCountryInputMenuDefaultText {
     width: calc(100% - 30px);
   }
@@ -16086,11 +16043,11 @@ iframe {
     line-height: 30px;
     color: #546274;
   }
-
+  
   .niceCountryInputMenuFilter {
     display: none !important;
   }
-
+  
   .niceCountryInputMenuDropdown {
     font-size: 16px;
     color: #546274;
@@ -16099,7 +16056,7 @@ iframe {
     content: url(../images/dropdown-icon.svg);
     opacity: 0.4;
    }
-
+  
   .niceCountryInputMenuDropdownContent {
     position: absolute;
     z-index: 1;
@@ -16138,7 +16095,7 @@ iframe {
     line-height: 24px;
     color: #000000;
   }
-
+  
   /* country select dropdown end */
   .form-group{
   position: relative;
@@ -16430,4 +16387,130 @@ button a:hover {
 
 .tick-mark span {
   margin-left: 10px;
+}
+
+.completed {
+  background-color: #00d094 !important;
+  border: 1px solid #00d094 !important;
+}
+
+.btn-color {
+  background-color: var(--btn-color);
+  color: #fff !important;
+}
+
+.btn-color a {
+  color: #fff !important;
+}
+
+.modal {
+  position: fixed; 
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: flex-start; /* or center */
+  z-index: 1000; /* depending on what z-index values exist in your page, in order for the modal layer to sit on top of other content */
+  overflow: auto; /* enable scrolling if needed - although this is not really necessary since we are going take care of overflow in modal-content */
+  background-color: rgba(0,0,0,0.8);
+}
+.modal.modal-show {
+  animation: fadeIn 0.1s ease-in-out forwards;
+}
+.modal.modal-hide {
+  animation: fadeOut 0.1s ease-in-out 0.1s forwards;
+}
+.modal-content {
+  position: relative;
+  background-color: #fff;
+  margin: 2rem;
+  padding: 2rem;
+  border-radius: 0.25rem;
+  width: 50%;
+  max-height: 75%;
+  overflow: auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.modal.modal-show .modal-content {
+  animation: fadeInDown 0.3s ease-in-out forwards;
+}
+.modal.modal-hide .modal-content {
+  animation: fadeOutUp 0.2s ease-in-out forwards;
+}
+.modal-content h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.modal-content p {
+  margin: 1rem 0;
+  line-height: 1.5rem;
+}
+.modal-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 1.75rem;
+  font-weight: bold;
+  padding: 0 0.75rem;
+  /* width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center; */
+  color: rgba(0,0,0,0.2);
+  cursor: pointer;
+  user-select: none;
+}
+.modal-close:hover, .modal-close:focus {
+  color: rgba(0,0,0,0.5);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); 
+  }
+}
+@keyframes fadeOutUp {
+  0% { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+}
+
+@media(max-width: 992px) {
+  html { font-size: 14px; }
+  .modal-content { width: 80%; }
+}
+@media(max-width:767px) {
+  html { font-size: 12px; }
+  .modal-content { padding: 2rem 1rem 1rem 1rem; width: 90%; }
+  .modal-content h1 { margin-bottom: 1.5rem; }
 }
