@@ -45,7 +45,7 @@ export const ForgotPassword = () => {
   return (
     <>
       <Toaster />
-      {/* <title>Forget Password </title> */}
+      <title>Forget Password </title>
       {/* <div className="preloader">
         <img
           src="assets/images/btc-logo.svg"
