@@ -1,6 +1,8 @@
 import { defineConfig } from "vite";
+import inject from "@rollup/plugin-inject";
+
 import react from "@vitejs/plugin-react";
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
+import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,6 +17,19 @@ export default defineConfig({
       plugins: [
         NodeGlobalsPolyfillPlugin({
           buffer: true,
+        }),
+      ],
+    },
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        publicPath: "./",
+      },
+
+      plugins: [
+        inject({
+          Buffer: ["buffer", "Buffer"],
         }),
       ],
     },

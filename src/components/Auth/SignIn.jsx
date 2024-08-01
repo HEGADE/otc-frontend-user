@@ -62,7 +62,7 @@ export const SignIn = () => {
 
   const GoogleSignInButton = () => {
     const handleSignIn = () => {
-      window.location.href = "http://localhost:3000/v1/auth/google/callback";
+      window.location.href = `${import.meta.env.VITE_SERVER_URL}auth/google/callback`;
     };
 
     return (
@@ -81,7 +81,7 @@ export const SignIn = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:3000/v1/auth/verify-google-token",
+        `${import.meta.env.VITE_SERVER_URL}auth/verify-google-token`,
         {
           token: idToken,
         }

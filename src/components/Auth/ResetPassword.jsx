@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import axios from "../../lib/http-request";
 import { API } from "../../utils/config/api-end-points.config";
@@ -13,9 +13,8 @@ import ButtonWithLoading from "../UI/Button";
 const mutationKey = ["resetPassword"];
 
 export const ResetPassword = () => {
-  const search = useLocation().search;
-  const token = new URLSearchParams(search).get("token");
-
+  const params = useParams()
+  const token = params?.token
   const navigate = useNavigate();
 
   const {

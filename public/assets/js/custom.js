@@ -1,7 +1,7 @@
 // =================== preloader js  ================== //
 document.addEventListener('DOMContentLoaded', function () {
     var preloader = document.querySelector('.preloader');
-    preloader.style.transition = 'opacity 0.5s ease';
+    preloader?.style?.transition = 'opacity 0.5s ease';
     // Hide the preloader 1 second (1000 milliseconds) after DOM content is loaded
     setTimeout(function () {
         preloader.style.opacity = '0';

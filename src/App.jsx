@@ -24,7 +24,7 @@ import MessageContainer from "./components/UI/Messages/MessageContainer";
 import MessageIcon from "./components/UI/MessageIcon";
 import KycVerification from "./components/UI/KYC/KycVerification";
 import React from "react";
-import { Buffer } from "buffer";
+// import { Buffer } from "buffer";
 
 function App() {
   const [pageLoading, setPageLoading] = React.useState(false);
@@ -38,7 +38,6 @@ function App() {
   const runScript = () => {
     loadjs(
       [
-        "/assets/js/all.min.js",
         "/assets/js/aos.js",
         "/assets/js/bootstrap.bundle.min.js",
         "/assets/js/custom.js",
@@ -89,7 +88,7 @@ function App() {
             path="/login"
             element={
               isAuthenticated && user ? (
-                user.isEmailVerified && user.isPhoneNumberVerified ? (
+                user?.isEmailVerified && user?.isPhoneNumberVerified ? (
                   <Navigate to="/" />
                 ) : (
                   <Navigate to="/verify" />
@@ -115,7 +114,7 @@ function App() {
             }
           />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route element={<ProtectedRoute />}>
             <Route element={<NavbarLayout />}>
               <Route path="/" element={<Dashboard />} />
