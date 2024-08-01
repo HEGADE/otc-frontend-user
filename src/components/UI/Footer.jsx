@@ -56,7 +56,7 @@ export const Footer = () => {
       </div>
       <div className="footer__shape">
         <span className="footer__shape-item footer__shape-item--1">
-          <img src="assets/images/2.png" alt="shape icon" />
+          <img src="/assets/images/2.png" alt="shape icon" />
         </span>
         <span className="footer__shape-item footer__shape-item--2">
           {" "}

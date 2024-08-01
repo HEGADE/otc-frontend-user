@@ -51,7 +51,7 @@ export const Dashboard = () => {
     <body>
       <section
         className="page-header bg--cover"
-        style={{ backgroundImage: "url(assets/images/banner/4.jpg)" }}
+        style={{ backgroundImage: "url(/assets/images/banner/4.jpg)" }}
       >
         <div className="container">
           <div
@@ -63,7 +63,7 @@ export const Dashboard = () => {
           </div>
           <div className="page-header__shape">
             <span className="page-header__shape-item page-header__shape-item--1">
-              <img src="assets/images/2.png" alt="shape-icon" />
+              <img src="/assets/images/2.png" alt="shape-icon" />
             </span>
           </div>
         </div>

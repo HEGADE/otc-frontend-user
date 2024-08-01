@@ -17,7 +17,7 @@ export const BuyOrSellComponent = ({
     <div className="tab-content">
       <form
         className="account__form needs-validation"
-        onSubmit={(e) => handleNextClick(e)}
+        onSubmit={handleNextClick}
       >
         <div className="row">
           <div className="buy_crypto__formarea-group mb-5 mb-md-6">

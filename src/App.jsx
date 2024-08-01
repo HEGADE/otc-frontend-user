@@ -48,12 +48,12 @@ function App() {
         "/assets/js/plugin-custom.js",
         "/assets/js/purecounter_vanilla.js",
         "/assets/js/swiper-bundle.min.js",
-        "assets/js/bootstrap.bundle.min.js",
-        "assets/js/all.min.js",
-        "assets/js/swiper-bundle.min.js",
-        "assets/js/aos.js",
-        "assets/js/fslightbox.js",
-        "assets/js/custom.js",
+        "/assets/js/bootstrap.bundle.min.js",
+        "/assets/js/all.min.js",
+        "/assets/js/swiper-bundle.min.js",
+        "/assets/js/aos.js",
+        "/assets/js/fslightbox.js",
+        "/assets/js/custom.js",
       ],
       () => {
         console.info("Scripts Loaded!");

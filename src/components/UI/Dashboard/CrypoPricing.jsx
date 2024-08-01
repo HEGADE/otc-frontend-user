@@ -6,7 +6,7 @@ export const CryptoPricing = ({ cryptoPrice }) => {
                   <div className="markets_section__card bg4-color rounded-20 br2 p-4 p-md-6 wow fadeInUp">
                     <div className="markets_section__card-head d-flex align-items-center gap-2 mb-4 mb-md-5">
                       <img
-                        src="assets/images/btc.png"
+                        src="/assets/images/btc.png"
                         alt="icon"
                         style={{ height: "40px " }}
                       />
@@ -300,7 +300,7 @@ export const CryptoPricing = ({ cryptoPrice }) => {
                       <div className="d-flex align-items-center gap-2">
                         <span className="fs-four text-white">
                           <img
-                            src="assets/images/inr2.png"
+                            src="/assets/images/inr2.png"
                             alt="INR"
                             style={{ height: "30px ", paddingLeft: "5px" }}
                           />
@@ -325,7 +325,7 @@ export const CryptoPricing = ({ cryptoPrice }) => {
                   <div className="markets_section__card bg4-color rounded-20 br2 p-4 p-md-6 wow fadeInUp">
                     <div className="markets_section__card-head d-flex align-items-center gap-2 mb-4 mb-md-5">
                       <img
-                        src="assets/images/eth.png"
+                        src="/assets/images/eth.png"
                         alt="icon"
                         style={{ height: "40px" }}
                       />
@@ -336,7 +336,7 @@ export const CryptoPricing = ({ cryptoPrice }) => {
                       <div className="d-flex align-items-center gap-2">
                         <span className="fs-four text-white">
                           <img
-                            src="assets/images/inr2.png"
+                            src="/assets/images/inr2.png"
                             alt="INR"
                             style={{ height: "30px ", paddingLeft: "5px" }}
                           />
@@ -357,7 +357,7 @@ export const CryptoPricing = ({ cryptoPrice }) => {
                   <div className="markets_section__card bg4-color rounded-20 br2 p-4 p-md-6 wow fadeInUp">
                     <div className="markets_section__card-head d-flex align-items-center gap-2 mb-4 mb-md-5">
                       <img
-                        src="assets/images/bnb.webp"
+                        src="/assets/images/bnb.png"
                         alt="icon"
                         style={{ height: "40px" }}
                       />
@@ -368,7 +368,7 @@ export const CryptoPricing = ({ cryptoPrice }) => {
                       <div className="d-flex align-items-center gap-2">
                         <span className="fs-four text-white">
                           <img
-                            src="assets/images/inr2.png"
+                            src="/assets/images/inr2.png"
                             alt="INR"
                             style={{ height: "30px ", paddingLeft: "5px" }}
                           />
@@ -389,7 +389,7 @@ export const CryptoPricing = ({ cryptoPrice }) => {
                   <div className="markets_section__card bg4-color rounded-20 br2 p-4 p-md-6 wow fadeInUp">
                     <div className="markets_section__card-head d-flex align-items-center gap-2 mb-4 mb-md-5">
                       <img
-                        src="assets/images/usdt.png"
+                        src="/assets/images/usdt.png"
                         alt="icon"
                         style={{ height: "40px" }}
                       />
@@ -400,7 +400,7 @@ export const CryptoPricing = ({ cryptoPrice }) => {
                       <div className="d-flex align-items-center gap-2">
                         <span className="fs-four text-white">
                           <img
-                            src="assets/images/inr2.png"
+                            src="/assets/images/inr2.png"
                             alt="INR"
                             style={{ height: "30px ", paddingLeft: "5px" }}
                           />
@@ -421,7 +421,7 @@ export const CryptoPricing = ({ cryptoPrice }) => {
                   <div className="markets_section__card bg4-color rounded-20 br2 p-4 p-md-6 wow fadeInUp">
                     <div className="markets_section__card-head d-flex align-items-center gap-2 mb-4 mb-md-5">
                       <img
-                        src="assets/images/usdt.png"
+                        src="/assets/images/tron.png.png"
                         alt="icon"
                         style={{ height: "40px" }}
                       />
@@ -432,7 +432,7 @@ export const CryptoPricing = ({ cryptoPrice }) => {
                       <div className="d-flex align-items-center gap-2">
                         <span className="fs-four text-white">
                           <img
-                            src="assets/images/inr2.png"
+                            src="/assets/images/inr2.png"
                             alt="INR"
                             style={{ height: "30px ", paddingLeft: "5px" }}
                           />

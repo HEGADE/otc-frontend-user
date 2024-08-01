@@ -105,7 +105,7 @@ function KycVerification() {
     <div>
       <section
         className="page-header bg--cover"
-        style={{ backgroundImage: "url(assets/images/banner/4.jpg)" }}
+        style={{ backgroundImage: "url(/assets/images/banner/4.jpg)" }}
       >
         <div className="container">
           <div
@@ -116,7 +116,7 @@ function KycVerification() {
           </div>
           <div className="page-header__shape">
             <span className="page-header__shape-item page-header__shape-item--1">
-              <img src="assets/images/2.png" alt="shape-icon" />
+              <img src="/assets/images/2.png" alt="shape-icon" />
             </span>
           </div>
         </div>
@@ -256,7 +256,7 @@ function KycVerification() {
         </div>
         <div className="account__shape">
           <span className="account__shape-item account__shape-item--1">
-            <img src="assets/images/2.png" alt="shape-icon" />
+            <img src="/assets/images/2.png" alt="shape-icon" />
           </span>
         </div>
       </section>

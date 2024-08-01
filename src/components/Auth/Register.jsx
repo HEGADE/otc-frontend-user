@@ -80,7 +80,7 @@ const Register = () => {
         <div className="col-lg-6">
           <div className="account__thumb">
             <img
-              src="assets/images/signup.jpg"
+              src="/assets/images/signup.jpg"
               alt="account-image"
               className="dark"
             />

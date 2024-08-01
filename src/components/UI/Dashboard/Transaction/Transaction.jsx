@@ -712,7 +712,7 @@ export const Transaction = ({ cryptoPrice }) => {
                       <div className="tab">
                         {/* <p >🔙</p> */}
                         <img
-                          src="assets/images/back.png"
+                          src="/assets/images/back.png"
                           style={{
                             width: "60px",
                             height: "30px",
