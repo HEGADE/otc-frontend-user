@@ -14,6 +14,7 @@ import { WalletComponent } from "./WalletComponent";
 import { validate } from "wallet-address-validator";
 import { TronWeb } from "tronweb";
 import { ethers } from "ethers";
+import ConfirmationModal from "../../ConfirmationModal";
 
 export const Transaction = ({ cryptoPrice }) => {
   const navigate = useNavigate();
@@ -223,6 +224,10 @@ export const Transaction = ({ cryptoPrice }) => {
     }
   };
 
+  function handleConfirm() {
+    setCurrentStep(currentStep + 1);
+  }
+
   const handleNextClick = async (e) => {
     e.preventDefault();
     const validationErrors = await validateStep1Inputs(orderData);
@@ -230,10 +235,10 @@ export const Transaction = ({ cryptoPrice }) => {
     const hasNoErrors = Object.values(validationErrors).every(
       (error) => error.message === ""
     );
-
+    
     if (hasNoErrors) {
       console.log("Form submitted:", orderData);
-      setCurrentStep(currentStep + 1);
+      document.getElementById("modal-transact").style.display = "flex";
     } else {
       setValidationErrors(validationErrors);
     }
@@ -723,6 +728,7 @@ export const Transaction = ({ cryptoPrice }) => {
                       </div>
                     )}
                     {renderTabContent()}
+                    <ConfirmationModal onConfirm={handleConfirm}/>
                   </div>
                 </div>
               </div>

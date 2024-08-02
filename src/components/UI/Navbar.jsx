@@ -23,6 +23,7 @@ export const Navbar = () => {
   }
 
   return (
+
     <header
       className="header-section header-section--style4"
     >
