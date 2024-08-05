@@ -3395,11 +3395,11 @@ h6 a {
 .header-wrapper .menu-area .header-btn {
   column-gap: 20px;
 }
-@media (max-width: 767px) {
+/* @media (max-width: 767px) {
   .header-wrapper .menu-area .header-btn {
-    display: none;
+  display: none;
   }
-}
+} */
 .header-wrapper .menu-area .header-btn .switch-btn {
   max-width: 30px;
   cursor: pointer;
