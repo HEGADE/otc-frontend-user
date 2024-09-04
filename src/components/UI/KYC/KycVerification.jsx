@@ -1,4 +1,4 @@
-import axios from "../../../lib/http-request/index"
+import axios from "../../../lib/http-request/index";
 import React, { useEffect, useState } from "react";
 import { useUserStore } from "../../../store/user.store";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,6 +7,7 @@ import { kycDocSchema } from "../../../utils/validation/kyc.validation";
 import { ValidationError } from "../../UI/Errors";
 import WebcamCapture from "../WebCamCapture";
 import { API } from "../../../utils/config/api-end-points.config";
+import toast, { Toaster } from "react-hot-toast";
 
 function KycVerification() {
   // const [selectedDocType, setSelectedDocType] = useState("VOTERID");
@@ -30,26 +31,6 @@ function KycVerification() {
   // if (!isMiscellaneousVerified) fieldsToInclude.push("miscellaneousDoc");
   if (!isImageVerified) fieldsToInclude.push("faceMatch");
 
-  useEffect(() => {
-    const fetchKycDetails = async () => {
-      try {
-        const kycStatus = await axios.get(
-          API.getKycDetails,
-          {
-            headers: {
-              Authorization: "Bearer " + accessToken,
-            },
-          }
-        );
-        setkycCurrentStatus(kycStatus?.data?.data);
-        console.log("🟢 KYC Status: ", kycStatus?.data);
-      } catch (err) {
-        console.error("🔴 Error occurred during fetching KYC Details", err);
-      }
-    };
-    fetchKycDetails();
-  }, [user]);
-
   const {
     register,
     handleSubmit,
@@ -58,6 +39,23 @@ function KycVerification() {
   } = useForm({
     resolver: yupResolver(kycDocSchema(fieldsToInclude, capturedImage)),
   });
+
+  useEffect(() => {
+    const fetchKycDetails = async () => {
+      try {
+        const kycStatus = await axios.get(API.getKycDetails, {
+          headers: {
+            Authorization: "Bearer " + accessToken,
+          },
+        });
+        setkycCurrentStatus(kycStatus?.data?.data);
+        console.log("🟢 KYC Status: ", kycStatus?.data);
+      } catch (err) {
+        console.error("🔴 Error occurred during fetching KYC Details", err);
+      }
+    };
+    fetchKycDetails();
+  }, [user, isloading]);
 
   const onSubmit = handleSubmit(async (data) => {
     const formData = new FormData();
@@ -76,16 +74,12 @@ function KycVerification() {
 
     try {
       setIsLoading(true);
-      const response = await axios.post(
-        API.saveKycDetails,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: "Bearer " + accessToken,
-          },
-        }
-      );
+      const response = await axios.post(API.saveKycDetails, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + accessToken,
+        },
+      });
       console.log("🟢 KYC verified successfully: ", response?.data);
       setUser(response?.data?.data);
     } catch (error) {
@@ -93,6 +87,10 @@ function KycVerification() {
       console.log(
         "🟣 KYCStatus after submission: ",
         error.response?.data?.data
+      );
+      toast.error(
+        error?.response?.data?.message ||
+          "KYC submission failed. Please try again later."
       );
       setkycCurrentStatus(error.response?.data?.data);
     } finally {
@@ -102,87 +100,89 @@ function KycVerification() {
   });
 
   return (
-    <div>
-      <section
-        className="page-header bg--cover"
-        style={{ backgroundImage: "url(/assets/images/banner/4.jpg)" }}
-      >
-        <div className="container">
-          <div
-            className="page-header__content mt-100 text-center"
-            data-aos-duration="1000"
-          >
-            <h2>KYC Verification</h2>
+    <>
+      <Toaster />
+      <div>
+        <section
+          className="page-header bg--cover"
+          style={{ backgroundImage: "url(/assets/images/banner/4.jpg)" }}
+        >
+          <div className="container">
+            <div
+              className="page-header__content mt-100 text-center"
+              data-aos-duration="1000"
+            >
+              <h2>KYC Verification</h2>
+            </div>
+            <div className="page-header__shape">
+              <span className="page-header__shape-item page-header__shape-item--1">
+                <img src="/assets/images/2.png" alt="shape-icon" />
+                <img src="/assets/images/2.png" alt="shape-icon" />
+              </span>
+            </div>
           </div>
-          <div className="page-header__shape">
-            <span className="page-header__shape-item page-header__shape-item--1">
-              <img src="/assets/images/2.png" alt="shape-icon" />
-              <img src="/assets/images/2.png" alt="shape-icon" />
-            </span>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="account padding-top padding-bottom sec-bg-color2">
-        <div className="container">
-          <div className="row g-4">
-            <div className="container-fluid">
-              <div className="row justify-content-center">
-                <div className="col-md-6">
-                  <form
-                    action="account-category.html"
-                    id="verificationForm"
-                    onSubmit={onSubmit}
-                  >
-                    <div>
-                      <div className="input-block">
-                        <h4>
-                          Upload the following details for KYC Verification
-                        </h4>
-                      </div>
-                      {!isPanVerified && (
-                        <div className="m-3">
-                          <p>
-                            Please upload your <strong>PAN card</strong> here
-                            for verification
-                          </p>
-                          <div className="form-flex email-verification-form">
-                            <input
-                              {...register("panCard")}
-                              type="file"
-                              className="form-control"
-                              id="account-email"
-                              placeholder="Enter otp"
-                              required
-                            />
-                            {errors.panCard && (
-                              <ValidationError err={errors.panCard} />
-                            )}
-                          </div>
+        <section className="account padding-top padding-bottom sec-bg-color2">
+          <div className="container">
+            <div className="row g-4">
+              <div className="container-fluid">
+                <div className="row justify-content-center">
+                  <div className="col-md-6">
+                    <form
+                      action="account-category.html"
+                      id="verificationForm"
+                      onSubmit={onSubmit}
+                    >
+                      <div>
+                        <div className="input-block">
+                          <h4>
+                            Upload the following details for KYC Verification
+                          </h4>
                         </div>
-                      )}
-                      {!isAadhaarVerified && (
-                        <div className="m-3">
-                          <p>
-                            Please upload your <strong>AADHAAR card</strong>{" "}
-                            here for verification
-                          </p>
-                          <div className="form-flex email-verification-form">
-                            <input
-                              {...register("aadhaarCard")}
-                              type="file"
-                              className="form-control"
-                              id="account-email"
-                              placeholder="Enter otp"
-                              required
-                            />
-                            {errors.aadhaarCard && (
-                              <ValidationError err={errors.aadhaarCard} />
-                            )}
+                        {!isPanVerified && (
+                          <div className="m-3">
+                            <p>
+                              Please upload your <strong>PAN card</strong> here
+                              for verification
+                            </p>
+                            <div className="form-flex email-verification-form">
+                              <input
+                                {...register("panCard")}
+                                type="file"
+                                className="form-control"
+                                id="account-email"
+                                placeholder="Enter otp"
+                                required
+                              />
+                              {errors.panCard && (
+                                <ValidationError err={errors.panCard} />
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      )}
-                      {/* {!isMiscellaneousVerified && (
+                        )}
+                        {!isAadhaarVerified && (
+                          <div className="m-3">
+                            <p>
+                              Please upload your <strong>AADHAAR card</strong>{" "}
+                              here for verification
+                            </p>
+                            <div className="form-flex email-verification-form">
+                              <input
+                                {...register("aadhaarCard")}
+                                type="file"
+                                className="form-control"
+                                id="account-email"
+                                placeholder="Enter otp"
+                                required
+                              />
+                              {errors.aadhaarCard && (
+                                <ValidationError err={errors.aadhaarCard} />
+                              )}
+                            </div>
+                          </div>
+                        )}
+                        {/* {!isMiscellaneousVerified && (
                         <div className="m-3">
                           <p>
                             Please upload your
@@ -190,17 +190,17 @@ function KycVerification() {
                             here for verification
                           </p>
                           <div className="form-flex email-verification-form">
-                            <select
+                          <select
                               className="form-control"
                               onChange={(e) =>
                                 setSelectedDocType(e.target.value)
-                              }
-                              value={selectedDocType}
-                            >
-                              <option value="VOTERID">Voter ID</option>
-                              <option value="PASSPORT">Passport</option>
+                                }
+                                value={selectedDocType}
+                                >
+                                <option value="VOTERID">Voter ID</option>
+                                <option value="PASSPORT">Passport</option>
                             </select>
-                          </div>
+                            </div>
                           <div className="form-flex email-verification-form mt-3">
                             <input
                               {...register("miscellaneousDoc")}
@@ -209,60 +209,64 @@ function KycVerification() {
                               id="account-email"
                               placeholder="Enter otp"
                               required
-                            />
-                            {errors.miscellaneousDoc && (
-                              <ValidationError err={errors.miscellaneousDoc} />
-                            )}
-                          </div>
-                        </div>
-                      )} */}
-                      {!isImageVerified && (
-                        <div className="m-3">
-                          <p>
-                            Please capture your <strong>Face Image</strong> for
-                            verification
-                          </p>
-                          <div className="form-flex email-verification-form">
-                            <WebcamCapture onCapture={setCapturedImage} />
-                            {errors && (
-                              <ValidationError err={errors.capturedImage} />
-                            )}
-                            {capturedImage && (
-                              <img
-                                src={capturedImage}
-                                alt="Captured"
-                                style={{ marginTop: "10px", maxWidth: "100%" }}
                               />
-                            )}
+                              {errors.miscellaneousDoc && (
+                              <ValidationError err={errors.miscellaneousDoc} />
+                              )}
+                              </div>
+                              </div>
+                              )} */}
+                        {!isImageVerified && (
+                          <div className="m-3">
+                            <p>
+                              Please capture your <strong>Face Image</strong>{" "}
+                              for verification
+                            </p>
+                            <div className="form-flex email-verification-form">
+                              <WebcamCapture onCapture={setCapturedImage} />
+                              {errors && (
+                                <ValidationError err={errors.capturedImage} />
+                              )}
+                              {capturedImage && (
+                                <img
+                                  src={capturedImage}
+                                  alt="Captured"
+                                  style={{
+                                    marginTop: "10px",
+                                    maxWidth: "100%",
+                                  }}
+                                />
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                    <button
-                      type="submit"
-                      className={
-                        isloading
-                          ? `trk-btn trk-btn--border trk-btn--secondary3 d-block mt-4`
-                          : `trk-btn trk-btn--border trk-btn--primary d-block mt-4`
-                      }
-                      disabled={isloading}
-                    >
-                      {isloading ? "Verifying..." : "Submit"}
-                    </button>
-                  </form>
+                        )}
+                      </div>
+                      <button
+                        type="submit"
+                        className={
+                          isloading
+                            ? `trk-btn trk-btn--border trk-btn--secondary3 d-block mt-4`
+                            : `trk-btn trk-btn--border trk-btn--primary d-block mt-4`
+                        }
+                        disabled={isloading}
+                      >
+                        {isloading ? "Verifying..." : "Submit"}
+                      </button>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="account__shape">
-          <span className="account__shape-item account__shape-item--1">
-            <img src="/assets/images/2.png" alt="shape-icon" />
-            <img src="/assets/images/2.png" alt="shape-icon" />
-          </span>
-        </div>
-      </section>
-    </div>
+          <div className="account__shape">
+            <span className="account__shape-item account__shape-item--1">
+              <img src="/assets/images/2.png" alt="shape-icon" />
+              <img src="/assets/images/2.png" alt="shape-icon" />
+            </span>
+          </div>
+        </section>
+      </div>
+    </>
   );
 }
 
