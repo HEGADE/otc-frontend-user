@@ -106,7 +106,6 @@ export const UserDetails = () => {
 
   return (
     <>
-      <Toaster />
       <div className="col-lg-6">
         <div className="account__content account__content--style1">
           <div className="account__header">

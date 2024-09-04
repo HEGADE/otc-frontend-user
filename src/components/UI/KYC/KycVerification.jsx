@@ -101,7 +101,6 @@ function KycVerification() {
 
   return (
     <>
-      <Toaster />
       <div>
         <section
           className="page-header bg--cover"
