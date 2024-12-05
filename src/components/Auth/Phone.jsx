@@ -9,7 +9,7 @@ import ButtonWithLoading from "../UI/Button";
 import toast, { Toaster } from "react-hot-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useUserStore } from "../../store/user.store";
-import { registerSchema } from "../../utils/validation/auth.validation";
+import { googleLoginPhoneSchema } from "../../utils/validation/auth.validation";
 
 const Phone = () => {
   const navigate = useNavigate();
@@ -21,8 +21,9 @@ const Phone = () => {
   const {
     register,
     handleSubmit,
+    formState: { errors, isValid },
   } = useForm({
-    
+    resolver: yupResolver(googleLoginPhoneSchema),
   });
 
   console.log(accessToken);
@@ -121,8 +122,8 @@ const Phone = () => {
                       type="text"
                       className="form-control"
                       id="account-phone"
-                      placeholder="Enter your Phone number"
-                      required=""
+                      placeholder="Ex. +91XXXXXXXX01"
+                      required
                     />
                   </div>
                 </div>
@@ -131,6 +132,7 @@ const Phone = () => {
                 type="submit"
                 className="trk-btn trk-btn--border trk-btn--primary d-block mt-4"
                 isLoading={loading}
+                disabled={!isValid}
                 loaderColor="blue"
                 text="Submit"
               />

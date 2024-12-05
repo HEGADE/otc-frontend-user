@@ -174,9 +174,11 @@ export const EmailVerification = () => {
                                 <h4>Verify Email Address</h4>
                               </div>
                               <p>
-                                Please check your Email{" "}
-                                <strong>mail@example.com</strong> <br /> and put
-                                the verification code here
+                                We’ve sent a verification code to your email:{" "}
+                                <strong>{user?.email}</strong>.
+                                <br />
+                                Please enter the code below to verify your
+                                account.
                               </p>
                               <div className="form-group">
                                 <input

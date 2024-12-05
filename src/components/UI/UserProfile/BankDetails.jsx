@@ -14,6 +14,53 @@ export const BankDetails = () => {
   const accessToken = useUserStore((state) => state.accessToken);
   const setUser = useUserStore((state) => state.setUser);
 
+  let {
+    register,
+    handleSubmit,
+    formState: { defaultValues, errors, isValid },
+    setValue,
+  } = useForm({
+    defaultValues: {
+      bankDetails: {
+        accountHolderName: "",
+        bankName: "",
+        accountNumber: "",
+        branch: "",
+        ifsCode: "",
+      },
+    },
+    resolver: yupResolver(bankDetailsSchema),
+    mode: "all"
+  });
+
+  let saveBankDetails = async (data) => {
+    console.log("🔶 saveBankDetails: data: ", data);
+    return await axios(API.saveBankDetails, {
+      method: "POST",
+      data: data.bankDetails,
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+  };
+
+  let { mutate, isPending: loading } = useMutation({
+    mutationFn: (data) => saveBankDetails(data),
+    onSuccess: (res) => {
+      console.log("🔶 useMutation: res: ", res);
+      setUser(res?.data?.data?.userDetails);
+      toast.success("Bank account saved successfully");
+      refetch();
+    },
+    onError: (error) => {
+      console.log("🔺 useMutation: error: ", error);
+      toast.error(
+        error?.response?.data?.message ||
+          "Something went wrong. Please try again later."
+      );
+    },
+  });
+
   let fetchBankDetails = async () => {
     try {
       console.log("🟢 BankDetails: fetchBankDetails API Called!!!!");
@@ -50,52 +97,6 @@ export const BankDetails = () => {
   let { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: "userBankDetails",
     queryFn: fetchBankDetails,
-  });
-
-  let {
-    register,
-    handleSubmit,
-    formState: { defaultValues, errors },
-    setValue,
-  } = useForm({
-    defaultValues: {
-      bankDetails: {
-        accountHolderName: "",
-        bankName: "",
-        accountNumber: "",
-        branch: "",
-        ifsCode: "",
-      },
-    },
-    resolver: yupResolver(bankDetailsSchema),
-  });
-
-  let saveBankDetails = async (data) => {
-    console.log("🔶 saveBankDetails: data: ", data);
-    return await axios(API.saveBankDetails, {
-      method: "POST",
-      data: data.bankDetails,
-      headers: {
-        Authorization: "Bearer " + accessToken,
-      },
-    });
-  };
-
-  let { mutate, isPending: loading } = useMutation({
-    mutationFn: (data) => saveBankDetails(data),
-    onSuccess: (res) => {
-      console.log("🔶 useMutation: res: ", res);
-      setUser(res?.data?.data?.userDetails);
-      toast.success("Bank account saved successfully");
-      refetch();
-    },
-    onError: (error) => {
-      console.log("🔺 useMutation: error: ", error);
-      toast.error(
-        error?.response?.data?.message ||
-          "Something went wrong. Please try again later."
-      );
-    },
   });
 
   return (
@@ -196,7 +197,7 @@ export const BankDetails = () => {
               isLoading={loading}
               loaderColor="blue"
               text="Save Details"
-              disabled={data}
+              disabled={data || !isValid}
             />
           </form>
         </div>

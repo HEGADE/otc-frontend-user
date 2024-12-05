@@ -23,9 +23,10 @@ const Register = () => {
     register,
     handleSubmit,
     setError,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(registerSchema),
+    mode: "all"
   });
 
   const onSubmit = async (data) => {
@@ -59,8 +60,10 @@ const Register = () => {
       console.log("🟢 data: ", data);
       await setUser(data?.user);
       await setAuthToken(data?.tokens);
+      console.log("SUCCES----redirecting to verify");
+      
       if (res?.data?.success) {
-        navigate("/login", {
+        navigate("/verify", {
           state: { email, phoneNumber, userId: res?.data?.data?.user?.id },
         });
       }
@@ -123,6 +126,7 @@ const Register = () => {
                       type="text"
                       id="first-name"
                       placeholder="Ex. Jhon"
+                      required
                     />
                     <ValidationError err={errors.firstName} />
                   </div>
@@ -154,8 +158,8 @@ const Register = () => {
                       type="email"
                       className="form-control"
                       id="account-email"
-                      placeholder="Enter your email"
-                      required=""
+                      placeholder="Ex. mail@example.com"
+                      required
                     />
                     <ValidationError err={errors.email} />
                   </div>
@@ -171,8 +175,8 @@ const Register = () => {
                       type="text"
                       className="form-control"
                       id="account-phone"
-                      placeholder="Enter your Phone number"
-                      required=""
+                      placeholder="Ex. +91XXXXXXXX01"
+                      required
                     />
                     <ValidationError err={errors.phoneNumber} />
                   </div>
@@ -189,7 +193,7 @@ const Register = () => {
                       className="form-control showhide-pass"
                       id="account-pass"
                       placeholder="Password"
-                      required=""
+                      required
                     />
                     <ValidationError err={errors.password} />
                   </div>
@@ -206,7 +210,7 @@ const Register = () => {
                       className="form-control showhide-pass"
                       id="account-cpass"
                       placeholder="Re-type password"
-                      required=""
+                      required
                     />
                     <ValidationError err={errors.confirmPassword} />
                   </div>
@@ -216,6 +220,7 @@ const Register = () => {
                 type="submit"
                 className="trk-btn trk-btn--border trk-btn--primary d-block mt-4"
                 isLoading={loading}
+                disabled={!isValid}
                 loaderColor="blue"
                 text="Register"
               />
