@@ -120,7 +120,7 @@ export const OtpVerification = () => {
         if (phoneVerificationRes.data.success) {
           console.log("🟠🟢🟡🔶🔷 Phone Number is verified");
           toast.success("Phone Number is verified!");
-          setUser(phoneVerificationRes.data.data)
+          setUser(phoneVerificationRes.data.data);
           navigate("/");
         }
       }
@@ -133,6 +133,15 @@ export const OtpVerification = () => {
     console.log("handleResendOtpLink!");
     await sendOtpForPhoneNumVerification(phoneNumber);
   };
+
+  const maskPhoneNumber = (phoneNumber) => {
+    if (!phoneNumber) return "";
+    const visibleDigits = 4; 
+    const maskedPart = "X".repeat(phoneNumber.length - visibleDigits);
+    const visiblePart = phoneNumber.slice(-visibleDigits); 
+    return maskedPart + visiblePart;
+  };
+  
 
   return (
     <>
@@ -173,9 +182,11 @@ export const OtpVerification = () => {
                                 <h4>Verify Phone Number</h4>
                               </div>
                               <p>
-                                Please check your Phone{" "}
-                                <strong>XXXXXX7848</strong> <br /> and put the
-                                verification code here
+                                A verification code has been sent to your phone:{" "}
+                                <strong>{user? maskPhoneNumber(user?.phoneNumber) : "XXXXXX7848"}</strong>.
+                                <br />
+                                Please enter the code below to verify your
+                                account.
                               </p>
                               <div className="form-flex email-verification-form">
                                 <input
@@ -186,7 +197,7 @@ export const OtpVerification = () => {
                                   type="text"
                                   className="form-control"
                                   id="account-email"
-                                  placeholder="Enter otp"
+                                  placeholder="Enter OTP"
                                   required=""
                                 />
                               </div>
