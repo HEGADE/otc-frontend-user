@@ -65,12 +65,21 @@ function KycVerification() {
       const blob = await fetch(capturedImage).then((res) => res.blob());
       formData.append("FACE_MATCH", blob, "face_image.jpg");
     }
-    // if (selectedDocType === "VOTERID") {
-    //   formData.append("VOTERID", data?.miscellaneousDoc?.[0]);
-    // }
-    // if (selectedDocType === "PASSPORT") {
-    //   formData.append("PASSPORT", data?.miscellaneousDoc?.[0]);
-    // }
+    
+    const MAX_FILE_SIZE = 3 * 1024 * 1024;
+    if (data?.panCard[0]?.size > MAX_FILE_SIZE) {
+      toast.error(
+        "File size exceeds the 3MB limit. Please upload a smaller file."
+      );
+      return;
+    }
+
+    if (data?.aadhaarCard[0]?.size > MAX_FILE_SIZE) {
+      toast.error(
+        "File size exceeds the 3MB limit. Please upload a smaller file."
+      );
+      return;
+    }
 
     try {
       setIsLoading(true);
@@ -142,8 +151,7 @@ function KycVerification() {
                         {!isPanVerified && (
                           <div className="m-3">
                             <p>
-                              Please upload your <strong>PAN card</strong> here
-                              for verification
+                            Upload your <strong>PAN card</strong> (PNG, JPEG, JPG) for verification.
                             </p>
                             <div className="form-flex email-verification-form">
                               <input
@@ -163,8 +171,7 @@ function KycVerification() {
                         {!isAadhaarVerified && (
                           <div className="m-3">
                             <p>
-                              Please upload your <strong>AADHAAR card</strong>{" "}
-                              here for verification
+                            Upload your <strong>AADHAAR card</strong> (PNG, JPEG, JPG) for verification.
                             </p>
                             <div className="form-flex email-verification-form">
                               <input
